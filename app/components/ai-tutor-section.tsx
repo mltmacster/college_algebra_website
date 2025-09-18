@@ -107,6 +107,9 @@ export function AITutorSection() {
                 className="w-full h-full border-0"
                 title="AI Unk Chatbot - College Algebra Tutor"
                 allow="microphone"
+                sandbox="allow-same-origin allow-scripts allow-forms allow-downloads"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
             

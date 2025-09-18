@@ -17,29 +17,8 @@ import {
 import { useState, useEffect } from 'react';
 
 export function Navigation() {
-  const { data: session, status } = useSession() || {};
+  const { data: session, status } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return (
-      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-        <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            <Link href="/" className="flex items-center space-x-2">
-              <Calculator className="h-6 w-6 text-blue-600" />
-              <span className="font-bold text-xl text-gray-900">College Algebra</span>
-            </Link>
-            <div className="h-6 w-16 bg-gray-200 animate-pulse rounded"></div>
-          </div>
-        </div>
-      </header>
-    );
-  }
 
   const navItems = [
     { href: '/', label: 'Home', icon: Calculator },
