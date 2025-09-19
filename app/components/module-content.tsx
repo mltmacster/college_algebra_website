@@ -35,6 +35,8 @@ import {
 } from 'lucide-react';
 import { InteractiveLearningModule } from './interactive-learning-module';
 import { BusinessScenarioSimulator } from './business-scenario-simulator';
+import { InteractiveLesson } from './interactive-lesson';
+import { PracticeSession } from './practice-session';
 import { useSession } from 'next-auth/react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 
@@ -672,7 +674,11 @@ export function ModuleContent({ slug }: ModuleContentProps) {
   const [selectedPractice, setSelectedPractice] = useState<any>(null);
   const [lessonModalOpen, setLessonModalOpen] = useState(false);
   const [practiceModalOpen, setPracticeModalOpen] = useState(false);
-  const [useInteractive, setUseInteractive] = useState(false);
+  const [useInteractive, setUseInteractive] = useState(true); // Enable interactive by default
+  const [showInteractiveLesson, setShowInteractiveLesson] = useState(false);
+  const [showPracticeSession, setShowPracticeSession] = useState(false);
+  const [completedLessons, setCompletedLessons] = useState<Set<string>>(new Set());
+  const [moduleProgress, setModuleProgress] = useState<Record<string, number>>({});
   const { data: session } = useSession() || {};
   const module = moduleData[slug as keyof typeof moduleData];
 
@@ -682,12 +688,43 @@ export function ModuleContent({ slug }: ModuleContentProps) {
 
   const handleLessonClick = (lesson: any) => {
     setSelectedLesson(lesson);
-    setLessonModalOpen(true);
+    if (useInteractive && ['linear-equations'].includes(slug)) {
+      setShowInteractiveLesson(true);
+    } else {
+      setLessonModalOpen(true);
+    }
   };
 
   const handlePracticeClick = (practice: any) => {
     setSelectedPractice(practice);
-    setPracticeModalOpen(true);
+    if (useInteractive && ['linear-equations'].includes(slug)) {
+      setShowPracticeSession(true);
+    } else {
+      setPracticeModalOpen(true);
+    }
+  };
+
+  const handleLessonComplete = (lessonTitle: string) => {
+    setCompletedLessons(prev => new Set([...prev, lessonTitle]));
+    setShowInteractiveLesson(false);
+    setSelectedLesson(null);
+    
+    // Update module progress
+    const totalLessons = module?.topics?.length || 1;
+    const completedCount = completedLessons.size + 1;
+    const newProgress = Math.round((completedCount / totalLessons) * 100);
+    setModuleProgress(prev => ({ ...prev, [slug]: newProgress }));
+    
+    // Show success message
+    console.log(`Lesson "${lessonTitle}" completed!`);
+  };
+
+  const handlePracticeComplete = (score: number, totalQuestions: number) => {
+    setShowPracticeSession(false);
+    setSelectedPractice(null);
+    
+    // Show success message with score
+    console.log(`Practice completed! Score: ${score}% (answered ${totalQuestions} questions)`);
   };
 
   const handleInteractiveToggle = () => {
@@ -1435,15 +1472,17 @@ export function ModuleContent({ slug }: ModuleContentProps) {
           </TabsContent>
 
           <TabsContent value="lessons" className="space-y-4">
-            {module.topics.map((topic, index) => (
-              <Card key={index} className={`${topic.completed ? 'bg-green-50 border-green-200' : 'bg-white'}`}>
+            {module.topics.map((topic, index) => {
+              const isCompleted = completedLessons.has(topic.title) || topic.completed;
+              return (
+              <Card key={index} className={`${isCompleted ? 'bg-green-50 border-green-200' : 'bg-white'}`}>
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                        topic.completed ? 'bg-green-500' : 'bg-gray-200'
+                        isCompleted ? 'bg-green-500' : 'bg-gray-200'
                       }`}>
-                        {topic.completed ? (
+                        {isCompleted ? (
                           <CheckCircle className="h-6 w-6 text-white" />
                         ) : (
                           <Play className="h-6 w-6 text-gray-600" />
@@ -1465,15 +1504,16 @@ export function ModuleContent({ slug }: ModuleContentProps) {
                       </div>
                     </div>
                     <Button 
-                      variant={topic.completed ? "outline" : "default"}
+                      variant={isCompleted ? "outline" : "default"}
                       onClick={() => handleLessonClick(topic)}
                     >
-                      {topic.completed ? "Review" : "Start"}
+                      {isCompleted ? "Review" : "Start"}
                     </Button>
                   </div>
                 </CardContent>
               </Card>
-            ))}
+              );
+            })}
           </TabsContent>
 
           <TabsContent value="practice" className="space-y-4">
@@ -1684,8 +1724,10 @@ export function ModuleContent({ slug }: ModuleContentProps) {
               Close
             </Button>
             <Button onClick={() => {
-              // Mark lesson as completed logic would go here
-              setLessonModalOpen(false);
+              if (selectedLesson?.title) {
+                handleLessonComplete(selectedLesson.title);
+                setLessonModalOpen(false);
+              }
             }}>
               Mark Complete
             </Button>
@@ -1818,14 +1860,50 @@ export function ModuleContent({ slug }: ModuleContentProps) {
               Close
             </Button>
             <Button onClick={() => {
-              // Submit practice logic would go here
-              setPracticeModalOpen(false);
+              if (selectedPractice?.title) {
+                handlePracticeComplete(85, 10); // Mock score for now - would be calculated from actual answers
+                setPracticeModalOpen(false);
+              }
             }}>
               Submit Answers
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Interactive Lesson Component */}
+      {showInteractiveLesson && selectedLesson && (
+        <Dialog open={showInteractiveLesson} onOpenChange={setShowInteractiveLesson}>
+          <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden">
+            <InteractiveLesson
+              moduleSlug={slug}
+              lessonTitle={selectedLesson.title}
+              onComplete={() => handleLessonComplete(selectedLesson.title)}
+              onClose={() => {
+                setShowInteractiveLesson(false);
+                setSelectedLesson(null);
+              }}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {/* Interactive Practice Component */}
+      {showPracticeSession && selectedPractice && (
+        <Dialog open={showPracticeSession} onOpenChange={setShowPracticeSession}>
+          <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden">
+            <PracticeSession
+              moduleSlug={slug}
+              practiceTitle={selectedPractice.title}
+              onComplete={handlePracticeComplete}
+              onClose={() => {
+                setShowPracticeSession(false);
+                setSelectedPractice(null);
+              }}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }
