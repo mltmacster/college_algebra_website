@@ -15,9 +15,11 @@ import {
   Target, 
   CheckCircle, 
   PlayCircle,
-  Lock
+  Lock,
+  Eye
 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import { ModulePreviewModal } from './modals/module-preview-modal';
 
 const modules = [
   {
@@ -110,6 +112,8 @@ const getDifficultyColor = (difficulty: string) => {
 export function ModulesGrid() {
   const { data: session } = useSession() || {};
   const [progress, setProgress] = useState<Record<number, number>>({});
+  const [selectedModule, setSelectedModule] = useState<typeof modules[0] | null>(null);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   // Simulate progress data - in real app, fetch from API
   useEffect(() => {
@@ -123,6 +127,16 @@ export function ModulesGrid() {
     };
     setProgress(mockProgress);
   }, []);
+
+  const handlePreviewModule = (module: typeof modules[0]) => {
+    setSelectedModule(module);
+    setIsPreviewOpen(true);
+  };
+
+  const closePreview = () => {
+    setIsPreviewOpen(false);
+    setSelectedModule(null);
+  };
 
   const getModuleStatus = (moduleOrder: number, moduleProgress: number) => {
     if (moduleProgress >= 100) return 'completed';
@@ -164,7 +178,8 @@ export function ModulesGrid() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {modules?.map((module) => {
         const moduleProgress = progress[module.id] || 0;
         const status = getModuleStatus(module.order, moduleProgress);
@@ -250,31 +265,61 @@ export function ModulesGrid() {
               </div>
 
               {status === 'locked' ? (
-                <Button 
-                  className="w-full mt-4" 
-                  disabled
-                  variant="outline"
-                >
-                  <Lock className="h-4 w-4 mr-2" />
-                  Complete Previous Module
-                </Button>
-              ) : (
-                <Link href={`/modules/${module?.slug}`} className="block">
-                  <Button className={`w-full mt-4 ${
-                    status === 'completed' ? 'bg-green-600 hover:bg-green-700' :
-                    status === 'in-progress' ? 'bg-blue-600 hover:bg-blue-700' :
-                    'bg-gray-900 hover:bg-gray-800'
-                  } transition-colors group-hover:bg-blue-600`}>
-                    {getStatusIcon(status)}
-                    <span className="ml-2">{getStatusText(status)}</span>
-                    <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                <div className="mt-4 space-y-2">
+                  <Button 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => handlePreviewModule(module)}
+                  >
+                    <Eye className="h-4 w-4 mr-2" />
+                    Preview Module
                   </Button>
-                </Link>
+                  <Button 
+                    className="w-full" 
+                    disabled
+                    variant="outline"
+                  >
+                    <Lock className="h-4 w-4 mr-2" />
+                    Complete Previous Module
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex gap-2 mt-4">
+                  <Button 
+                    variant="outline" 
+                    className="flex-1"
+                    onClick={() => handlePreviewModule(module)}
+                  >
+                    <Eye className="h-4 w-4 mr-2" />
+                    Preview
+                  </Button>
+                  <Link href={`/modules/${module?.slug}`} className="flex-1">
+                    <Button className={`w-full ${
+                      status === 'completed' ? 'bg-green-600 hover:bg-green-700' :
+                      status === 'in-progress' ? 'bg-blue-600 hover:bg-blue-700' :
+                      'bg-gray-900 hover:bg-gray-800'
+                    } transition-colors group-hover:bg-blue-600`}>
+                      {getStatusIcon(status)}
+                      <span className="ml-2">{getStatusText(status).split(' ').slice(0,1).join(' ')}</span>
+                      <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                </div>
               )}
             </CardContent>
           </Card>
         );
       })}
     </div>
+
+    {/* Module Preview Modal */}
+    <ModulePreviewModal
+      module={selectedModule}
+      isOpen={isPreviewOpen}
+      onClose={closePreview}
+      userProgress={selectedModule ? progress[selectedModule.id] || 0 : 0}
+      isUnlocked={selectedModule ? getModuleStatus(selectedModule.order, progress[selectedModule.id] || 0) !== 'locked' : true}
+    />
+    </>
   );
 }
