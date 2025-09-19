@@ -121,6 +121,136 @@ const lessonData: Record<string, Record<string, LessonStep[]>> = {
         ]
       }
     ]
+  },
+  'systems-linear-equations': {
+    'Introduction to Systems of Linear Equations': [
+      {
+        id: 'concept-s1',
+        type: 'concept',
+        title: 'Understanding Systems of Linear Equations',
+        content: 'A system of linear equations consists of two or more linear equations that share the same variables. In business, systems help solve problems with multiple constraints and relationships, such as production planning, resource allocation, and supply-demand analysis.'
+      },
+      {
+        id: 'example-s1',
+        type: 'example',
+        title: 'Business Problem: Production Planning',
+        content: 'Let\'s solve a real business system using elimination method.',
+        example: {
+          problem: 'A furniture company makes chairs and tables. Each chair requires 2 hours of labor and 1 unit of wood. Each table requires 3 hours of labor and 2 units of wood. If they have 200 hours of labor and 120 units of wood available, how many chairs (x) and tables (y) can they make to use all resources?',
+          solution: 'Chairs: 40, Tables: 40',
+          steps: [
+            'Set up the system: 2x + 3y = 200 (labor), x + 2y = 120 (wood)',
+            'Solve the second equation for x: x = 120 - 2y',
+            'Substitute into first equation: 2(120 - 2y) + 3y = 200',
+            'Simplify: 240 - 4y + 3y = 200',
+            'Solve for y: -y = -40, so y = 40',
+            'Find x: x = 120 - 2(40) = 40'
+          ]
+        }
+      },
+      {
+        id: 'practice-s1',
+        type: 'practice',
+        title: 'System Practice Problem',
+        content: 'Now solve this production system yourself.',
+        questions: [
+          {
+            id: 'qs1',
+            question: 'A bakery makes muffins and cookies. Muffins need 2 cups of flour and 1 egg each. Cookies need 1 cup of flour and 2 eggs each. With 50 cups of flour and 40 eggs available, how many muffins can they make if they use all ingredients? (Let x = muffins, y = cookies)',
+            type: 'calculation',
+            correctAnswer: '20',
+            explanation: 'System: 2x + y = 50, x + 2y = 40. Solving: x = 20 muffins, y = 10 cookies.'
+          }
+        ]
+      },
+      {
+        id: 'summary-s1',
+        type: 'summary',
+        title: 'Systems Method Mastery',
+        content: 'You\'ve learned to solve systems using substitution and elimination. Key business applications: resource allocation, production optimization, and constraint analysis.'
+      }
+    ],
+    'Solving Systems by Graphing': [
+      {
+        id: 'concept-s2',
+        type: 'concept',
+        title: 'Graphical Solutions in Business',
+        content: 'Graphing systems shows the intersection point where both constraints are satisfied. This visual method is excellent for understanding feasible regions in business optimization problems.'
+      },
+      {
+        id: 'example-s2',
+        type: 'example',
+        title: 'Supply and Demand Intersection',
+        content: 'Find market equilibrium using graphical method.',
+        example: {
+          problem: 'Supply: P = 10 + 2Q, Demand: P = 50 - 3Q. Find equilibrium price and quantity where supply meets demand.',
+          solution: 'Q = 8, P = 26',
+          steps: [
+            'Set equations equal: 10 + 2Q = 50 - 3Q',
+            'Combine like terms: 5Q = 40',
+            'Solve: Q = 8 units',
+            'Find price: P = 10 + 2(8) = 26',
+            'Verify: P = 50 - 3(8) = 26 ✓'
+          ]
+        }
+      },
+      {
+        id: 'practice-s2',
+        type: 'practice',
+        title: 'Market Analysis Practice',
+        content: 'Find the market equilibrium point.',
+        questions: [
+          {
+            id: 'qs2',
+            question: 'Given supply equation S = 5 + Q and demand equation D = 20 - 2Q, find the equilibrium quantity.',
+            type: 'calculation',
+            correctAnswer: '5',
+            explanation: 'Set equal: 5 + Q = 20 - 2Q. Solving: 3Q = 15, so Q = 5 units.'
+          }
+        ]
+      }
+    ],
+    'Business Applications of Systems': [
+      {
+        id: 'concept-s3',
+        type: 'concept',
+        title: 'Advanced Business System Modeling',
+        content: 'Complex business problems often involve multiple variables and constraints. Systems help model investment portfolios, staffing optimization, pricing strategies, and break-even analysis with multiple products.'
+      },
+      {
+        id: 'example-s3',
+        type: 'example',
+        title: 'Multi-Product Break-Even Analysis',
+        content: 'Solve break-even for a company with two products.',
+        example: {
+          problem: 'Company ABC makes Product A (profit $5 each) and Product B (profit $8 each). Fixed costs are $2,000. They want to produce twice as many A\'s as B\'s. How many of each to break even?',
+          solution: 'A: 222 units, B: 111 units',
+          steps: [
+            'Let x = Product A, y = Product B',
+            'Profit equation: 5x + 8y = 2000 (break-even)',
+            'Constraint: x = 2y (twice as many A\'s)',
+            'Substitute: 5(2y) + 8y = 2000',
+            'Simplify: 10y + 8y = 2000, so 18y = 2000',
+            'Solve: y = 111.11 ≈ 111, x = 222'
+          ]
+        }
+      },
+      {
+        id: 'practice-s3',
+        type: 'practice',
+        title: 'Multi-Product Analysis',
+        content: 'Solve this business optimization problem.',
+        questions: [
+          {
+            id: 'qs3',
+            question: 'A company makes widgets ($3 profit) and gadgets ($7 profit). They need $240 total profit. If they make 3 times as many widgets as gadgets, how many gadgets should they make?',
+            type: 'calculation',
+            correctAnswer: '15',
+            explanation: 'Let g = gadgets, w = widgets. System: 3w + 7g = 240, w = 3g. Substituting: 3(3g) + 7g = 240, so 9g + 7g = 240, therefore 16g = 240, g = 15 gadgets.'
+          }
+        ]
+      }
+    ]
   }
 };
 

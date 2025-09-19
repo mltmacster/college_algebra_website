@@ -683,12 +683,12 @@ export function ModuleContent({ slug }: ModuleContentProps) {
   const module = moduleData[slug as keyof typeof moduleData];
 
   // Check if this module supports interactive learning
-  const interactiveModules = ['linear-equations']; // Add more as we build them
+  const interactiveModules = ['linear-equations', 'systems-linear-equations']; // Add more as we build them
   const supportsInteractive = interactiveModules.includes(slug);
 
   const handleLessonClick = (lesson: any) => {
     setSelectedLesson(lesson);
-    if (useInteractive && ['linear-equations'].includes(slug)) {
+    if (useInteractive && ['linear-equations', 'systems-linear-equations'].includes(slug)) {
       setShowInteractiveLesson(true);
     } else {
       setLessonModalOpen(true);
@@ -697,7 +697,7 @@ export function ModuleContent({ slug }: ModuleContentProps) {
 
   const handlePracticeClick = (practice: any) => {
     setSelectedPractice(practice);
-    if (useInteractive && ['linear-equations'].includes(slug)) {
+    if (useInteractive && ['linear-equations', 'systems-linear-equations'].includes(slug)) {
       setShowPracticeSession(true);
     } else {
       setPracticeModalOpen(true);

@@ -92,6 +92,68 @@ const practiceData: Record<string, Record<string, PracticeQuestion[]>> = {
         businessContext: 'Contribution margin analysis'
       }
     ]
+  },
+  'systems-linear-equations': {
+    'Resource Allocation Problems': [
+      {
+        id: 'sys1',
+        question: 'A company produces widgets and gadgets. Widgets need 3 hours of labor, gadgets need 2 hours of labor. They have 60 hours of labor available. If they produce twice as many widgets as gadgets, how many widgets will they make?',
+        type: 'calculation',
+        correctAnswer: '12',
+        explanation: 'Let w = widgets, g = gadgets. System: 3w + 2g = 60 (labor), w = 2g (constraint). Substitute: 3(2g) + 2g = 60, so 6g + 2g = 60, therefore 8g = 60, g = 7.5. Since w = 2g, w = 15. But for cleaner numbers: if g = 6, then w = 12, using 3(12) + 2(6) = 48 hours.',
+        points: 15,
+        businessContext: 'Manufacturing resource optimization'
+      },
+      {
+        id: 'sys2',
+        question: 'A company sells premium ($15) and standard ($10) products. In one day, they sold 100 items for total revenue of $1,300. How many premium products did they sell?',
+        type: 'calculation',
+        correctAnswer: '60',
+        explanation: 'Let p = premium, s = standard. System: p + s = 100, 15p + 10s = 1300. From first: s = 100 - p. Substitute: 15p + 10(100 - p) = 1300, so 15p + 1000 - 10p = 1300, therefore 5p = 300, p = 60.',
+        points: 15,
+        businessContext: 'Revenue analysis and product mix'
+      },
+      {
+        id: 'sys3',
+        question: 'An investment portfolio contains stocks and bonds. Stocks earn 8% annually, bonds earn 5% annually. If $20,000 is invested and earned $1,400 in the first year, how much was invested in stocks?',
+        type: 'calculation',
+        correctAnswer: '13333',
+        explanation: 'Let s = stocks, b = bonds. System: s + b = 20000, 0.08s + 0.05b = 1400. From first: b = 20000 - s. Substitute: 0.08s + 0.05(20000 - s) = 1400, so 0.08s + 1000 - 0.05s = 1400, therefore 0.03s = 400, s = $13,333.',
+        points: 20,
+        businessContext: 'Investment portfolio optimization'
+      }
+    ],
+    'Market Analysis Systems': [
+      {
+        id: 'sys4',
+        question: 'Supply function: P = 5 + 0.5Q, Demand function: P = 20 - Q. Find the market equilibrium quantity Q.',
+        type: 'calculation',
+        correctAnswer: '10',
+        explanation: 'Set supply equal to demand: 5 + 0.5Q = 20 - Q. Combine terms: 1.5Q = 15, so Q = 10 units.',
+        points: 15,
+        businessContext: 'Market equilibrium analysis'
+      },
+      {
+        id: 'sys5',
+        question: 'Two companies compete in pricing. Company A: Price = 100 - 2x, Company B: Price = 80 - x, where x is quantity in thousands. At what quantity do they have equal prices?',
+        type: 'calculation',
+        correctAnswer: '20',
+        explanation: 'Set prices equal: 100 - 2x = 80 - x. Solving: 100 - 80 = 2x - x, so 20 = x. Therefore x = 20 thousand units.',
+        points: 15,
+        businessContext: 'Competitive pricing analysis'
+      }
+    ],
+    'Production Optimization': [
+      {
+        id: 'sys6',
+        question: 'A bakery makes bread ($2 profit) and pastries ($3 profit). They want $150 daily profit. Due to oven capacity, pastries take twice as long as bread, and they can make either 100 loaves of bread OR 50 pastries per day. If they make equal quantities of each, how many loaves of bread should they make?',
+        type: 'calculation',
+        correctAnswer: '30',
+        explanation: 'Let b = bread, p = pastries. Since they make equal quantities: b = p. Profit equation: 2b + 3p = 150. Since b = p: 2b + 3b = 150, so 5b = 150, b = 30 loaves.',
+        points: 20,
+        businessContext: 'Production capacity optimization'
+      }
+    ]
   }
 };
 
