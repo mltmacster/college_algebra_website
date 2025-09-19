@@ -30,8 +30,11 @@ import {
   Award,
   BarChart3,
   PlayCircle,
-  X
+  X,
+  Zap
 } from 'lucide-react';
+import { InteractiveLearningModule } from './interactive-learning-module';
+import { useSession } from 'next-auth/react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 
 const moduleData = {
@@ -202,7 +205,13 @@ export function ModuleContent({ slug }: ModuleContentProps) {
   const [selectedPractice, setSelectedPractice] = useState<any>(null);
   const [lessonModalOpen, setLessonModalOpen] = useState(false);
   const [practiceModalOpen, setPracticeModalOpen] = useState(false);
+  const [useInteractive, setUseInteractive] = useState(false);
+  const { data: session } = useSession() || {};
   const module = moduleData[slug as keyof typeof moduleData];
+
+  // Check if this module supports interactive learning
+  const interactiveModules = ['linear-equations']; // Add more as we build them
+  const supportsInteractive = interactiveModules.includes(slug);
 
   const handleLessonClick = (lesson: any) => {
     setSelectedLesson(lesson);
@@ -212,6 +221,10 @@ export function ModuleContent({ slug }: ModuleContentProps) {
   const handlePracticeClick = (practice: any) => {
     setSelectedPractice(practice);
     setPracticeModalOpen(true);
+  };
+
+  const handleInteractiveToggle = () => {
+    setUseInteractive(!useInteractive);
   };
 
   if (!module) {
@@ -230,6 +243,18 @@ export function ModuleContent({ slug }: ModuleContentProps) {
     );
   }
 
+  // Render Interactive Learning Module if enabled and supported
+  if (useInteractive && supportsInteractive && session?.user?.id) {
+    return (
+      <InteractiveLearningModule
+        moduleSlug={slug}
+        moduleTitle={module.title}
+        moduleDescription={module.description}
+        userId={session.user.id}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -242,9 +267,24 @@ export function ModuleContent({ slug }: ModuleContentProps) {
                 Back to Modules
               </Button>
             </Link>
-            <Badge className="bg-blue-100 text-blue-800">
-              Module {module.id}
-            </Badge>
+            <div className="flex items-center space-x-3">
+              {supportsInteractive && (
+                <Button
+                  onClick={handleInteractiveToggle}
+                  className={`${
+                    useInteractive 
+                      ? 'bg-green-600 hover:bg-green-700' 
+                      : 'bg-blue-600 hover:bg-blue-700'
+                  } text-white shadow-lg`}
+                >
+                  <Zap className="mr-2 h-4 w-4" />
+                  {useInteractive ? 'Switch to Overview' : 'Interactive Mode'}
+                </Button>
+              )}
+              <Badge className="bg-blue-100 text-blue-800">
+                Module {module.id}
+              </Badge>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
