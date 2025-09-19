@@ -474,6 +474,9 @@ export function ModuleContent({ slug }: ModuleContentProps) {
                     className="w-full h-full border-0 rounded-lg"
                     title="AI Unk Chatbot - Module Assistant"
                     allow="microphone"
+                    sandbox="allow-same-origin allow-scripts allow-forms allow-downloads allow-popups"
+                    loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
                   />
                 </div>
               </CardContent>

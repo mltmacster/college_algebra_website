@@ -1,8 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
+/* Font optimization and fallbacks */
 @layer base {
+  * {
+    font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  }
+
+  /* Prevent font loading flash and optimize rendering */
+  html {
+    font-display: swap;
+  }
+
+  body {
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Handle iframe font loading gracefully */
+  iframe {
+    font-display: swap;
+    color-scheme: light;
+  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;

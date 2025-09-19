@@ -248,9 +248,9 @@ This message was submitted through the College Algebra Learning Platform contact
                 className="w-full h-full border-0 rounded-lg"
                 title="AI Unk Chatbot - Contact Support"
                 allow="microphone"
-                sandbox="allow-same-origin allow-scripts allow-forms allow-downloads"
+                sandbox="allow-same-origin allow-scripts allow-forms allow-downloads allow-popups"
                 loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
+                referrerPolicy="strict-origin-when-cross-origin"
               />
             </div>
           </CardContent>
