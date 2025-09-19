@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Progress } from './ui/progress';
 import { Badge } from './ui/badge';
 import { CheckCircle, ArrowRight, ArrowLeft, Calculator, Lightbulb, Target, Trophy } from 'lucide-react';
+import { functionsGraphingData } from './module-data/functions-graphing';
+import { quadraticFunctionsData } from './module-data/quadratic-functions';
 
 interface LessonStep {
   id: string;
@@ -251,7 +253,10 @@ const lessonData: Record<string, Record<string, LessonStep[]>> = {
         ]
       }
     ]
-  }
+  },
+  
+  'functions-and-graphing': functionsGraphingData,
+  'quadratic-functions': quadraticFunctionsData
 };
 
 export function InteractiveLesson({ moduleSlug, lessonTitle, onComplete, onClose }: InteractiveLessonProps) {
