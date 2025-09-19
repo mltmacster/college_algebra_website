@@ -4,7 +4,7 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
-// Enhanced Prisma configuration for production resilience
+// Enhanced Prisma configuration for production resilience with idle timeout handling
 export const prisma = globalForPrisma.prisma ?? new PrismaClient({
   log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
   errorFormat: 'pretty',
@@ -15,10 +15,31 @@ export const prisma = globalForPrisma.prisma ?? new PrismaClient({
   }
 })
 
+// Initialize connection pool warming
+let connectionWarmupInterval: NodeJS.Timeout;
+
+// Connection pool warmup to prevent idle timeouts
+async function warmupConnection() {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    console.log('[DB] Connection keepalive successful');
+  } catch (error) {
+    console.error('[DB] Connection keepalive failed:', error);
+    isConnected = false;
+  }
+}
+
+// Start connection warming (every 4 minutes to prevent 5-minute idle timeout)
+if (typeof process !== 'undefined' && process.env.NODE_ENV === 'production') {
+  const keepaliveInterval = parseInt(process.env.DB_KEEPALIVE_INTERVAL || '240000');
+  connectionWarmupInterval = setInterval(warmupConnection, keepaliveInterval);
+  console.log(`[DB] Connection keepalive started (interval: ${keepaliveInterval}ms)`);
+}
+
 // Connection health monitoring
 let isConnected = false;
 let lastConnectionCheck = 0;
-const CONNECTION_CHECK_INTERVAL = 30000; // 30 seconds
+const CONNECTION_CHECK_INTERVAL = parseInt(process.env.DB_CONNECTION_CHECK_INTERVAL || '30000'); // 30 seconds
 
 export async function ensureDbConnection(): Promise<boolean> {
   const now = Date.now();
@@ -33,8 +54,35 @@ export async function ensureDbConnection(): Promise<boolean> {
     isConnected = true;
     lastConnectionCheck = now;
     return true;
-  } catch (error) {
+  } catch (error: any) {
     isConnected = false;
+    
+    // Handle specific idle timeout errors
+    if (error?.message?.includes('idle-session timeout') || 
+        error?.message?.includes('terminating connection') ||
+        error?.code === 'P1017' || 
+        error?.code === 'P1001') {
+      console.warn('[DB] Idle connection timeout detected, reconnecting...');
+      
+      // Force disconnect and reconnect
+      try {
+        await prisma.$disconnect();
+      } catch (disconnectError) {
+        console.warn('[DB] Error during forced disconnect:', disconnectError);
+      }
+      
+      // Attempt immediate reconnection
+      try {
+        await prisma.$queryRaw`SELECT 1`;
+        isConnected = true;
+        lastConnectionCheck = now;
+        console.log('[DB] Successfully reconnected after timeout');
+        return true;
+      } catch (reconnectError) {
+        console.error('[DB] Failed to reconnect after timeout:', reconnectError);
+      }
+    }
+    
     console.error('[DB] Connection failed:', error);
     return false;
   }
@@ -82,6 +130,12 @@ export async function withRetry<T>(
 // Graceful shutdown handling
 export async function disconnectDb(): Promise<void> {
   try {
+    // Clear the connection warmup interval
+    if (connectionWarmupInterval) {
+      clearInterval(connectionWarmupInterval);
+      console.log('[DB] Connection warmup interval cleared');
+    }
+    
     await prisma.$disconnect();
     isConnected = false;
     console.log('[DB] Connection closed gracefully');
