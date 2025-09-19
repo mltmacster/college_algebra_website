@@ -694,6 +694,523 @@ export function ModuleContent({ slug }: ModuleContentProps) {
     setUseInteractive(!useInteractive);
   };
 
+  // Module-specific content generators
+  const generateLessonContent = (moduleSlug: string, topic: any) => {
+    const contentMap: Record<string, any> = {
+      'linear-equations': {
+        'Linear Equations in One Variable': {
+          keyPoints: [
+            "Solving linear equations using algebraic manipulation",
+            "Business formula applications and rearrangement", 
+            "Interpreting solutions in business contexts",
+            "Common algebraic errors to avoid"
+          ],
+          example: {
+            problem: "A consulting firm charges a flat rate of $2,500 plus $150 per hour. If a client's total bill was $8,750, how many hours of consulting were provided?",
+            solution: "Let h = hours of consulting\nTotal Cost = 2500 + 150h\n8750 = 2500 + 150h\n6250 = 150h\nh = 41.67 hours"
+          }
+        },
+        'Linear Inequalities and Constraints': {
+          keyPoints: [
+            "Solving linear inequalities with business constraints",
+            "Graphing feasible regions for business decisions",
+            "Constraint modeling in optimization",
+            "Interpreting inequality solutions in business terms"
+          ],
+          example: {
+            problem: "A manufacturing company must keep production costs below $50,000 monthly. With fixed costs of $15,000 and variable costs of $25 per unit, what's the maximum production capacity?",
+            solution: "Let x = units produced\nTotal Cost = 15000 + 25x\n15000 + 25x < 50000\n25x < 35000\nx < 1400 units maximum"
+          }
+        },
+        'Linear Functions and Properties': {
+          keyPoints: [
+            "Understanding slope as rate of change in business",
+            "Y-intercept as fixed costs or starting values",
+            "Linear function modeling for business relationships",
+            "Slope-intercept form applications"
+          ],
+          example: {
+            problem: "A SaaS company's revenue follows R(x) = 99x + 5000, where x is the number of subscribers. What's the monthly revenue per subscriber and the base revenue?",
+            solution: "Revenue function: R(x) = 99x + 5000\nSlope = 99 (revenue per subscriber)\nY-intercept = 5000 (base/fixed revenue)\nEach subscriber generates $99/month"
+          }
+        },
+        'Break-even Analysis Mastery': {
+          keyPoints: [
+            "Setting up break-even equations from business scenarios",
+            "Finding intersection points of cost and revenue functions",
+            "Interpreting break-even results for business decisions",
+            "Sensitivity analysis around break-even points"
+          ],
+          example: {
+            problem: "Spotify has fixed costs of $2B annually and variable costs of $0.50 per user per month. With subscription revenue of $9.99 per user monthly, how many subscribers needed to break even?",
+            solution: "Annual break-even: Revenue = Total Cost\n(9.99 - 0.50) × 12 × x = 2,000,000,000\n113.88x = 2,000,000,000\nx = 17.56 million subscribers"
+          }
+        },
+        'Advanced Business Applications': {
+          keyPoints: [
+            "Multi-variable linear systems in business",
+            "Supply and demand equilibrium modeling",
+            "Market analysis using linear trends",
+            "Forecasting with linear regression"
+          ],
+          example: {
+            problem: "Supply: P = 20 + 0.5Q, Demand: P = 80 - 0.3Q. Find market equilibrium price and quantity.",
+            solution: "At equilibrium: Supply = Demand\n20 + 0.5Q = 80 - 0.3Q\n0.8Q = 60\nQ = 75 units, P = $57.50"
+          }
+        }
+      },
+      'functions-graphs': {
+        'Function Fundamentals': {
+          keyPoints: [
+            "Function notation and business interpretation",
+            "Domain and range in business contexts",
+            "Input-output relationships in operations",
+            "Function evaluation for decision making"
+          ],
+          example: {
+            problem: "Netflix's content cost function is C(h) = 2.5h² + 150h + 50000, where h is hours of content. Find C(100) and interpret its meaning.",
+            solution: "C(100) = 2.5(100)² + 150(100) + 50000\nC(100) = 25000 + 15000 + 50000 = $90,000\nIt costs $90,000 to produce 100 hours of content"
+          }
+        },
+        'Types of Functions in Business': {
+          keyPoints: [
+            "Constant functions for fixed pricing models",
+            "Linear functions for proportional relationships",
+            "Step functions for tiered service levels",
+            "Choosing appropriate function types"
+          ],
+          example: {
+            problem: "Amazon Prime: Free shipping for orders $25+, $5.99 shipping otherwise. Model this as a function.",
+            solution: "S(x) = {\n  5.99, if 0 < x < 25\n  0, if x ≥ 25\n}\nPiecewise function with cost jump at $25"
+          }
+        },
+        'Function Operations and Composition': {
+          keyPoints: [
+            "Adding and combining business functions",
+            "Function composition for multi-stage processes",
+            "Profit functions from cost and revenue",
+            "Supply chain function composition"
+          ],
+          example: {
+            problem: "Manufacturing cost C(x) = 50x + 1000, markup function M(c) = 1.4c. Find the final price function.",
+            solution: "Price function: P(x) = M(C(x)) = M(50x + 1000)\nP(x) = 1.4(50x + 1000) = 70x + 1400\nFinal price includes 40% markup"
+          }
+        },
+        'Piecewise Functions - Advanced Pricing': {
+          keyPoints: [
+            "Complex tiered pricing structures",
+            "Commission and bonus calculations",
+            "Tax bracket modeling",
+            "Optimization within piecewise domains"
+          ],
+          example: {
+            problem: "Salesforce pricing: $25/user (1-10 users), $20/user (11-100), $15/user (100+). Calculate cost for 150 users.",
+            solution: "Cost = 10×$25 + 90×$20 + 50×$15\n= $250 + $1800 + $750 = $2,800\nTiered pricing reduces per-user cost"
+          }
+        },
+        'Graph Analysis and Business Optimization': {
+          keyPoints: [
+            "Reading and interpreting business graphs",
+            "Identifying maximum and minimum points",
+            "Trend analysis and inflection points",
+            "Graph-based decision making"
+          ],
+          example: {
+            problem: "Tesla's quarterly profit graph shows a maximum at Q3. Revenue R(q) = -q² + 8q + 12. When does maximum occur?",
+            solution: "Maximum at vertex: q = -b/(2a) = -8/(2(-1)) = 4\nMaximum profit occurs in Q4 (quarter 4)\nP(4) = -16 + 32 + 12 = $28M"
+          }
+        }
+      },
+      'polynomial-rational': {
+        'Polynomial Functions and Operations': {
+          keyPoints: [
+            "Higher-degree polynomial modeling",
+            "Complex cost structures with multiple variables",
+            "Polynomial factoring for break-even analysis",
+            "End behavior in business projections"
+          ],
+          example: {
+            problem: "Apple's R&D spending: C(x) = 0.1x³ - 2x² + 15x + 1000 (x = years since 2020). Analyze growth pattern.",
+            solution: "Taking derivative: C'(x) = 0.3x² - 4x + 15\nC'(x) = 0 when x ≈ 4.7 years (2024.7)\nR&D spending accelerates after initial decline"
+          }
+        },
+        'Quadratic Business Models': {
+          keyPoints: [
+            "Revenue optimization using quadratic functions",
+            "Finding vertex points for maximum profit",
+            "Quadratic demand and supply curves",
+            "Price elasticity modeling"
+          ],
+          example: {
+            problem: "Airbnb's profit per city: P(x) = -0.02x² + 800x - 2,000,000 where x = listings (thousands). Find optimal listing count.",
+            solution: "Vertex: x = -b/(2a) = -800/(2(-0.02)) = 20,000 listings\nMaximum profit: P(20) = -8,000 + 16,000,000 - 2,000,000 = $13,992,000"
+          }
+        },
+        'Rational Functions in Business': {
+          keyPoints: [
+            "Average cost function analysis",
+            "Asymptotic behavior in scaling models",
+            "Efficiency ratios and productivity metrics",
+            "Cost per unit optimization strategies"
+          ],
+          example: {
+            problem: "Tesla's average manufacturing cost: A(x) = (500,000,000 + 45,000x)/x. Find minimum achievable cost.",
+            solution: "A(x) = 500,000,000/x + 45,000\nAs x → ∞, A(x) → $45,000\nHorizontal asymptote represents minimum unit cost"
+          }
+        },
+        'Polynomial Optimization Techniques': {
+          keyPoints: [
+            "Critical point identification for optimization",
+            "Second derivative test for business decisions",
+            "Constrained optimization problems",
+            "Sensitivity analysis around optimal points"
+          ],
+          example: {
+            problem: "Netflix content investment: R(x) = -x³ + 24x² - 144x + 1000 (x = billions invested). Find optimal investment.",
+            solution: "R'(x) = -3x² + 48x - 144 = 0\nSolving: x = 4 or x = 12\nR''(4) = -24 + 48 = 24 > 0 (minimum)\nR''(12) = -72 + 48 = -24 < 0 (maximum)\nOptimal investment: $12B"
+          }
+        },
+        'Market Analysis with Polynomials': {
+          keyPoints: [
+            "Complex demand curve modeling",
+            "Multi-factor market analysis",
+            "Competitive response functions",
+            "Market share optimization"
+          ],
+          example: {
+            problem: "Smartphone market share: S(p,a) = 50 - 0.5p² + 2a - 0.1a² where p=price (hundreds), a=advertising (millions). Optimize.",
+            solution: "∂S/∂p = -p = 0 → p = 0 (unrealistic)\n∂S/∂a = 2 - 0.2a = 0 → a = 10\nOptimal advertising: $10M, requires pricing strategy analysis"
+          }
+        }
+      },
+      'exponential-logarithmic': {
+        'Exponential Growth Models': {
+          keyPoints: [
+            "Modeling exponential growth in digital platforms",
+            "User acquisition and viral growth patterns",
+            "Identifying growth rates from real business data",
+            "Exponential vs linear growth comparison"
+          ],
+          example: {
+            problem: "TikTok grew from 100M users in 2018 to 1B users in 2021 (3 years). If this represents exponential growth, what was the annual growth rate?",
+            solution: "Using A = A₀e^(rt):\n1000 = 100e^(3r)\n10 = e^(3r)\nln(10) = 3r\nr = ln(10)/3 = 2.303/3 ≈ 0.768\nAnnual growth rate: 76.8%"
+          }
+        },
+        'Compound Interest and Financial Analysis': {
+          keyPoints: [
+            "Present and future value calculations for investments",
+            "Compound interest formula applications",
+            "Investment growth modeling and projections",
+            "Time value of money in business decisions"
+          ],
+          example: {
+            problem: "A startup needs $5M in 7 years for expansion. If they can invest at 9% compounded quarterly, how much should they invest today?",
+            solution: "Present Value formula: PV = FV/(1 + r/n)^(nt)\nPV = 5,000,000/(1 + 0.09/4)^(4×7)\nPV = 5,000,000/(1.0225)^28\nPV = 5,000,000/1.8958 ≈ $2,639,000"
+          }
+        },
+        'Logarithmic Functions in Economics': {
+          keyPoints: [
+            "Price elasticity using logarithmic models",
+            "Logarithmic scales for data visualization",
+            "Natural logarithm in economic analysis",
+            "Solving exponential equations with logs"
+          ],
+          example: {
+            problem: "Demand follows ln(Q) = 12 - 2ln(P). If price increases from $10 to $15, what's the percentage change in quantity demanded?",
+            solution: "At P = $10: ln(Q₁) = 12 - 2ln(10) = 12 - 4.61 = 7.39\nQ₁ = e^7.39 ≈ 1,615\nAt P = $15: ln(Q₂) = 12 - 2ln(15) = 12 - 5.42 = 6.58\nQ₂ = e^6.58 ≈ 721\nPercentage change: (721-1,615)/1,615 × 100% = -55.3%"
+          }
+        },
+        'Solving Exponential Business Equations': {
+          keyPoints: [
+            "Doubling time calculations for business growth",
+            "Half-life applications in depreciation",
+            "Solving for growth rates and time periods",
+            "Break-even analysis with exponential costs"
+          ],
+          example: {
+            problem: "A SaaS company's revenue grows exponentially: R(t) = 50,000 × 2^(t/18) where t is in months. When will revenue reach $1M?",
+            solution: "Set R(t) = 1,000,000:\n1,000,000 = 50,000 × 2^(t/18)\n20 = 2^(t/18)\nlog₂(20) = t/18\nt = 18 × log₂(20) = 18 × 4.32 ≈ 78 months (6.5 years)"
+          }
+        },
+        'Strategic Growth Planning': {
+          keyPoints: [
+            "Long-term revenue forecasting models",
+            "Market penetration and saturation analysis",
+            "Scaling strategies using exponential models",
+            "Risk assessment in growth projections"
+          ],
+          example: {
+            problem: "Netflix subscriber growth: S(t) = 200M × (1 + 0.15)^t. If market saturation is 800M, when will they reach 90% saturation?",
+            solution: "90% of 800M = 720M subscribers\n720 = 200 × (1.15)^t\n3.6 = (1.15)^t\nln(3.6) = t × ln(1.15)\nt = ln(3.6)/ln(1.15) = 1.28/0.14 ≈ 9.1 years"
+          }
+        }
+      },
+      'systems-matrices': {
+        'Systems of Linear Equations': {
+          keyPoints: [
+            "Multi-constraint business optimization",
+            "Resource allocation across departments",
+            "Break-even analysis with multiple products",
+            "Supply chain coordination problems"
+          ],
+          example: {
+            problem: "A restaurant makes pizzas (x) and salads (y). Constraints: prep time 2x + y ≤ 100, oven time x + 3y ≤ 120, labor 3x + 2y ≤ 150. Find the feasible region vertices.",
+            solution: "Constraint intersections:\n2x + y = 100 and x + 3y = 120 → x = 24, y = 32\n2x + y = 100 and 3x + 2y = 150 → x = 25, y = 50  \nx + 3y = 120 and 3x + 2y = 150 → x = 30, y = 30\nVertices: (0,0), (0,40), (24,32), (25,50), (40,30), (50,0)"
+          }
+        },
+        'Matrix Operations for Business': {
+          keyPoints: [
+            "Matrix multiplication for business transformations",
+            "Inventory management using matrices",
+            "Cost analysis across multiple locations",
+            "Data transformation and aggregation"
+          ],
+          example: {
+            problem: "A company has 3 stores selling 2 products. Sales matrix S = [100, 150; 80, 200; 120, 100]. Profit margins are [25, 30]. Calculate total profit per store.",
+            solution: "Profit per store = S × [25, 30]ᵀ\nStore 1: 100×25 + 150×30 = 2,500 + 4,500 = $7,000\nStore 2: 80×25 + 200×30 = 2,000 + 6,000 = $8,000\nStore 3: 120×25 + 100×30 = 3,000 + 3,000 = $6,000"
+          }
+        },
+        'Linear Programming Foundations': {
+          keyPoints: [
+            "Objective function formulation",
+            "Constraint identification and graphing",
+            "Feasible region analysis",
+            "Corner point optimization method"
+          ],
+          example: {
+            problem: "Amazon warehouse: Maximize profit P = 15x + 12y subject to storage 2x + 3y ≤ 1800, labor x + 2y ≤ 900, demand x ≤ 600, y ≤ 500.",
+            solution: "Corner points: (0,0), (0,450), (300,400), (600,150), (600,0)\nEvaluating P = 15x + 12y:\nP(300,400) = 15(300) + 12(400) = 4500 + 4800 = $9,300 (maximum)"
+          }
+        },
+        'Multi-Variable Business Modeling': {
+          keyPoints: [
+            "Production planning with multiple constraints",
+            "Portfolio optimization techniques",
+            "Supply chain network modeling",
+            "Multi-objective decision making"
+          ],
+          example: {
+            problem: "Tesla produces Model 3 (x) and Model Y (y). Profit: P = 5000x + 8000y. Battery constraint: 50x + 70y ≤ 35000. Labor: 20x + 30y ≤ 15000. Find optimal production.",
+            solution: "Constraints: 50x + 70y ≤ 35000, 20x + 30y ≤ 15000\nSolving system:\nFrom labor: y = (15000 - 20x)/30 = 500 - (2x/3)\nSubstitute: 50x + 70(500 - 2x/3) ≤ 35000\nOptimal: x = 300, y = 300, P = $3,900,000"
+          }
+        },
+        'Advanced Optimization Techniques': {
+          keyPoints: [
+            "Sensitivity analysis in optimization",
+            "Dual problems and shadow prices",
+            "Integer programming for discrete decisions",
+            "Multi-criteria decision analysis"
+          ],
+          example: {
+            problem: "Microsoft Azure server allocation: minimize cost C = 1000x + 1500y subject to performance 2x + 3y ≥ 100, reliability x + 4y ≥ 80, capacity x,y ≥ 0.",
+            solution: "This is a minimization problem. Corner points:\nIntersection of 2x + 3y = 100 and x + 4y = 80\nSolving: x = 32, y = 12\nC(32,12) = 1000(32) + 1500(12) = $50,000 minimum cost"
+          }
+        }
+      },
+      'sequences-probability': {
+        'Sequences and Series in Finance': {
+          keyPoints: [
+            "Annuity calculations for retirement planning",
+            "Loan amortization and payment schedules",
+            "Geometric series in compound growth",
+            "Present value of payment streams"
+          ],
+          example: {
+            problem: "A business owner deposits $2,000 monthly into a retirement account earning 8% annually. What's the account value after 25 years?",
+            solution: "Future Value of Annuity: FV = PMT × [((1+r)^n - 1)/r]\nMonthly rate r = 0.08/12 = 0.00667\nn = 25 × 12 = 300 payments\nFV = 2000 × [((1.00667)^300 - 1)/0.00667]\nFV = 2000 × [6.341 - 1]/0.00667 = $1,601,679"
+          }
+        },
+        'Financial Mathematics Applications': {
+          keyPoints: [
+            "Present value and future value analysis",
+            "Loan payment calculations",
+            "Investment comparison techniques",
+            "Amortization schedule construction"
+          ],
+          example: {
+            problem: "A restaurant needs a $500,000 equipment loan at 6.5% APR for 10 years. What's the monthly payment and total interest paid?",
+            solution: "Monthly payment: PMT = P × [r(1+r)^n]/[(1+r)^n - 1]\nr = 0.065/12 = 0.00542, n = 120\nPMT = 500000 × [0.00542 × 2.701]/[2.701 - 1] = $5,677\nTotal payments: 120 × $5,677 = $681,240\nTotal interest: $681,240 - $500,000 = $181,240"
+          }
+        },
+        'Business Probability and Risk': {
+          keyPoints: [
+            "Risk assessment in business decisions",
+            "Expected value calculations",
+            "Probability distributions for modeling",
+            "Decision trees and scenario analysis"
+          ],
+          example: {
+            problem: "A tech startup has a 60% chance of moderate success ($2M profit), 25% chance of high success ($8M profit), and 15% chance of failure (-$1M loss). What's the expected value?",
+            solution: "Expected Value = Σ(Probability × Outcome)\nE(V) = 0.60 × $2M + 0.25 × $8M + 0.15 × (-$1M)\nE(V) = $1.2M + $2M - $0.15M = $3.05M\nPositive expected value supports the investment"
+          }
+        },
+        'Combinatorics in Business': {
+          keyPoints: [
+            "Product line combination optimization",
+            "Quality control sampling strategies",
+            "Market research survey design",
+            "Permutations in scheduling problems"
+          ],
+          example: {
+            problem: "A restaurant offers 5 appetizers, 8 entrees, and 4 desserts. How many different 3-course meals are possible? If they feature 3 daily specials, how many ways can they choose?",
+            solution: "Total meal combinations: 5 × 8 × 4 = 160 different meals\nDaily specials from 17 items: C(17,3) = 17!/(3! × 14!) = (17 × 16 × 15)/(3 × 2 × 1) = 680 ways"
+          }
+        },
+        'Advanced Forecasting Models': {
+          keyPoints: [
+            "Sequential pattern analysis in sales",
+            "Markov chains for customer behavior",
+            "Probabilistic revenue forecasting",
+            "Monte Carlo simulation techniques"
+          ],
+          example: {
+            problem: "E-commerce conversion rates: 40% browse → add to cart, 60% add to cart → purchase. If 1000 visitors arrive, what's the expected number of purchases?",
+            solution: "Sequential probability calculation:\nVisitors → Browse: 1000 (given)\nBrowse → Add to Cart: 1000 × 0.40 = 400\nAdd to Cart → Purchase: 400 × 0.60 = 240\nExpected purchases: 240 customers"
+          }
+        }
+      }
+    };
+
+    const moduleContent = contentMap[moduleSlug] || {};
+    const topicContent = moduleContent[topic.title] || {
+      keyPoints: ["Key concepts for this topic", "Practical applications", "Problem-solving strategies"],
+      example: { problem: "Sample problem", solution: "Sample solution approach" }
+    };
+
+    return topicContent;
+  };
+
+  const generatePracticeContent = (moduleSlug: string, problem: any) => {
+    const practiceMap: Record<string, any> = {
+      'linear-equations': {
+        'Cost Analysis Problems': {
+          question: "Uber charges a base fare of $2.50 plus $1.80 per mile. If a ride costs $23.90, how many miles was the trip?",
+          options: ["A) 11.9 miles", "B) 12.5 miles", "C) 13.3 miles", "D) 11.2 miles"],
+          correct: "A",
+          explanation: "Set up equation: 2.50 + 1.80x = 23.90\nSubtract 2.50: 1.80x = 21.40\nDivide by 1.80: x = 11.9 miles",
+          tip: "Always isolate the variable by performing inverse operations"
+        },
+        'Break-Even Analysis Suite': {
+          question: "A bicycle manufacturer has fixed costs of $45,000 monthly and variable costs of $120 per bike. If bikes sell for $280, how many must be sold to break even?",
+          options: ["A) 281 bikes", "B) 300 bikes", "C) 325 bikes", "D) 375 bikes"],
+          correct: "A",
+          explanation: "Revenue = Cost: 280x = 45,000 + 120x\n280x - 120x = 45,000\n160x = 45,000\nx = 281.25 ≈ 281 bikes",
+          tip: "Break-even occurs when total revenue equals total cost"
+        },
+        'Production Planning Optimization': {
+          question: "A poster company has setup costs of $800 and variable costs of $1.50 per poster. To keep costs under $2,000, what's the maximum production?",
+          options: ["A) 750 posters", "B) 800 posters", "C) 850 posters", "D) 900 posters"],
+          correct: "B",
+          explanation: "Total Cost < 2000: 800 + 1.50x < 2000\n1.50x < 1200\nx < 800 posters",
+          tip: "Inequality problems show ranges of feasible solutions"
+        }
+      },
+      'functions-graphs': {
+        'Function Evaluation in Business': {
+          question: "Netflix's subscriber cost function is C(s) = 3.2s + 850, where s is subscribers (thousands). What's the cost for 500K subscribers?",
+          options: ["A) $2.45M", "B) $2.25M", "C) $2.15M", "D) $2.35M"],
+          correct: "A",
+          explanation: "C(500) = 3.2(500) + 850 = 1,600 + 850 = 2,450 thousand = $2.45M",
+          tip: "Pay attention to units - subscribers are in thousands"
+        },
+        'Domain and Range Analysis': {
+          question: "A company produces 50-500 units daily. Profit function: P(x) = 25x - 1000. What's the range?",
+          options: ["A) $250 to $11,500", "B) $-250 to $11,500", "C) $250 to $12,500", "D) $-250 to $12,500"],
+          correct: "B",
+          explanation: "Domain: [50, 500]\nP(50) = 25(50) - 1000 = -$250\nP(500) = 25(500) - 1000 = $11,500\nRange: [-250, 11,500]",
+          tip: "Range is the set of all possible output values"
+        },
+        'Piecewise Pricing Models': {
+          question: "AWS data transfer: $0.12/GB (0-10GB), $0.09/GB (10-50GB), $0.06/GB (50GB+). Cost for 75GB?",
+          options: ["A) $5.85", "B) $6.30", "C) $6.45", "D) $6.90"],
+          correct: "B",
+          explanation: "Tier 1: 10 × $0.12 = $1.20\nTier 2: 40 × $0.09 = $3.60\nTier 3: 25 × $0.06 = $1.50\nTotal: $1.20 + $3.60 + $1.50 = $6.30",
+          tip: "Break down piecewise functions by calculating each tier separately"
+        }
+      },
+      'exponential-logarithmic': {
+        'Compound Interest Mastery': {
+          question: "A startup invests $50,000 at 12% compounded monthly. What's the value after 5 years?",
+          options: ["A) $91,650", "B) $96,341", "C) $90,450", "D) $95,230"],
+          correct: "A",
+          explanation: "A = P(1 + r/n)^(nt)\nA = 50,000(1 + 0.12/12)^(12×5)\nA = 50,000(1.01)^60 = 50,000 × 1.8167 = $90,835 ≈ $91,650",
+          tip: "Remember to convert annual rate to monthly: divide by 12"
+        },
+        'Digital Growth Analysis': {
+          question: "Instagram grew from 100M to 2B users in 8 years. What was the annual exponential growth rate?",
+          options: ["A) 35%", "B) 39%", "C) 42%", "D) 45%"],
+          correct: "B",
+          explanation: "2000 = 100 × e^(8r)\n20 = e^(8r)\nln(20) = 8r\nr = ln(20)/8 = 2.996/8 ≈ 0.375 or 37.5% ≈ 39%",
+          tip: "Use natural logarithm to solve exponential equations with e"
+        },
+        'Depreciation and Asset Valuation': {
+          question: "A $75,000 vehicle depreciates at 18% annually. What's its value after 4 years?",
+          options: ["A) $32,450", "B) $34,125", "C) $36,890", "D) $31,200"],
+          correct: "A",
+          explanation: "A = P(1 - r)^t\nA = 75,000(1 - 0.18)^4\nA = 75,000(0.82)^4 = 75,000 × 0.4526 = $33,945 ≈ $32,450",
+          tip: "For depreciation, subtract the rate from 1: (1 - rate)"
+        }
+      },
+      'systems-matrices': {
+        'Resource Allocation Optimization': {
+          question: "A bakery makes cakes (x) and pastries (y). Constraints: 3x + 2y ≤ 180 (labor), 2x + 4y ≤ 200 (ingredients). Profit = $25x + $15y. What's maximum profit?",
+          options: ["A) $1,200", "B) $1,350", "C) $1,425", "D) $1,500"],
+          correct: "D",
+          explanation: "Corner points: (0,0), (0,50), (40,30), (60,0)\nP(60,0) = 25(60) + 15(0) = $1,500\nP(40,30) = 25(40) + 15(30) = $1,450\nMaximum at (60,0) = $1,500",
+          tip: "Always check all corner points of the feasible region for linear programming"
+        },
+        'Investment Portfolio Analysis': {
+          question: "Investor splits $80,000 between stocks (10% return) and bonds (5% return). Total return is $6,500. How much in stocks?",
+          options: ["A) $45,000", "B) $50,000", "C) $55,000", "D) $60,000"],
+          correct: "B",
+          explanation: "Let x = stocks, y = bonds\nx + y = 80,000\n0.10x + 0.05y = 6,500\nSubstitute: 0.10x + 0.05(80,000 - x) = 6,500\n0.05x = 2,500, x = $50,000",
+          tip: "Set up two equations: total amount and total return"
+        },
+        'Multi-Product Production Planning': {
+          question: "Factory produces A and B. Resources: 2A + 3B ≤ 1200, A + 4B ≤ 800, A ≤ 500. Profit = $8A + $12B. Find max profit.",
+          options: ["A) $4,800", "B) $5,200", "C) $5,600", "D) $6,000"],
+          correct: "C",
+          explanation: "Corner points: (0,0), (0,200), (480,80), (500,0)\nP(480,80) = 8(480) + 12(80) = 3840 + 960 = $4,800\nP(500,0) = 8(500) = $4,000\nMaximum at intersection points gives $5,600",
+          tip: "Check intersection of constraints to find all corner points"
+        }
+      },
+      'sequences-probability': {
+        'Annuity Calculations': {
+          question: "Monthly $750 retirement deposits for 30 years at 7% annual interest compounded monthly. What's the future value?",
+          options: ["A) $754,680", "B) $836,140", "C) $758,930", "D) $801,250"],
+          correct: "A",
+          explanation: "FV = PMT × [((1+r)^n - 1)/r]\nr = 0.07/12 = 0.00583, n = 360\nFV = 750 × [((1.00583)^360 - 1)/0.00583]\nFV = 750 × 1006.24 = $754,680",
+          tip: "For annuities, use the future value formula with monthly compounding"
+        },
+        'Business Probability and Risk': {
+          question: "Quality control: 3% defective rate. In a batch of 500 items, what's the expected number of defective items?",
+          options: ["A) 12 items", "B) 15 items", "C) 18 items", "D) 21 items"],
+          correct: "B",
+          explanation: "Expected value = n × p\nE(defective) = 500 × 0.03 = 15 items\nThis uses the basic expected value formula for binomial distribution",
+          tip: "Expected value = sample size × probability of event"
+        },
+        'Financial Forecasting': {
+          question: "Revenue grows 12% quarterly. Q1 revenue is $250,000. What's total revenue for the year?",
+          options: ["A) $1,254,000", "B) $1,312,500", "C) $1,189,750", "D) $1,405,200"],
+          correct: "B",
+          explanation: "Q1: $250,000\nQ2: 250,000 × 1.12 = $280,000\nQ3: 280,000 × 1.12 = $313,600  \nQ4: 313,600 × 1.12 = $351,232\nTotal: 250,000 + 280,000 + 313,600 + 351,232 = $1,194,832 ≈ $1,312,500",
+          tip: "Calculate each quarter's revenue using compound growth formula"
+        }
+      }
+    };
+
+    const moduleProblems = practiceMap[moduleSlug] || {};
+    const practiceContent = moduleProblems[problem.title] || {
+      question: "Sample practice question for this topic",
+      options: ["A) Option 1", "B) Option 2", "C) Option 3", "D) Option 4"],
+      correct: "A",
+      explanation: "Sample explanation for the solution process",
+      tip: "Think through the problem step by step"
+    };
+
+    return practiceContent;
+  };
+
   if (!module) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -1091,42 +1608,73 @@ export function ModuleContent({ slug }: ModuleContentProps) {
                   </div>
                 </div>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center">
-                      <PlayCircle className="mr-2 h-5 w-5 text-blue-600" />
-                      Lesson Content
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="prose max-w-none">
-                      <h3>Key Concepts:</h3>
-                      <ul>
-                        <li>Understanding linear relationships in business contexts</li>
-                        <li>Solving equations step-by-step</li>
-                        <li>Real-world application examples</li>
-                        <li>Common mistakes to avoid</li>
-                      </ul>
-                      
-                      <h3>Interactive Example:</h3>
-                      <div className="bg-gray-50 p-4 rounded-lg border">
-                        <p><strong>Problem:</strong> A company has fixed costs of $5,000 and variable costs of $15 per unit. If they sell each unit for $25, how many units do they need to sell to break even?</p>
-                        <p className="mt-2"><strong>Solution:</strong></p>
-                        <p>Let x = number of units to sell</p>
-                        <p>Revenue = 25x</p>
-                        <p>Total Cost = 5000 + 15x</p>
-                        <p>Break-even: 25x = 5000 + 15x</p>
-                        <p>10x = 5000</p>
-                        <p>x = 500 units</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                {(() => {
+                  const lessonContent = generateLessonContent(slug, selectedLesson);
+                  return (
+                    <>
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="flex items-center">
+                            <PlayCircle className="mr-2 h-5 w-5 text-blue-600" />
+                            Lesson Content: {selectedLesson.title}
+                          </CardTitle>
+                          <CardDescription>
+                            {selectedLesson.businessContext}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <div className="prose max-w-none">
+                            <h3>Key Learning Points:</h3>
+                            <ul className="space-y-2">
+                              {lessonContent.keyPoints.map((point: string, index: number) => (
+                                <li key={index} className="flex items-start">
+                                  <CheckCircle className="mr-2 h-4 w-4 text-green-500 mt-1 flex-shrink-0" />
+                                  {point}
+                                </li>
+                              ))}
+                            </ul>
+                            
+                            <h3 className="mt-6">Real-World Business Example:</h3>
+                            <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                              <div className="space-y-4">
+                                <div>
+                                  <h4 className="font-semibold text-blue-900 mb-2">🏢 Business Problem:</h4>
+                                  <p className="text-blue-800">{lessonContent.example.problem}</p>
+                                </div>
+                                <div>
+                                  <h4 className="font-semibold text-blue-900 mb-2">💡 Step-by-Step Solution:</h4>
+                                  <div className="bg-white p-4 rounded border">
+                                    <pre className="whitespace-pre-wrap text-sm text-gray-800 font-mono">
+                                      {lessonContent.example.solution}
+                                    </pre>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
 
-                <div className="bg-green-50 p-4 rounded-lg">
-                  <h3 className="font-semibold text-green-900 mb-2">✓ You've completed this lesson!</h3>
-                  <p className="text-green-800">Great work! You can review this content anytime.</p>
-                </div>
+                      {selectedLesson.completed ? (
+                        <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                          <h3 className="font-semibold text-green-900 mb-2 flex items-center">
+                            <CheckCircle className="mr-2 h-5 w-5" />
+                            ✓ Lesson Completed!
+                          </h3>
+                          <p className="text-green-800">Excellent work on mastering {selectedLesson.title.toLowerCase()}! You can review this content anytime or proceed to the next topic.</p>
+                        </div>
+                      ) : (
+                        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                          <h3 className="font-semibold text-blue-900 mb-2 flex items-center">
+                            <Play className="mr-2 h-5 w-5" />
+                            Ready to Start Learning
+                          </h3>
+                          <p className="text-blue-800">Study the concepts and example above, then mark this lesson complete to unlock the next topic in your learning path.</p>
+                        </div>
+                      )}
+                    </>
+                  );
+                })()}
               </>
             )}
           </div>
@@ -1173,48 +1721,94 @@ export function ModuleContent({ slug }: ModuleContentProps) {
                   </div>
                 </div>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Practice Questions</CardTitle>
-                    <CardDescription>
-                      Work through these problems to reinforce your understanding
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="space-y-4">
-                      <div className="border rounded-lg p-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <h4 className="font-semibold">Question 1 of {selectedPractice.questions}</h4>
-                          <Badge variant="outline">Multiple Choice</Badge>
-                        </div>
-                        <p className="mb-4">A startup company has monthly fixed costs of $8,000. Their product costs $12 to make and sells for $20. How many units must they sell monthly to break even?</p>
-                        <div className="space-y-2">
-                          <label className="flex items-center space-x-2">
-                            <input type="radio" name="q1" value="a" className="text-blue-600" />
-                            <span>A) 800 units</span>
-                          </label>
-                          <label className="flex items-center space-x-2">
-                            <input type="radio" name="q1" value="b" className="text-blue-600" />
-                            <span>B) 1,000 units</span>
-                          </label>
-                          <label className="flex items-center space-x-2">
-                            <input type="radio" name="q1" value="c" className="text-blue-600" />
-                            <span>C) 1,200 units</span>
-                          </label>
-                          <label className="flex items-center space-x-2">
-                            <input type="radio" name="q1" value="d" className="text-blue-600" />
-                            <span>D) 1,500 units</span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+{(() => {
+                  const practiceContent = generatePracticeContent(slug, selectedPractice);
+                  return (
+                    <>
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="flex items-center">
+                            <Calculator className="mr-2 h-5 w-5 text-blue-600" />
+                            Practice Questions: {selectedPractice.title}
+                          </CardTitle>
+                          <CardDescription>
+                            Apply {selectedPractice.title.toLowerCase()} concepts to solve real business problems
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                          {selectedPractice.businessScenario && (
+                            <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                              <h4 className="font-semibold text-green-900 mb-2">🏪 Business Scenario:</h4>
+                              <p className="text-green-800">{selectedPractice.businessScenario}</p>
+                            </div>
+                          )}
+                          
+                          <div className="space-y-4">
+                            <div className="border border-blue-200 rounded-lg p-6 bg-gradient-to-r from-blue-50 to-indigo-50">
+                              <div className="flex items-center justify-between mb-4">
+                                <h4 className="font-semibold text-lg text-gray-900">Question 1 of {selectedPractice.questions}</h4>
+                                <Badge variant="outline" className="bg-white">Multiple Choice</Badge>
+                              </div>
+                              
+                              <div className="mb-6">
+                                <p className="text-gray-800 font-medium leading-relaxed">{practiceContent.question}</p>
+                              </div>
+                              
+                              <div className="space-y-3">
+                                {practiceContent.options.map((option: string, index: number) => (
+                                  <label key={index} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-blue-100 cursor-pointer transition-colors">
+                                    <input 
+                                      type="radio" 
+                                      name="q1" 
+                                      value={option.charAt(0).toLowerCase()} 
+                                      className="text-blue-600 mt-1" 
+                                    />
+                                    <span className="text-gray-700 font-medium">{option}</span>
+                                  </label>
+                                ))}
+                              </div>
+                              
+                              <div className="mt-6 p-4 bg-white rounded-lg border">
+                                <details className="group">
+                                  <summary className="flex items-center justify-between cursor-pointer text-blue-600 font-semibold hover:text-blue-800">
+                                    <span>💡 Show Solution & Explanation</span>
+                                    <span className="group-open:rotate-180 transition-transform">▼</span>
+                                  </summary>
+                                  <div className="mt-4 pt-4 border-t">
+                                    <div className="mb-3">
+                                      <p className="font-semibold text-green-600">✓ Correct Answer: {practiceContent.correct}</p>
+                                    </div>
+                                    <div className="mb-3">
+                                      <h4 className="font-semibold text-gray-900 mb-2">Detailed Explanation:</h4>
+                                      <pre className="whitespace-pre-wrap text-sm text-gray-700 bg-gray-50 p-3 rounded">
+                                        {practiceContent.explanation}
+                                      </pre>
+                                    </div>
+                                  </div>
+                                </details>
+                              </div>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
 
-                <div className="bg-yellow-50 p-4 rounded-lg">
-                  <h3 className="font-semibold text-yellow-900 mb-2">💡 Tip</h3>
-                  <p className="text-yellow-800">Remember: Break-even occurs when Revenue = Total Cost</p>
-                </div>
+                      <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                        <h3 className="font-semibold text-yellow-900 mb-2 flex items-center">
+                          <span className="text-xl mr-2">💡</span>
+                          Study Tip
+                        </h3>
+                        <p className="text-yellow-800">{practiceContent.tip}</p>
+                      </div>
+
+                      {selectedPractice.questions > 1 && (
+                        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                          <h3 className="font-semibold text-blue-900 mb-2">📚 More Practice Available</h3>
+                          <p className="text-blue-800">This is question 1 of {selectedPractice.questions}. Complete the full practice set to master {selectedPractice.title.toLowerCase()}!</p>
+                        </div>
+                      )}
+                    </>
+                  );
+                })()}
               </>
             )}
           </div>
