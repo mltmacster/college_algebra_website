@@ -9,6 +9,8 @@ import { Badge } from './ui/badge';
 import { CheckCircle, ArrowRight, ArrowLeft, Calculator, Lightbulb, Target, Trophy } from 'lucide-react';
 import { functionsGraphingData } from './module-data/functions-graphing';
 import { quadraticFunctionsData } from './module-data/quadratic-functions';
+import { exponentialFunctionsData } from './module-data/exponential-functions';
+import { matrixOperationsData } from './module-data/matrix-operations';
 
 interface LessonStep {
   id: string;
@@ -256,7 +258,9 @@ const lessonData: Record<string, Record<string, LessonStep[]>> = {
   },
   
   'functions-and-graphing': functionsGraphingData,
-  'quadratic-functions': quadraticFunctionsData
+  'quadratic-functions': quadraticFunctionsData,
+  'exponential-and-logarithmic-functions': exponentialFunctionsData,
+  'matrix-operations-and-applications': matrixOperationsData
 };
 
 export function InteractiveLesson({ moduleSlug, lessonTitle, onComplete, onClose }: InteractiveLessonProps) {

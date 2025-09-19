@@ -48,7 +48,7 @@ const businessScenarios = {
       "Price gaps between tiers affect upgrade incentives"
     ]
   },
-  'polynomial-rational': {
+  'quadratic-functions': {
     title: "Manufacturing Profit Optimization",
     description: "Optimize production levels for maximum profit using quadratic profit functions.",
     variables: {
@@ -140,7 +140,7 @@ export function BusinessScenarioSimulator({ moduleSlug }: BusinessScenarioSimula
         ];
         break;
 
-      case 'polynomial-rational':
+      case 'quadratic-functions':
         const { setupCost, marginalRevenue, scalingFactor } = inputs;
         const optimalProduction = marginalRevenue / (2 * scalingFactor);
         const maxProfit = -scalingFactor * Math.pow(optimalProduction, 2) + marginalRevenue * optimalProduction - setupCost;
@@ -289,7 +289,7 @@ export function BusinessScenarioSimulator({ moduleSlug }: BusinessScenarioSimula
                   </>
                 )}
 
-                {moduleSlug === 'polynomial-rational' && (
+                {moduleSlug === 'quadratic-functions' && (
                   <>
                     <div className="bg-green-50 p-4 rounded-lg">
                       <div className="text-sm text-green-600 mb-1">Optimal Production</div>
@@ -337,7 +337,7 @@ export function BusinessScenarioSimulator({ moduleSlug }: BusinessScenarioSimula
                     <Line type="monotone" dataKey="profit" stroke="#ffc658" name="Profit" strokeWidth={2} />
                   </LineChart>
                 </ResponsiveContainer>
-              ) : moduleSlug === 'polynomial-rational' ? (
+              ) : moduleSlug === 'quadratic-functions' ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />

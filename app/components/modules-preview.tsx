@@ -48,7 +48,7 @@ const modules = [
     image: "https://cdn.abacus.ai/images/66b5d1c0-2932-4b89-8b7a-bf1602072d0a.png",
     topics: ["Polynomial Models", "Revenue Optimization", "Efficiency Analysis", "Asymptotes", "End Behavior"],
     duration: "3-4 weeks",
-    slug: "polynomial-rational",
+    slug: "quadratic-functions",
     difficulty: "Intermediate",
     estimatedHours: 24,
     order: 3,

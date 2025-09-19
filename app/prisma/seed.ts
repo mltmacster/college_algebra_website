@@ -34,137 +34,137 @@ async function main() {
       isActive: true
     },
     {
-      title: "Functions and Graphs",
-      description: "Explore function behavior, graphing techniques, and piecewise functions used in tiered pricing models.",
+      title: "Systems of Linear Equations",
+      description: "Solve complex business problems involving multiple variables and constraints using systems of equations.",
       order: 2,
-      slug: "functions-graphs",
+      slug: "systems-linear-equations",
       content: JSON.stringify({
-        overview: "Comprehensive study of functions and their graphical representations",
-        businessApplications: ["Tiered Pricing", "Function Modeling", "Domain Analysis", "Transformations"],
+        overview: "Advanced problem solving with systems of linear equations for business applications",
+        businessApplications: ["Resource Allocation", "Multi-Product Analysis", "Market Analysis", "Optimization"],
         estimatedHours: 18,
-        difficulty: "Beginner"
+        difficulty: "Intermediate"
       }),
       objectives: [
-        "Understand function notation and terminology",
-        "Graph various types of functions accurately",
-        "Analyze domain and range of business functions",
-        "Model tiered pricing with piecewise functions",
-        "Interpret function transformations in business contexts"
+        "Solve systems of linear equations using multiple methods",
+        "Apply systems to resource allocation problems",
+        "Model multi-product business scenarios",
+        "Analyze market equilibrium with multiple factors",
+        "Optimize business decisions with multiple constraints"
       ],
       topics: [
-        "Function Notation",
-        "Graphing Techniques",
-        "Piecewise Functions", 
-        "Domain & Range",
-        "Transformations"
+        "Substitution Method",
+        "Elimination Method", 
+        "Resource Allocation",
+        "Market Analysis",
+        "Business Optimization"
       ],
       isActive: true
     },
     {
-      title: "Polynomial and Rational Functions",
-      description: "Analyze complex relationships in revenue optimization and efficiency modeling through advanced functions.",
+      title: "Functions and Graphing",
+      description: "Explore function behavior, graphing techniques, and function composition for complex business modeling.",
       order: 3,
-      slug: "polynomial-rational",
+      slug: "functions-and-graphing",
       content: JSON.stringify({
-        overview: "Advanced function analysis for complex business modeling",
-        businessApplications: ["Revenue Optimization", "Efficiency Analysis", "Cost Modeling", "Asymptotic Behavior"],
-        estimatedHours: 24,
+        overview: "Comprehensive study of functions and their graphical representations in business",
+        businessApplications: ["Function Modeling", "Business Processes", "Supply Chain Analysis", "Composite Functions"],
+        estimatedHours: 20,
         difficulty: "Intermediate"
       }),
       objectives: [
-        "Analyze polynomial functions and their business applications",
-        "Understand rational functions in efficiency modeling",
-        "Apply functions to revenue optimization problems",
-        "Interpret asymptotic behavior in business contexts",
-        "Model complex relationships using advanced functions"
+        "Understand function notation and terminology",
+        "Graph various types of functions accurately",
+        "Model business processes with functions",
+        "Apply function composition to multi-stage processes",
+        "Analyze domain and range in business contexts"
       ],
       topics: [
-        "Polynomial Models",
-        "Revenue Optimization",
-        "Efficiency Analysis",
-        "Asymptotes",
-        "End Behavior"
+        "Function Notation",
+        "Graphing Techniques",
+        "Function Composition",
+        "Business Applications",
+        "Multi-Stage Processes"
+      ],
+      isActive: true
+    },
+    {
+      title: "Quadratic Functions",
+      description: "Master quadratic functions for profit optimization, cost minimization, and revenue maximization in business.",
+      order: 4,
+      slug: "quadratic-functions",
+      content: JSON.stringify({
+        overview: "Business optimization using quadratic functions and vertex analysis",
+        businessApplications: ["Profit Maximization", "Cost Minimization", "Revenue Optimization", "Business Analytics"],
+        estimatedHours: 22,
+        difficulty: "Intermediate"
+      }),
+      objectives: [
+        "Understand quadratic functions in business optimization",
+        "Find maximum and minimum values for business decisions",
+        "Apply vertex form for immediate optimization insights",
+        "Model curved business relationships",
+        "Make data-driven optimization decisions"
+      ],
+      topics: [
+        "Quadratic Functions",
+        "Profit Maximization",
+        "Vertex Form",
+        "Business Optimization",
+        "Cost Analysis"
       ],
       isActive: true
     },
     {
       title: "Exponential and Logarithmic Functions",
-      description: "Study growth models, compound interest, and logarithmic scales essential for business finance.",
-      order: 4,
-      slug: "exponential-logarithmic",
+      description: "Study growth models, compound interest, and exponential decay essential for business finance and analysis.",
+      order: 5,
+      slug: "exponential-and-logarithmic-functions",
       content: JSON.stringify({
-        overview: "Financial mathematics using exponential and logarithmic functions",
-        businessApplications: ["Compound Interest", "Growth Models", "Investment Analysis", "Scaling"],
-        estimatedHours: 26,
-        difficulty: "Intermediate"
+        overview: "Financial mathematics using exponential and logarithmic functions for business growth and decay",
+        businessApplications: ["Compound Interest", "Business Growth", "Asset Depreciation", "Investment Analysis"],
+        estimatedHours: 24,
+        difficulty: "Advanced"
       }),
       objectives: [
         "Model exponential growth in business scenarios",
         "Calculate compound interest and investment returns",
-        "Apply logarithmic functions to solve business problems",
-        "Analyze scaling patterns in business growth",
+        "Analyze asset depreciation using exponential decay",
+        "Apply exponential functions to business growth models",
         "Make informed financial decisions using mathematical models"
       ],
       topics: [
         "Exponential Growth",
         "Compound Interest",
-        "Business Scaling",
-        "Logarithmic Models",
+        "Asset Depreciation",
+        "Business Growth Models",
         "Investment Analysis"
       ],
       isActive: true
     },
     {
-      title: "Systems of Equations and Matrices",
-      description: "Learn resource allocation, optimization problems, and matrix operations for business decision making.",
-      order: 5,
-      slug: "systems-matrices",
-      content: JSON.stringify({
-        overview: "Advanced problem solving with systems and matrices",
-        businessApplications: ["Resource Allocation", "Linear Programming", "Decision Making", "Optimization"],
-        estimatedHours: 28,
-        difficulty: "Advanced"
-      }),
-      objectives: [
-        "Solve systems of linear equations efficiently",
-        "Apply matrix operations to business problems",
-        "Optimize resource allocation using linear programming",
-        "Make data-driven business decisions",
-        "Model complex business scenarios with multiple variables"
-      ],
-      topics: [
-        "Resource Allocation",
-        "Matrix Operations",
-        "Optimization",
-        "Linear Programming",
-        "Decision Making"
-      ],
-      isActive: true
-    },
-    {
-      title: "Sequences, Series, and Probability",
-      description: "Apply sequences and probability concepts to financial planning, risk assessment, and forecasting.",
+      title: "Matrix Operations and Applications",
+      description: "Learn matrix operations, data organization, and business calculations for complex multi-variable analysis.",
       order: 6,
-      slug: "sequences-probability",
+      slug: "matrix-operations-and-applications",
       content: JSON.stringify({
-        overview: "Financial planning and risk analysis using mathematical sequences and probability",
-        businessApplications: ["Financial Planning", "Risk Assessment", "Forecasting", "Annuities"],
-        estimatedHours: 22,
+        overview: "Advanced business data analysis using matrices and linear algebra operations",
+        businessApplications: ["Data Organization", "Business Calculations", "Multi-Variable Analysis", "Linear Operations"],
+        estimatedHours: 26,
         difficulty: "Advanced"
       }),
       objectives: [
-        "Apply sequences to financial planning problems",
-        "Use probability for risk assessment",
-        "Create business forecasts using mathematical models",
-        "Calculate annuity and investment sequences",
-        "Make informed decisions under uncertainty"
+        "Organize business data using matrices",
+        "Perform matrix operations for business calculations",
+        "Apply matrix addition and subtraction to data analysis",
+        "Use matrix multiplication for complex business metrics",
+        "Model multi-dimensional business relationships"
       ],
       topics: [
-        "Financial Planning",
-        "Risk Assessment", 
-        "Forecasting",
-        "Annuities",
-        "Monte Carlo Methods"
+        "Matrix Organization",
+        "Matrix Operations",
+        "Business Data Analysis",
+        "Multi-Variable Calculations",
+        "Linear Business Models"
       ],
       isActive: true
     }
@@ -190,44 +190,44 @@ async function main() {
       points: 100
     },
     {
-      title: "Functions Expert", 
-      description: "Master functions and graphs with excellent performance",
+      title: "Systems Solver Expert", 
+      description: "Master systems of linear equations with excellent performance",
       imageUrl: "https://cdn.abacus.ai/images/51024b94-7fbb-4036-987b-b3fe393f6bf8.png",
       badgeType: BadgeType.MODULE_COMPLETION,
-      requirements: JSON.stringify({ minScore: 80, moduleSlug: "functions-graphs" }),
-      points: 100
+      requirements: JSON.stringify({ minScore: 80, moduleSlug: "systems-linear-equations" }),
+      points: 110
     },
     {
-      title: "Advanced Functions Specialist",
-      description: "Excel in polynomial and rational functions applications",
+      title: "Functions & Graphing Specialist",
+      description: "Excel in functions and graphing applications for business modeling",
       imageUrl: "https://cdn.abacus.ai/images/66b5d1c0-2932-4b89-8b7a-bf1602072d0a.png",
       badgeType: BadgeType.MODULE_COMPLETION,
-      requirements: JSON.stringify({ minScore: 80, moduleSlug: "polynomial-rational" }),
+      requirements: JSON.stringify({ minScore: 80, moduleSlug: "functions-and-graphing" }),
       points: 120
     },
     {
-      title: "Exponential Growth Guru",
-      description: "Master exponential and logarithmic functions for financial analysis",
+      title: "Quadratic Optimization Guru",
+      description: "Master quadratic functions for business optimization and analysis",
       imageUrl: "https://cdn.abacus.ai/images/34b6cfe8-5c21-4134-ac87-d925614c655e.png",
       badgeType: BadgeType.MODULE_COMPLETION,
-      requirements: JSON.stringify({ minScore: 80, moduleSlug: "exponential-logarithmic" }),
-      points: 120
+      requirements: JSON.stringify({ minScore: 80, moduleSlug: "quadratic-functions" }),
+      points: 125
     },
     {
-      title: "Systems & Matrices Pro",
-      description: "Advanced problem solving with systems and linear programming",
+      title: "Exponential Growth Pro",
+      description: "Advanced mastery of exponential and logarithmic functions for financial analysis",
       imageUrl: "https://cdn.abacus.ai/images/ee07f028-b7bf-48ed-b7c3-fa607383db57.png",
       badgeType: BadgeType.MODULE_COMPLETION,
-      requirements: JSON.stringify({ minScore: 80, moduleSlug: "systems-matrices" }),
-      points: 150
+      requirements: JSON.stringify({ minScore: 80, moduleSlug: "exponential-and-logarithmic-functions" }),
+      points: 140
     },
     {
-      title: "Probability & Planning Expert",
-      description: "Master financial planning and risk assessment techniques",
+      title: "Matrix Operations Expert",
+      description: "Master matrix operations and applications for complex business analysis",
       imageUrl: "https://cdn.abacus.ai/images/932a5a8a-52f3-48ec-928d-7d55a4d52b9b.png",
       badgeType: BadgeType.MODULE_COMPLETION,
-      requirements: JSON.stringify({ minScore: 80, moduleSlug: "sequences-probability" }),
-      points: 130
+      requirements: JSON.stringify({ minScore: 80, moduleSlug: "matrix-operations-and-applications" }),
+      points: 150
     }
   ];
 

@@ -245,9 +245,9 @@ const moduleData = {
       "Multi-stage supply chain modeling"
     ]
   },
-  'polynomial-rational': {
+  'quadratic-functions': {
     id: 3,
-    title: "Polynomial and Rational Functions",
+    title: "Quadratic Functions",
     description: "Analyze complex relationships in revenue optimization and efficiency modeling through advanced functions.",
     image: "https://cdn.abacus.ai/images/66b5d1c0-2932-4b89-8b7a-bf1602072d0a.png",
     difficulty: "Intermediate",
@@ -858,8 +858,8 @@ export function ModuleContent({ slug }: ModuleContentProps) {
           }
         }
       },
-      'polynomial-rational': {
-        'Polynomial Functions and Operations': {
+      'quadratic-functions': {
+        'Quadratic Functions and Operations': {
           keyPoints: [
             "Higher-degree polynomial modeling",
             "Complex cost structures with multiple variables",

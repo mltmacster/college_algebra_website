@@ -1,8 +1,8 @@
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, BadgeType } from '@prisma/client'
 import bcrypt from 'bcryptjs';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 async function main() {
   console.log('Starting database seeding...');
@@ -24,14 +24,25 @@ async function main() {
 
   console.log('Created test user:', testUser.email);
 
-  // Create learning modules
+  // Clean up existing modules and badges to avoid conflicts
+  await prisma.badge.deleteMany({});
+  await prisma.moduleProgress.deleteMany({});
+  await prisma.learningModule.deleteMany({});
+  console.log('Cleaned up existing modules and badges');
+
+  // Create Learning Modules
   const modules = [
     {
       title: "Linear Equations and Inequalities",
       description: "Master the fundamentals of linear relationships, solving equations, and business applications like break-even analysis.",
       order: 1,
       slug: "linear-equations",
-      content: "Comprehensive module covering linear equations, inequalities, and their business applications including break-even analysis, cost functions, supply and demand models, and market equilibrium.",
+      content: JSON.stringify({
+        overview: "Interactive module focused on linear equations and their business applications",
+        businessApplications: ["Break-even Analysis", "Cost Functions", "Supply & Demand", "Market Equilibrium"],
+        estimatedHours: 15,
+        difficulty: "Beginner"
+      }),
       objectives: [
         "Solve linear equations and inequalities in one variable",
         "Understand the concept of break-even analysis in business",
@@ -45,314 +56,229 @@ async function main() {
         "Cost Functions",
         "Supply & Demand",
         "Market Equilibrium"
-      ]
+      ],
+      isActive: true
     },
     {
-      title: "Functions and Graphs",
-      description: "Explore function behavior, graphing techniques, and piecewise functions used in tiered pricing models.",
+      title: "Systems of Linear Equations",
+      description: "Solve complex business problems involving multiple variables and constraints using systems of equations.",
       order: 2,
-      slug: "functions-graphs",
-      content: "In-depth study of functions including notation, graphing, domain and range, piecewise functions for tiered pricing, and function transformations in business contexts.",
+      slug: "systems-linear-equations",
+      content: JSON.stringify({
+        overview: "Advanced problem solving with systems of linear equations for business applications",
+        businessApplications: ["Resource Allocation", "Multi-Product Analysis", "Market Analysis", "Optimization"],
+        estimatedHours: 18,
+        difficulty: "Intermediate"
+      }),
+      objectives: [
+        "Solve systems of linear equations using multiple methods",
+        "Apply systems to resource allocation problems",
+        "Model multi-product business scenarios",
+        "Analyze market equilibrium with multiple factors",
+        "Optimize business decisions with multiple constraints"
+      ],
+      topics: [
+        "Substitution Method",
+        "Elimination Method", 
+        "Resource Allocation",
+        "Market Analysis",
+        "Business Optimization"
+      ],
+      isActive: true
+    },
+    {
+      title: "Functions and Graphing",
+      description: "Explore function behavior, graphing techniques, and function composition for complex business modeling.",
+      order: 3,
+      slug: "functions-and-graphing",
+      content: JSON.stringify({
+        overview: "Comprehensive study of functions and their graphical representations in business",
+        businessApplications: ["Function Modeling", "Business Processes", "Supply Chain Analysis", "Composite Functions"],
+        estimatedHours: 20,
+        difficulty: "Intermediate"
+      }),
       objectives: [
         "Understand function notation and terminology",
         "Graph various types of functions accurately",
-        "Analyze domain and range of business functions",
-        "Model tiered pricing with piecewise functions",
-        "Interpret function transformations in business contexts"
+        "Model business processes with functions",
+        "Apply function composition to multi-stage processes",
+        "Analyze domain and range in business contexts"
       ],
       topics: [
         "Function Notation",
-        "Graphing",
-        "Piecewise Functions",
-        "Domain & Range",
-        "Transformations"
-      ]
+        "Graphing Techniques",
+        "Function Composition",
+        "Business Applications",
+        "Multi-Stage Processes"
+      ],
+      isActive: true
     },
     {
-      title: "Polynomial and Rational Functions",
-      description: "Analyze complex relationships in revenue optimization and efficiency modeling through advanced functions.",
-      order: 3,
-      slug: "polynomial-rational",
-      content: "Advanced study of polynomial and rational functions with applications to revenue optimization, efficiency analysis, asymptotic behavior, and end behavior analysis.",
+      title: "Quadratic Functions",
+      description: "Master quadratic functions for profit optimization, cost minimization, and revenue maximization in business.",
+      order: 4,
+      slug: "quadratic-functions",
+      content: JSON.stringify({
+        overview: "Business optimization using quadratic functions and vertex analysis",
+        businessApplications: ["Profit Maximization", "Cost Minimization", "Revenue Optimization", "Business Analytics"],
+        estimatedHours: 22,
+        difficulty: "Intermediate"
+      }),
       objectives: [
-        "Analyze polynomial functions and their graphs",
-        "Understand rational functions and asymptotes",
-        "Apply polynomial models to revenue optimization",
-        "Use rational functions in efficiency modeling",
-        "Interpret end behavior in business contexts"
+        "Understand quadratic functions in business optimization",
+        "Find maximum and minimum values for business decisions",
+        "Apply vertex form for immediate optimization insights",
+        "Model curved business relationships",
+        "Make data-driven optimization decisions"
       ],
       topics: [
-        "Polynomial Models",
-        "Revenue Optimization",
-        "Efficiency Analysis",
-        "Asymptotes",
-        "End Behavior"
-      ]
+        "Quadratic Functions",
+        "Profit Maximization",
+        "Vertex Form",
+        "Business Optimization",
+        "Cost Analysis"
+      ],
+      isActive: true
     },
     {
       title: "Exponential and Logarithmic Functions",
-      description: "Study growth models, compound interest, and logarithmic scales essential for business finance.",
-      order: 4,
-      slug: "exponential-logarithmic",
-      content: "Comprehensive coverage of exponential and logarithmic functions including growth models, compound interest calculations, business scaling, and investment analysis.",
+      description: "Study growth models, compound interest, and exponential decay essential for business finance and analysis.",
+      order: 5,
+      slug: "exponential-and-logarithmic-functions",
+      content: JSON.stringify({
+        overview: "Financial mathematics using exponential and logarithmic functions for business growth and decay",
+        businessApplications: ["Compound Interest", "Business Growth", "Asset Depreciation", "Investment Analysis"],
+        estimatedHours: 24,
+        difficulty: "Advanced"
+      }),
       objectives: [
-        "Master exponential growth and decay models",
-        "Calculate compound interest and annuities",
-        "Apply logarithmic functions to business problems",
-        "Model business scaling and growth",
-        "Analyze investment and depreciation scenarios"
+        "Model exponential growth in business scenarios",
+        "Calculate compound interest and investment returns",
+        "Analyze asset depreciation using exponential decay",
+        "Apply exponential functions to business growth models",
+        "Make informed financial decisions using mathematical models"
       ],
       topics: [
         "Exponential Growth",
         "Compound Interest",
-        "Business Scaling",
-        "Logarithmic Models",
+        "Asset Depreciation",
+        "Business Growth Models",
         "Investment Analysis"
-      ]
-    },
-    {
-      title: "Systems of Equations and Matrices",
-      description: "Learn resource allocation, optimization problems, and matrix operations for business decision making.",
-      order: 5,
-      slug: "systems-matrices",
-      content: "Advanced topics including systems of linear equations, matrix operations, resource allocation problems, linear programming, and business decision making models.",
-      objectives: [
-        "Solve systems of linear equations",
-        "Perform matrix operations",
-        "Apply linear programming to resource allocation",
-        "Use matrices for business decision making",
-        "Optimize business processes and constraints"
       ],
-      topics: [
-        "Resource Allocation",
-        "Matrix Operations",
-        "Optimization",
-        "Linear Programming",
-        "Decision Making"
-      ]
+      isActive: true
     },
     {
-      title: "Sequences, Series, and Probability",
-      description: "Apply sequences and probability concepts to financial planning, risk assessment, and forecasting.",
+      title: "Matrix Operations and Applications",
+      description: "Learn matrix operations, data organization, and business calculations for complex multi-variable analysis.",
       order: 6,
-      slug: "sequences-probability",
-      content: "Final module covering sequences, series, probability theory, financial planning applications, risk assessment, and Monte Carlo methods for business forecasting.",
+      slug: "matrix-operations-and-applications",
+      content: JSON.stringify({
+        overview: "Advanced business data analysis using matrices and linear algebra operations",
+        businessApplications: ["Data Organization", "Business Calculations", "Multi-Variable Analysis", "Linear Operations"],
+        estimatedHours: 26,
+        difficulty: "Advanced"
+      }),
       objectives: [
-        "Understand arithmetic and geometric sequences",
-        "Apply series to financial calculations",
-        "Master basic probability concepts",
-        "Use probability in risk assessment",
-        "Apply Monte Carlo methods to forecasting"
+        "Organize business data using matrices",
+        "Perform matrix operations for business calculations",
+        "Apply matrix addition and subtraction to data analysis",
+        "Use matrix multiplication for complex business metrics",
+        "Model multi-dimensional business relationships"
       ],
       topics: [
-        "Financial Planning",
-        "Risk Assessment", 
-        "Forecasting",
-        "Annuities",
-        "Monte Carlo Methods"
-      ]
+        "Matrix Organization",
+        "Matrix Operations",
+        "Business Data Analysis",
+        "Multi-Variable Calculations",
+        "Linear Business Models"
+      ],
+      isActive: true
     }
   ];
 
   // Create modules
-  const createdModules = [];
   for (const moduleData of modules) {
-    const module = await prisma.learningModule.upsert({
-      where: { slug: moduleData.slug },
-      update: {},
-      create: moduleData,
+    await prisma.learningModule.create({
+      data: moduleData
     });
-    createdModules.push(module);
-    console.log(`Created module: ${module.title}`);
+    console.log('Created module:', moduleData.title);
   }
 
-  // Create badges
+  // Create Badges for each module
   const badges = [
     {
       title: "Linear Equations Master",
-      description: "Completed Linear Equations and Inequalities module",
+      description: "Complete the Linear Equations and Inequalities module with 80% or higher score",
       imageUrl: "https://cdn.abacus.ai/images/c73d1454-07ea-49e5-b42c-585b1fff268a.png",
-      moduleId: createdModules[0].id,
-      badgeType: "MODULE_COMPLETION" as const,
-      points: 20
-    },
-    {
-      title: "Function Explorer", 
-      description: "Completed Functions and Graphs module",
-      imageUrl: "https://cdn.abacus.ai/images/51024b94-7fbb-4036-987b-b3fe393f6bf8.png",
-      moduleId: createdModules[1].id,
-      badgeType: "MODULE_COMPLETION" as const,
-      points: 20
-    },
-    {
-      title: "Polynomial Pro",
-      description: "Completed Polynomial and Rational Functions module", 
-      imageUrl: "https://cdn.abacus.ai/images/66b5d1c0-2932-4b89-8b7a-bf1602072d0a.png",
-      moduleId: createdModules[2].id,
-      badgeType: "MODULE_COMPLETION" as const,
-      points: 25
-    },
-    {
-      title: "Exponential Expert",
-      description: "Completed Exponential and Logarithmic Functions module",
-      imageUrl: "https://cdn.abacus.ai/images/34b6cfe8-5c21-4134-ac87-d925614c655e.png",
-      moduleId: createdModules[3].id,
-      badgeType: "MODULE_COMPLETION" as const,
-      points: 25
-    },
-    {
-      title: "Systems Solver",
-      description: "Completed Systems of Equations and Matrices module",
-      imageUrl: "https://cdn.abacus.ai/images/ee07f028-b7bf-48ed-b7c3-fa607383db57.png",
-      moduleId: createdModules[4].id,
-      badgeType: "MODULE_COMPLETION" as const,
-      points: 30
-    },
-    {
-      title: "Probability Pioneer",
-      description: "Completed Sequences, Series, and Probability module",
-      imageUrl: "https://cdn.abacus.ai/images/932a5a8a-52f3-48ec-928d-7d55a4d52b9b.png",
-      moduleId: createdModules[5].id,
-      badgeType: "MODULE_COMPLETION" as const,
-      points: 25
-    },
-    {
-      title: "First Steps",
-      description: "Completed your first practice problem",
-      imageUrl: "https://cdn.abacus.ai/images/32c88839-176e-4f10-b666-42a6ca0057d8.png",
-      moduleId: null,
-      badgeType: "QUIZ_PASS" as const,
-      points: 5
-    },
-    {
-      title: "Quiz Master",
-      description: "Scored 90% or higher on 5 quizzes",
-      imageUrl: "https://cdn.abacus.ai/images/8195ff2a-dfeb-4615-8511-56b1766ba0e8.png",
-      moduleId: null,
-      badgeType: "QUIZ_PASS" as const,
-      points: 15
-    },
-    {
-      title: "Course Completion",
-      description: "Complete all 6 learning modules",
-      imageUrl: "https://cdn.abacus.ai/images/a9502816-14fb-4bbf-9fd2-29dbbede7841.png",
-      moduleId: null,
-      badgeType: "COURSE_COMPLETION" as const,
+      badgeType: BadgeType.MODULE_COMPLETION,
+      requirements: JSON.stringify({ minScore: 80, moduleSlug: "linear-equations" }),
       points: 100
+    },
+    {
+      title: "Systems Solver Expert", 
+      description: "Master systems of linear equations with excellent performance",
+      imageUrl: "https://cdn.abacus.ai/images/51024b94-7fbb-4036-987b-b3fe393f6bf8.png",
+      badgeType: BadgeType.MODULE_COMPLETION,
+      requirements: JSON.stringify({ minScore: 80, moduleSlug: "systems-linear-equations" }),
+      points: 110
+    },
+    {
+      title: "Functions & Graphing Specialist",
+      description: "Excel in functions and graphing applications for business modeling",
+      imageUrl: "https://cdn.abacus.ai/images/66b5d1c0-2932-4b89-8b7a-bf1602072d0a.png",
+      badgeType: BadgeType.MODULE_COMPLETION,
+      requirements: JSON.stringify({ minScore: 80, moduleSlug: "functions-and-graphing" }),
+      points: 120
+    },
+    {
+      title: "Quadratic Optimization Guru",
+      description: "Master quadratic functions for business optimization and analysis",
+      imageUrl: "https://cdn.abacus.ai/images/34b6cfe8-5c21-4134-ac87-d925614c655e.png",
+      badgeType: BadgeType.MODULE_COMPLETION,
+      requirements: JSON.stringify({ minScore: 80, moduleSlug: "quadratic-functions" }),
+      points: 125
+    },
+    {
+      title: "Exponential Growth Pro",
+      description: "Advanced mastery of exponential and logarithmic functions for financial analysis",
+      imageUrl: "https://cdn.abacus.ai/images/ee07f028-b7bf-48ed-b7c3-fa607383db57.png",
+      badgeType: BadgeType.MODULE_COMPLETION,
+      requirements: JSON.stringify({ minScore: 80, moduleSlug: "exponential-and-logarithmic-functions" }),
+      points: 140
+    },
+    {
+      title: "Matrix Operations Expert",
+      description: "Master matrix operations and applications for complex business analysis",
+      imageUrl: "https://cdn.abacus.ai/images/932a5a8a-52f3-48ec-928d-7d55a4d52b9b.png",
+      badgeType: BadgeType.MODULE_COMPLETION,
+      requirements: JSON.stringify({ minScore: 80, moduleSlug: "matrix-operations-and-applications" }),
+      points: 150
     }
   ];
 
-  // Create badges (delete existing ones first to avoid duplicates)
-  await prisma.badge.deleteMany({});
-  
-  const createdBadges = [];
   for (const badgeData of badges) {
-    const badge = await prisma.badge.create({
-      data: badgeData,
+    const module = await prisma.learningModule.findUnique({
+      where: { slug: JSON.parse(badgeData.requirements).moduleSlug }
     });
-    createdBadges.push(badge);
-    console.log(`Created badge: ${badge.title}`);
+    
+    if (module) {
+      await prisma.badge.create({
+        data: { ...badgeData, moduleId: module.id }
+      });
+      console.log('Created badge:', badgeData.title);
+    }
   }
 
-  // Create some sample progress for the test user
-  await prisma.moduleProgress.upsert({
-    where: {
-      userId_moduleId: {
-        userId: testUser.id,
-        moduleId: createdModules[0].id
-      }
-    },
-    update: {},
-    create: {
-      userId: testUser.id,
-      moduleId: createdModules[0].id,
-      status: 'COMPLETED',
-      completedAt: new Date('2024-02-15'),
-      score: 95.0,
-      timeSpent: 12 * 60, // 12 hours in minutes
-    }
-  });
-
-  await prisma.moduleProgress.upsert({
-    where: {
-      userId_moduleId: {
-        userId: testUser.id,
-        moduleId: createdModules[1].id
-      }
-    },
-    update: {},
-    create: {
-      userId: testUser.id,
-      moduleId: createdModules[1].id,
-      status: 'IN_PROGRESS',
-      score: 85.0,
-      timeSpent: 8 * 60, // 8 hours in minutes
-    }
-  });
-
-  // Award some badges to the test user
-  await prisma.userBadge.upsert({
-    where: {
-      userId_badgeId: {
-        userId: testUser.id,
-        badgeId: createdBadges[0].id // Linear Equations Master
-      }
-    },
-    update: {},
-    create: {
-      userId: testUser.id,
-      badgeId: createdBadges[0].id,
-      earnedAt: new Date('2024-02-15')
-    }
-  });
-
-  await prisma.userBadge.upsert({
-    where: {
-      userId_badgeId: {
-        userId: testUser.id,
-        badgeId: createdBadges[6].id // First Steps
-      }
-    },
-    update: {},
-    create: {
-      userId: testUser.id,
-      badgeId: createdBadges[6].id,
-      earnedAt: new Date('2024-02-10')
-    }
-  });
-
-  await prisma.userBadge.upsert({
-    where: {
-      userId_badgeId: {
-        userId: testUser.id,
-        badgeId: createdBadges[7].id // Quiz Master
-      }
-    },
-    update: {},
-    create: {
-      userId: testUser.id,
-      badgeId: createdBadges[7].id,
-      earnedAt: new Date('2024-02-28')
-    }
-  });
-
-  console.log('✅ Database seeding completed successfully!');
-  console.log('---');
-  console.log('Test account credentials:');
-  console.log('Email: john@doe.com');
-  console.log('Password: johndoe123');
-  console.log('---');
-  console.log(`Created ${createdModules.length} modules`);
-  console.log(`Created ${createdBadges.length} badges`);
-  console.log('Sample progress and badges assigned to test user');
+  console.log('✅ Database seeded successfully!');
+  console.log(`Created ${modules.length} learning modules`);
+  console.log(`Created ${badges.length} badges`);
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect();
+  .catch((e) => {
+    console.error('❌ Error seeding database:', e)
+    process.exit(1)
   })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+  .finally(async () => {
+    await prisma.$disconnect()
+  })
