@@ -10,6 +10,15 @@ import { Badge } from './ui/badge';
 import { Progress } from './ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { 
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from './ui/dialog';
+import { 
   ArrowLeft, 
   BookOpen, 
   Target, 
@@ -19,7 +28,9 @@ import {
   Calculator,
   FileText,
   Award,
-  BarChart3
+  BarChart3,
+  PlayCircle,
+  X
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 
@@ -187,7 +198,21 @@ interface ModuleContentProps {
 
 export function ModuleContent({ slug }: ModuleContentProps) {
   const [activeTab, setActiveTab] = useState('overview');
+  const [selectedLesson, setSelectedLesson] = useState<any>(null);
+  const [selectedPractice, setSelectedPractice] = useState<any>(null);
+  const [lessonModalOpen, setLessonModalOpen] = useState(false);
+  const [practiceModalOpen, setPracticeModalOpen] = useState(false);
   const module = moduleData[slug as keyof typeof moduleData];
+
+  const handleLessonClick = (lesson: any) => {
+    setSelectedLesson(lesson);
+    setLessonModalOpen(true);
+  };
+
+  const handlePracticeClick = (practice: any) => {
+    setSelectedPractice(practice);
+    setPracticeModalOpen(true);
+  };
 
   if (!module) {
     return (
@@ -348,7 +373,10 @@ export function ModuleContent({ slug }: ModuleContentProps) {
                         </div>
                       </div>
                     </div>
-                    <Button variant={topic.completed ? "outline" : "default"}>
+                    <Button 
+                      variant={topic.completed ? "outline" : "default"}
+                      onClick={() => handleLessonClick(topic)}
+                    >
                       {topic.completed ? "Review" : "Start"}
                     </Button>
                   </div>
@@ -378,7 +406,7 @@ export function ModuleContent({ slug }: ModuleContentProps) {
                         </div>
                       </div>
                     </div>
-                    <Button>
+                    <Button onClick={() => handlePracticeClick(problem)}>
                       <FileText className="mr-2 h-4 w-4" />
                       Start Practice
                     </Button>
@@ -453,6 +481,170 @@ export function ModuleContent({ slug }: ModuleContentProps) {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Lesson Modal */}
+      <Dialog open={lessonModalOpen} onOpenChange={setLessonModalOpen}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-gray-900">
+              {selectedLesson?.title}
+            </DialogTitle>
+            <DialogDescription className="text-gray-600">
+              {selectedLesson?.description}
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6">
+            {selectedLesson && (
+              <>
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <div className="flex items-center mb-2">
+                    <Clock className="h-5 w-5 text-blue-600 mr-2" />
+                    <span className="font-semibold text-blue-900">Duration: {selectedLesson.duration}</span>
+                  </div>
+                </div>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <PlayCircle className="mr-2 h-5 w-5 text-blue-600" />
+                      Lesson Content
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="prose max-w-none">
+                      <h3>Key Concepts:</h3>
+                      <ul>
+                        <li>Understanding linear relationships in business contexts</li>
+                        <li>Solving equations step-by-step</li>
+                        <li>Real-world application examples</li>
+                        <li>Common mistakes to avoid</li>
+                      </ul>
+                      
+                      <h3>Interactive Example:</h3>
+                      <div className="bg-gray-50 p-4 rounded-lg border">
+                        <p><strong>Problem:</strong> A company has fixed costs of $5,000 and variable costs of $15 per unit. If they sell each unit for $25, how many units do they need to sell to break even?</p>
+                        <p className="mt-2"><strong>Solution:</strong></p>
+                        <p>Let x = number of units to sell</p>
+                        <p>Revenue = 25x</p>
+                        <p>Total Cost = 5000 + 15x</p>
+                        <p>Break-even: 25x = 5000 + 15x</p>
+                        <p>10x = 5000</p>
+                        <p>x = 500 units</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <div className="bg-green-50 p-4 rounded-lg">
+                  <h3 className="font-semibold text-green-900 mb-2">✓ You've completed this lesson!</h3>
+                  <p className="text-green-800">Great work! You can review this content anytime.</p>
+                </div>
+              </>
+            )}
+          </div>
+
+          <DialogFooter>
+            <Button onClick={() => setLessonModalOpen(false)} variant="outline">
+              Close
+            </Button>
+            <Button onClick={() => {
+              // Mark lesson as completed logic would go here
+              setLessonModalOpen(false);
+            }}>
+              Mark Complete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Practice Modal */}
+      <Dialog open={practiceModalOpen} onOpenChange={setPracticeModalOpen}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-gray-900">
+              {selectedPractice?.title}
+            </DialogTitle>
+            <DialogDescription className="text-gray-600">
+              {selectedPractice?.description}
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6">
+            {selectedPractice && (
+              <>
+                <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg">
+                  <Badge variant={
+                    selectedPractice.difficulty === 'Easy' ? 'default' :
+                    selectedPractice.difficulty === 'Medium' ? 'secondary' : 'destructive'
+                  }>
+                    {selectedPractice.difficulty}
+                  </Badge>
+                  <div className="flex items-center">
+                    <Calculator className="h-4 w-4 mr-2 text-blue-600" />
+                    <span className="font-semibold">{selectedPractice.questions} Questions</span>
+                  </div>
+                </div>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Practice Questions</CardTitle>
+                    <CardDescription>
+                      Work through these problems to reinforce your understanding
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="space-y-4">
+                      <div className="border rounded-lg p-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <h4 className="font-semibold">Question 1 of {selectedPractice.questions}</h4>
+                          <Badge variant="outline">Multiple Choice</Badge>
+                        </div>
+                        <p className="mb-4">A startup company has monthly fixed costs of $8,000. Their product costs $12 to make and sells for $20. How many units must they sell monthly to break even?</p>
+                        <div className="space-y-2">
+                          <label className="flex items-center space-x-2">
+                            <input type="radio" name="q1" value="a" className="text-blue-600" />
+                            <span>A) 800 units</span>
+                          </label>
+                          <label className="flex items-center space-x-2">
+                            <input type="radio" name="q1" value="b" className="text-blue-600" />
+                            <span>B) 1,000 units</span>
+                          </label>
+                          <label className="flex items-center space-x-2">
+                            <input type="radio" name="q1" value="c" className="text-blue-600" />
+                            <span>C) 1,200 units</span>
+                          </label>
+                          <label className="flex items-center space-x-2">
+                            <input type="radio" name="q1" value="d" className="text-blue-600" />
+                            <span>D) 1,500 units</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <div className="bg-yellow-50 p-4 rounded-lg">
+                  <h3 className="font-semibold text-yellow-900 mb-2">💡 Tip</h3>
+                  <p className="text-yellow-800">Remember: Break-even occurs when Revenue = Total Cost</p>
+                </div>
+              </>
+            )}
+          </div>
+
+          <DialogFooter>
+            <Button onClick={() => setPracticeModalOpen(false)} variant="outline">
+              Close
+            </Button>
+            <Button onClick={() => {
+              // Submit practice logic would go here
+              setPracticeModalOpen(false);
+            }}>
+              Submit Answers
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
