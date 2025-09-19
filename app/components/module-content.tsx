@@ -148,7 +148,7 @@ const moduleData = {
     image: "https://cdn.abacus.ai/images/51024b94-7fbb-4036-987b-b3fe393f6bf8.png",
     difficulty: "Beginner",
     estimatedHours: 18,
-    progress: 60,
+    progress: 100,
     objectives: [
       "Understand function notation and domain/range concepts in business contexts",
       "Graph and interpret various function types commonly used in business",
@@ -175,21 +175,21 @@ const moduleData = {
         title: "Function Operations and Composition",
         description: "Combining functions for complex business models",
         duration: "60 min",
-        completed: false,
+        completed: true,
         businessContext: "Multi-stage processes and profit function creation"
       },
       {
         title: "Piecewise Functions - Advanced Pricing",
         description: "Complex tiered pricing, tax brackets, commission structures",
         duration: "80 min",
-        completed: false,
+        completed: true,
         businessContext: "Advanced pricing strategies and compensation models"
       },
       {
         title: "Graph Analysis and Business Optimization",
         description: "Reading business graphs and identifying optimization points",
         duration: "75 min",
-        completed: false,
+        completed: true,
         businessContext: "Performance analysis and strategic decision making"
       }
     ],
@@ -250,7 +250,7 @@ const moduleData = {
     image: "https://cdn.abacus.ai/images/66b5d1c0-2932-4b89-8b7a-bf1602072d0a.png",
     difficulty: "Intermediate",
     estimatedHours: 24,
-    progress: 30,
+    progress: 100,
     objectives: [
       "Factor and solve polynomial equations relevant to business applications",
       "Analyze polynomial functions for optimization in business contexts",
@@ -270,28 +270,28 @@ const moduleData = {
         title: "Quadratic Business Models",
         description: "Quadratic revenue and profit optimization: P = -ax² + bx + c",
         duration: "80 min",
-        completed: false,
+        completed: true,
         businessContext: "Revenue optimization and pricing strategies"
       },
       {
         title: "Rational Functions in Business",
         description: "Efficiency analysis and average cost functions",
         duration: "90 min",
-        completed: false,
+        completed: true,
         businessContext: "Average cost analysis and productivity optimization"
       },
       {
         title: "Polynomial Optimization Techniques",
         description: "Finding maximum profit and optimal production levels",
         duration: "85 min",
-        completed: false,
+        completed: true,
         businessContext: "Strategic optimization and decision making"
       },
       {
         title: "Market Analysis with Polynomials",
         description: "Complex demand curves and competitive analysis",
         duration: "75 min",
-        completed: false,
+        completed: true,
         businessContext: "Market dynamics and competitive strategy"
       }
     ],
@@ -352,7 +352,7 @@ const moduleData = {
     image: "https://cdn.abacus.ai/images/34b6cfe8-5c21-4134-ac87-d925614c655e.png",
     difficulty: "Intermediate",
     estimatedHours: 26,
-    progress: 0,
+    progress: 100,
     objectives: [
       "Model exponential growth and decay in business scenarios",
       "Apply compound interest formulas for financial analysis",
@@ -365,35 +365,35 @@ const moduleData = {
         title: "Exponential Growth Models",
         description: "Growth and decay models: f(x) = ab^x and business applications",
         duration: "75 min",
-        completed: false,
+        completed: true,
         businessContext: "Business growth analysis and market expansion"
       },
       {
         title: "Compound Interest and Financial Analysis",
         description: "Compound interest formulas and continuous compounding",
         duration: "80 min",
-        completed: false,
+        completed: true,
         businessContext: "Investment analysis and financial planning"
       },
       {
         title: "Logarithmic Functions in Economics",
         description: "Properties of logarithms and natural logarithm applications",
         duration: "70 min",
-        completed: false,
+        completed: true,
         businessContext: "Elasticity analysis and logarithmic scales"
       },
       {
         title: "Solving Exponential Business Equations",
         description: "Algebraic techniques for business growth problems",
         duration: "85 min",
-        completed: false,
+        completed: true,
         businessContext: "Doubling time, growth rates, and forecasting"
       },
       {
         title: "Strategic Growth Planning",
         description: "Revenue forecasting and market penetration modeling",
         duration: "90 min",
-        completed: false,
+        completed: true,
         businessContext: "Strategic planning and long-term projections"
       }
     ],
@@ -454,7 +454,7 @@ const moduleData = {
     image: "https://cdn.abacus.ai/images/ee07f028-b7bf-48ed-b7c3-fa607383db57.png",
     difficulty: "Advanced",
     estimatedHours: 28,
-    progress: 0,
+    progress: 100,
     objectives: [
       "Solve systems of linear equations using multiple methods",
       "Apply matrix operations to business problems",
@@ -467,35 +467,35 @@ const moduleData = {
         title: "Systems of Linear Equations",
         description: "Substitution, elimination, and graphical methods",
         duration: "80 min",
-        completed: false,
+        completed: true,
         businessContext: "Business constraint problems and feasibility analysis"
       },
       {
         title: "Matrix Operations for Business",
         description: "Matrix arithmetic and business transformations",
         duration: "85 min",
-        completed: false,
+        completed: true,
         businessContext: "Business data analysis and transformation modeling"
       },
       {
         title: "Linear Programming Foundations",
         description: "Objective functions, constraints, and optimization",
         duration: "95 min",
-        completed: false,
+        completed: true,
         businessContext: "Resource allocation and profit optimization"
       },
       {
         title: "Multi-Variable Business Modeling",
         description: "Complex business relationships and resource allocation",
         duration: "90 min",
-        completed: false,
+        completed: true,
         businessContext: "Production planning and portfolio optimization"
       },
       {
         title: "Advanced Optimization Techniques",
         description: "Sensitivity analysis and constraint optimization",
         duration: "100 min",
-        completed: false,
+        completed: true,
         businessContext: "Strategic decision making and scenario analysis"
       }
     ],
@@ -556,7 +556,7 @@ const moduleData = {
     image: "https://cdn.abacus.ai/images/932a5a8a-52f3-48ec-928d-7d55a4d52b9b.png",
     difficulty: "Advanced",
     estimatedHours: 22,
-    progress: 0,
+    progress: 100,
     objectives: [
       "Work with arithmetic and geometric sequences in business contexts",
       "Apply series formulas to financial calculations and projections",
@@ -569,35 +569,35 @@ const moduleData = {
         title: "Sequences and Series in Finance",
         description: "Arithmetic and geometric sequences for financial modeling",
         duration: "75 min",
-        completed: false,
+        completed: true,
         businessContext: "Annuities, loans, and investment series"
       },
       {
         title: "Financial Mathematics Applications",
         description: "Present/future value, annuities, and loan amortization",
         duration: "85 min",
-        completed: false,
+        completed: true,
         businessContext: "Financial planning and loan analysis"
       },
       {
         title: "Business Probability and Risk",
         description: "Basic probability, conditional probability, and risk assessment",
         duration: "80 min",
-        completed: false,
+        completed: true,
         businessContext: "Risk management and decision trees"
       },
       {
         title: "Combinatorics in Business",
         description: "Permutations, combinations, and business applications",
         duration: "70 min",
-        completed: false,
+        completed: true,
         businessContext: "Quality control, market research, survey design"
       },
       {
         title: "Advanced Forecasting Models",
         description: "Sequential growth models and probabilistic forecasting",
         duration: "90 min",
-        completed: false,
+        completed: true,
         businessContext: "Business forecasting and predictive analytics"
       }
     ],

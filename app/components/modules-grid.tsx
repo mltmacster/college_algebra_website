@@ -118,12 +118,12 @@ export function ModulesGrid() {
   // Simulate progress data - in real app, fetch from API
   useEffect(() => {
     const mockProgress = {
-      1: 85,
-      2: 60,
-      3: 30,
-      4: 0,
-      5: 0,
-      6: 0
+      1: 100,
+      2: 100,
+      3: 100,
+      4: 100,
+      5: 100,
+      6: 100
     };
     setProgress(mockProgress);
   }, []);
