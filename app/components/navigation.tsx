@@ -12,7 +12,9 @@ import {
   LogOut,
   User,
   Menu,
-  X
+  X,
+  TrendingUp,
+  Trophy
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
@@ -23,7 +25,8 @@ export function Navigation() {
   const navItems = [
     { href: '/', label: 'Home', icon: Calculator },
     { href: '/modules', label: 'Learning Modules', icon: BookOpen },
-    { href: '/progress', label: 'Progress & Badges', icon: Award },
+    { href: '/progress', label: 'Progress', icon: TrendingUp },
+    { href: '/badges', label: 'Badges', icon: Trophy },
     { href: '/contact', label: 'Contact', icon: Contact },
   ];
 

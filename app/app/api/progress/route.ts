@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { prisma, withRetry } from '../../../lib/db';
 import { authOptions } from '../../../lib/auth';
+import { checkUserBadges } from '../../../lib/badge-system';
 
 export async function GET(request: NextRequest) {
   try {
@@ -112,9 +113,22 @@ export async function POST(request: NextRequest) {
       })
     );
 
+    // Check for new badges after progress update
+    let newBadges: any[] = [];
+    try {
+      newBadges = await checkUserBadges(user.id);
+    } catch (badgeError) {
+      console.error('Error checking badges:', badgeError);
+      // Don't fail the progress update if badge checking fails
+    }
+
     return NextResponse.json({ 
       message: 'Progress updated successfully',
-      progress: updatedProgress 
+      progress: updatedProgress,
+      newBadges,
+      badgeMessage: newBadges.length > 0 
+        ? `🎉 You earned ${newBadges.length} new badge${newBadges.length > 1 ? 's' : ''}!`
+        : undefined
     });
   } catch (error) {
     console.error('Error updating progress:', error);

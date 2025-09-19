@@ -9,6 +9,7 @@ import { Progress } from './ui/progress';
 import { Alert, AlertDescription } from './ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { InteractiveProblem } from './interactive-problem';
+import { AchievementNotification } from './achievement-notification';
 import { 
   BookOpen, 
   Calculator, 
@@ -25,6 +26,7 @@ import {
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { toast } from './ui/use-toast';
+import { Achievement } from '../lib/badge-system';
 
 interface Problem {
   id: string;
@@ -64,6 +66,7 @@ export function InteractiveLearningModule({
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('problems');
   const [moduleProgress, setModuleProgress] = useState(0);
+  const [newAchievements, setNewAchievements] = useState<Achievement[]>([]);
 
   useEffect(() => {
     loadProblems();
@@ -119,7 +122,7 @@ export function InteractiveLearningModule({
 
     try {
       // Update progress on server
-      await fetch('/api/progress', {
+      const response = await fetch('/api/progress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -132,23 +135,37 @@ export function InteractiveLearningModule({
         })
       });
 
+      const data = await response.json();
+
       setModuleProgress(newProgress);
 
-      toast({
-        title: 'Great job!',
-        description: `You earned ${score} points! Keep up the excellent work.`,
-      });
+      // Check for new badges
+      if (data.newBadges && data.newBadges.length > 0) {
+        setNewAchievements(data.newBadges);
+      } else {
+        toast({
+          title: 'Great job!',
+          description: `You earned ${score} points! Keep up the excellent work.`,
+        });
+      }
 
       // Award badge if module is completed
       if (newProgress === 100) {
-        toast({
-          title: '🏆 Module Completed!',
-          description: `You've mastered ${moduleTitle}! Badge unlocked.`,
-        });
+        // Don't show the generic completion toast if badges were earned
+        if (!data.newBadges || data.newBadges.length === 0) {
+          toast({
+            title: '🏆 Module Completed!',
+            description: `You've mastered ${moduleTitle}! Check your badges.`,
+          });
+        }
       }
 
     } catch (error) {
       console.error('Error updating progress:', error);
+      toast({
+        title: 'Great job!',
+        description: `You earned ${score} points! Keep up the excellent work.`,
+      });
     }
   };
 
@@ -491,6 +508,14 @@ export function InteractiveLearningModule({
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Achievement Notifications */}
+      <AchievementNotification
+        achievements={newAchievements}
+        onDismiss={() => setNewAchievements([])}
+        autoHide={true}
+        duration={6000}
+      />
     </div>
   );
 }
