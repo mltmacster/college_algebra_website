@@ -20,10 +20,19 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Handle iframe font loading gracefully */
+  /* Handle iframe font loading gracefully - suppress external font errors */
   iframe {
     font-display: swap;
     color-scheme: light;
+    /* Prevent iframe font loading errors from affecting page load */
+    font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
+  }
+  
+  /* Suppress console warnings for external font resources */
+  @supports (font-display: swap) {
+    * {
+      font-display: swap;
+    }
   }
 
   :root {
