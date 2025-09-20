@@ -48,7 +48,7 @@ const moduleData = {
     image: "https://cdn.abacus.ai/images/c73d1454-07ea-49e5-b42c-585b1fff268a.png",
     difficulty: "Beginner",
     estimatedHours: 15,
-    progress: 85,
+    progress: 100,
     objectives: [
       "Solve linear equations and inequalities in one variable",
       "Apply linear equations to model business relationships with constant rates of change",
@@ -82,14 +82,14 @@ const moduleData = {
         title: "Break-even Analysis Mastery",
         description: "Complete break-even analysis for business decision-making",
         duration: "75 min",
-        completed: false,
+        completed: true,
         businessContext: "Break-even points and equilibrium analysis"
       },
       {
         title: "Advanced Business Applications",
         description: "Supply & demand, market equilibrium, and forecasting",
         duration: "65 min",
-        completed: false,
+        completed: true,
         businessContext: "Market analysis and strategic planning"
       }
     ],
@@ -98,22 +98,50 @@ const moduleData = {
         title: "Cost Analysis Problems",
         description: "Tax return service charges $31.50 plus $32 per hour. Calculate costs for various service durations.",
         difficulty: "Easy",
-        questions: 12,
+        questions: 4,
         businessScenario: "Service pricing and cost calculation"
       },
       {
-        title: "Break-Even Analysis Suite",
-        description: "Bike manufacturer with costs C(x) = 0.85x + 35,000 and revenue R(x) = 1.55x. Find break-even points.",
+        title: "Break-even Analysis",
+        description: "Basic break-even calculations with fixed costs, variable costs, and pricing scenarios.",
         difficulty: "Medium",
-        questions: 8,
-        businessScenario: "Manufacturing break-even analysis"
+        questions: 2,
+        businessScenario: "Break-even analysis fundamentals"
+      },
+      {
+        title: "Linear Inequalities and Constraints",
+        description: "Business constraints, budget limits, and minimum requirements using linear inequalities.",
+        difficulty: "Medium",  
+        questions: 4,
+        businessScenario: "Business constraint modeling"
+      },
+      {
+        title: "Advanced Break-even Scenarios",
+        description: "SaaS companies, gig economy, and multi-product break-even analysis.",
+        difficulty: "Hard",
+        questions: 3,
+        businessScenario: "Complex break-even analysis"
+      },
+      {
+        title: "Linear Function Applications",
+        description: "Tesla production costs, Amazon growth models, and consulting pricing functions.",
+        difficulty: "Medium",
+        questions: 3,
+        businessScenario: "Real-world linear function modeling"
+      },
+      {
+        title: "Supply and Demand Applications",
+        description: "Market equilibrium, iPhone demand elasticity, and rideshare pricing functions.",
+        difficulty: "Hard",
+        questions: 3,
+        businessScenario: "Market analysis and equilibrium"
       },
       {
         title: "Production Planning Optimization",
-        description: "Poster company with setup costs $80 and variable costs $0.11 per poster. Optimize production under constraints.",
-        difficulty: "Medium",
-        questions: 10,
-        businessScenario: "Production planning and cost management"
+        description: "Poster production targets and software team hiring optimization.",
+        difficulty: "Hard",
+        questions: 2,
+        businessScenario: "Production and resource optimization"
       }
     ],
     realWorldExample: {

@@ -92,6 +92,169 @@ const practiceData: Record<string, Record<string, PracticeQuestion[]>> = {
         points: 15,
         businessContext: 'Contribution margin analysis'
       }
+    ],
+    'Linear Inequalities and Constraints': [
+      {
+        id: 'q7',
+        question: 'A business needs at least $50,000 in revenue per month. If they sell products for $25 each, what is the minimum number of units they must sell?',
+        type: 'calculation',
+        correctAnswer: '2000',
+        explanation: 'Let x = units sold. Revenue ≥ $50,000, so 25x ≥ 50,000. Dividing by 25: x ≥ 2,000 units minimum.',
+        points: 12,
+        businessContext: 'Revenue constraints and minimum sales targets'
+      },
+      {
+        id: 'q8',
+        question: 'A company\'s budget allows for marketing costs ≤ $8,000. If fixed marketing is $2,000 and variable marketing is $15 per customer acquired, what\'s the maximum customers they can target?',
+        type: 'calculation',
+        correctAnswer: '400',
+        explanation: 'Let c = customers. Constraint: 2,000 + 15c ≤ 8,000. So 15c ≤ 6,000, therefore c ≤ 400 customers maximum.',
+        points: 15,
+        businessContext: 'Budget constraints and customer acquisition'
+      },
+      {
+        id: 'q9',
+        question: 'A freelancer charges between $50-100 per hour based on project complexity. If they want to earn at least $2,000 this week working 25 hours, what\'s the minimum hourly rate needed?',
+        type: 'calculation',
+        correctAnswer: '80',
+        explanation: 'Let r = hourly rate. Income = rate × hours, so 25r ≥ 2,000. Therefore r ≥ 2,000 ÷ 25 = $80 per hour minimum.',
+        points: 12,
+        businessContext: 'Income planning and rate optimization'
+      },
+      {
+        id: 'q10',
+        question: 'Which inequality represents "production costs must be less than 80% of revenue" if revenue is R and costs are C?',
+        type: 'multiple-choice',
+        options: [
+          'C < 0.8R',
+          'C > 0.8R', 
+          'C ≤ 0.2R',
+          'R < 0.8C'
+        ],
+        correctAnswer: 'C < 0.8R',
+        explanation: 'Costs must be less than 80% of revenue means C < 0.8 × R = 0.8R',
+        points: 10,
+        businessContext: 'Financial ratio constraints'
+      }
+    ],
+    'Advanced Break-even Scenarios': [
+      {
+        id: 'q11',
+        question: 'A SaaS company has monthly fixed costs of $15,000. They charge $50/month per user with $12/month variable costs per user. How many users needed to break even?',
+        type: 'calculation',
+        correctAnswer: '395',
+        explanation: 'Break-even = Fixed Costs ÷ (Price - Variable Cost) = $15,000 ÷ ($50 - $12) = $15,000 ÷ $38 = 394.74, so 395 users (rounded up)',
+        points: 18,
+        businessContext: 'SaaS break-even analysis'
+      },
+      {
+        id: 'q12',
+        question: 'An Uber driver has daily costs of $60 (gas, maintenance). Average ride profit is $8. How many rides needed to break even daily?',
+        type: 'calculation',
+        correctAnswer: '8',
+        explanation: 'Rides needed = Fixed Costs ÷ Profit per ride = $60 ÷ $8 = 7.5, rounded up to 8 rides.',
+        points: 15,
+        businessContext: 'Gig economy break-even analysis'
+      },
+      {
+        id: 'q13',
+        question: 'A restaurant has fixed costs of $8,000/month. Menu items: Appetizers $12 margin (200 sold), Mains $25 margin (400 sold), Desserts $8 margin (150 sold). What\'s the monthly profit?',
+        type: 'calculation',
+        correctAnswer: '5600',
+        explanation: 'Total contribution = (200×$12) + (400×$25) + (150×$8) = $2,400 + $10,000 + $1,200 = $13,600. Profit = $13,600 - $8,000 = $5,600.',
+        points: 22,
+        businessContext: 'Multi-product break-even analysis'
+      }
+    ],
+    'Linear Function Applications': [
+      {
+        id: 'q14',
+        question: 'Tesla Model 3 production cost follows C(x) = 28,000 + 35,000x where x is thousands of units. What does the slope represent?',
+        type: 'multiple-choice',
+        options: [
+          'Fixed cost per unit',
+          'Variable cost per unit ($35,000)',
+          'Total cost per thousand units',
+          'Marginal revenue per unit'
+        ],
+        correctAnswer: 'Variable cost per unit ($35,000)',
+        explanation: 'In linear cost function C = a + bx, the slope (b) represents marginal/variable cost per unit.',
+        points: 12,
+        businessContext: 'Linear cost function interpretation'
+      },
+      {
+        id: 'q15',
+        question: 'Amazon Prime membership grew linearly from 100M in 2018 to 150M in 2020. Write the linear function M(t) where t = years since 2018.',
+        type: 'input',
+        correctAnswer: '100+25*t',
+        explanation: 'Slope = (150-100)÷(2020-2018) = 50÷2 = 25M per year. M(t) = 100 + 25t where t = years since 2018.',
+        points: 15,
+        businessContext: 'Growth modeling with linear functions'
+      },
+      {
+        id: 'q16',
+        question: 'A consulting firm charges clients using function F(h) = 5,000 + 250h where h = hours of work. What is the y-intercept and what does it represent?',
+        type: 'multiple-choice',
+        options: [
+          '5,000; the hourly rate',
+          '5,000; the base/fixed fee',
+          '250; the hourly rate', 
+          '250; the startup cost'
+        ],
+        correctAnswer: '5,000; the base/fixed fee',
+        explanation: 'The y-intercept (5,000) is the value when h=0, representing the fixed/base fee charged regardless of hours.',
+        points: 10,
+        businessContext: 'Linear pricing model interpretation'
+      }
+    ],
+    'Supply and Demand Applications': [
+      {
+        id: 'q17',
+        question: 'Supply function: P = 10 + 0.5Q, Demand function: P = 50 - 2Q. Find equilibrium price.',
+        type: 'calculation',
+        correctAnswer: '18',
+        explanation: 'Set supply = demand: 10 + 0.5Q = 50 - 2Q. Solving: 2.5Q = 40, Q = 16. Price = 10 + 0.5(16) = 10 + 8 = $18.',
+        points: 18,
+        businessContext: 'Market equilibrium determination'
+      },
+      {
+        id: 'q18',
+        question: 'iPhone demand decreases by 1M units for every $100 price increase. At $800, demand is 50M units. What\'s the demand at $1,000?',
+        type: 'calculation',
+        correctAnswer: '48',
+        explanation: 'Price increased by $1,000 - $800 = $200. Demand decreases by (200÷100) × 1M = 2M units. New demand = 50M - 2M = 48M units.',
+        points: 15,
+        businessContext: 'Price elasticity and demand functions'
+      },
+      {
+        id: 'q19',
+        question: 'A rideshare company finds that as price per mile increases from $2 to $3, daily rides decrease from 10,000 to 8,000. What\'s the demand function D(p)?',
+        type: 'input',
+        correctAnswer: '14000-2000*p',
+        explanation: 'Slope = (8000-10000)÷(3-2) = -2000 rides per dollar. Using point-slope: D(p) = 10000 - 2000(p-2) = 10000 - 2000p + 4000 = 14000 - 2000p.',
+        points: 20,
+        businessContext: 'Demand function derivation'
+      }
+    ],
+    'Production Planning Optimization': [
+      {
+        id: 'q20',
+        question: 'A poster company has setup costs $80 and variable costs $0.11 per poster. If they sell posters for $0.95 each, how many must they sell to make $500 profit?',
+        type: 'calculation',
+        correctAnswer: '691',
+        explanation: 'Profit = Revenue - Total Cost. $500 = 0.95x - (80 + 0.11x). $500 = 0.95x - 80 - 0.11x. $580 = 0.84x. x = 580÷0.84 = 690.5, so 691 posters.',
+        points: 18,
+        businessContext: 'Target profit planning'
+      },
+      {
+        id: 'q21',
+        question: 'A software company can hire junior developers at $60k/year or senior developers at $120k/year. They have a $840k budget and need exactly 10 developers. How many seniors can they hire?',
+        type: 'calculation',
+        correctAnswer: '4',
+        explanation: 'Let s = seniors, j = juniors. System: s + j = 10, 120s + 60j = 840. From first: j = 10-s. Substitute: 120s + 60(10-s) = 840. 120s + 600 - 60s = 840. 60s = 240. s = 4 seniors.',
+        points: 20,
+        businessContext: 'Resource allocation optimization'
+      }
     ]
   },
   // MODULE 2: Systems of Linear Equations (Database slug: systems-linear-equations)
