@@ -689,8 +689,8 @@ export function ModuleContent({ slug }: ModuleContentProps) {
     'functions-and-graphing',         // FIXED: was 'functions-graphs'
     'quadratic-functions',            // ✅ Already matches
     'exponential-and-logarithmic-functions',  // FIXED: was 'exponential-logarithmic'
-    'matrix-operations-and-applications'      // FIXED: was 'systems-matrices'
-    // REMOVED: 'sequences-probability' (doesn't exist in database)
+    'matrix-operations-and-applications',     // FIXED: was 'systems-matrices'
+    'sequences-probability'           // RESTORED: Has comprehensive practice data, was incorrectly removed
   ]; // All modules now have comprehensive practice data with CORRECT database slugs
   const supportsInteractive = interactiveModules.includes(slug);
 

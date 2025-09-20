@@ -30,7 +30,8 @@ const practiceDataKeys = [
   'functions-and-graphing',
   'quadratic-functions',
   'exponential-and-logarithmic-functions',
-  'matrix-operations-and-applications'
+  'matrix-operations-and-applications',
+  'sequences-probability'  // RESTORED: Was incorrectly removed
 ];
 
 async function verifyPracticeDataIntegration() {

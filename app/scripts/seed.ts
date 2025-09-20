@@ -193,6 +193,33 @@ async function main() {
         "Linear Business Models"
       ],
       isActive: true
+    },
+    {
+      title: "Sequences, Series, and Probability",
+      description: "Apply sequences and probability concepts to financial planning, risk assessment, and forecasting.",
+      order: 7,
+      slug: "sequences-probability",
+      content: JSON.stringify({
+        overview: "Advanced financial mathematics using sequences, series, and probability for business applications",
+        businessApplications: ["Retirement Planning", "Loan Analysis", "Risk Assessment", "Quality Control"],
+        estimatedHours: 22,
+        difficulty: "Advanced"
+      }),
+      objectives: [
+        "Work with arithmetic and geometric sequences in business contexts",
+        "Apply series formulas to financial calculations and projections",
+        "Calculate probabilities for business risk assessment",
+        "Use probability distributions for decision-making",
+        "Apply combinatorics to business scenarios involving arrangements and selections"
+      ],
+      topics: [
+        "Sequences and Series",
+        "Annuity Calculations",
+        "Business Probability",
+        "Risk Assessment",
+        "Quality Control"
+      ],
+      isActive: true
     }
   ];
 
@@ -253,6 +280,14 @@ async function main() {
       badgeType: BadgeType.MODULE_COMPLETION,
       requirements: JSON.stringify({ minScore: 80, moduleSlug: "matrix-operations-and-applications" }),
       points: 150
+    },
+    {
+      title: "Financial Mathematics Master",
+      description: "Excel in sequences, series, and probability for advanced financial planning",
+      imageUrl: "https://cdn.abacus.ai/images/932a5a8a-52f3-48ec-928d-7d55a4d52b9b.png",
+      badgeType: BadgeType.MODULE_COMPLETION,
+      requirements: JSON.stringify({ minScore: 80, moduleSlug: "sequences-probability" }),
+      points: 160
     }
   ];
 

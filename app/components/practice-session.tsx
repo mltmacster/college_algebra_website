@@ -498,6 +498,87 @@ const practiceData: Record<string, Record<string, PracticeQuestion[]>> = {
         businessContext: 'Automotive production optimization'
       }
     ]
+  },
+  // MODULE 7: Sequences, Series, and Probability (RESTORED - was incorrectly deleted)
+  'sequences-probability': {
+    'Annuity and Retirement Planning': [
+      {
+        id: 'seq1',
+        question: 'Monthly $500 payments for 10 years at 6% annual interest compounded monthly. What\'s the future value?',
+        type: 'calculation',
+        correctAnswer: '81940.67',
+        explanation: 'FV = PMT × [((1+r)^n - 1)/r] where PMT = 500, r = 0.06/12 = 0.005, n = 120. FV = 500 × [((1.005)^120 - 1)/0.005] = 500 × [(2.203757 - 1)/0.005] = 500 × 240.751 = $81,940.67',
+        points: 25,
+        businessContext: 'Retirement savings calculation'
+      },
+      {
+        id: 'seq2',
+        question: 'Business wants to accumulate $100,000 in 5 years with monthly deposits at 4% annual rate compounded monthly. What monthly payment is needed?',
+        type: 'calculation',
+        correctAnswer: '1505.88',
+        explanation: 'PMT = FV × r / [(1+r)^n - 1] where FV = 100000, r = 0.04/12 = 0.003333, n = 60. PMT = 100000 × 0.003333 / [(1.003333)^60 - 1] = 333.33 / (1.2214 - 1) = 333.33 / 0.2214 = $1,505.88',
+        points: 30,
+        businessContext: 'Business savings planning'
+      }
+    ],
+    'Business Loan Analysis': [
+      {
+        id: 'seq3',
+        question: '$250,000 business loan at 5.5% APR for 15 years. What\'s the monthly payment?',
+        type: 'calculation',
+        correctAnswer: '2043.99',
+        explanation: 'PMT = P × [r(1+r)^n]/[(1+r)^n - 1] where P = 250000, r = 0.055/12 = 0.004583, n = 180. PMT = 250000 × [0.004583 × (1.004583)^180]/[(1.004583)^180 - 1] = 250000 × [0.004583 × 2.264]/[1.264] = 250000 × 0.008199 = $2,043.99',
+        points: 28,
+        businessContext: 'Business loan payment calculation'
+      },
+      {
+        id: 'seq4',
+        question: 'For the $250,000 loan above, what\'s the total interest paid over 15 years?',
+        type: 'calculation',
+        correctAnswer: '117918.20',
+        explanation: 'Total payments = Monthly payment × Number of payments = $2,043.99 × 180 = $367,918.20. Total interest = Total payments - Principal = $367,918.20 - $250,000 = $117,918.20',
+        points: 15,
+        businessContext: 'Loan cost analysis'
+      }
+    ],
+    'Quality Control Probability': [
+      {
+        id: 'seq5',
+        question: 'Manufacturing process has 3% defective rate. In a sample of 20 items, what\'s the probability of exactly 1 defective item?',
+        type: 'calculation',
+        correctAnswer: '0.3364',
+        explanation: 'Using binomial probability: P(X=1) = C(20,1) × (0.03)^1 × (0.97)^19 = 20 × 0.03 × (0.97)^19 = 20 × 0.03 × 0.5606 = 0.3364 or 33.64%',
+        points: 25,
+        businessContext: 'Quality control statistical analysis'
+      },
+      {
+        id: 'seq6',
+        question: 'Same 3% defective rate. What\'s the probability of MORE than 1 defective in 20 items?',
+        type: 'calculation',
+        correctAnswer: '0.1198',
+        explanation: 'P(X > 1) = 1 - P(X ≤ 1) = 1 - [P(X=0) + P(X=1)]. P(X=0) = (0.97)^20 = 0.5438. P(X=1) = 0.3364. P(X > 1) = 1 - (0.5438 + 0.3364) = 1 - 0.8802 = 0.1198 or 11.98%',
+        points: 30,
+        businessContext: 'Advanced quality control probability'
+      },
+      {
+        id: 'seq7',
+        question: 'Customer service: 85% satisfaction rate. If we survey 10 customers, what\'s the probability that exactly 9 are satisfied?',
+        type: 'calculation',
+        correctAnswer: '0.3474',
+        explanation: 'P(X=9) = C(10,9) × (0.85)^9 × (0.15)^1 = 10 × (0.85)^9 × 0.15 = 10 × 0.2316 × 0.15 = 0.3474 or 34.74%',
+        points: 20,
+        businessContext: 'Customer satisfaction analysis'
+      },
+      {
+        id: 'seq8',
+        question: 'Tesla Gigafactory: Production starts at 1000 units/month, increases by 10% monthly. What\'s the production in month 6?',
+        type: 'calculation',
+        correctAnswer: '1610.51',
+        explanation: 'Geometric sequence: a_n = a₁ × r^(n-1) where a₁ = 1000, r = 1.10, n = 6. a₆ = 1000 × (1.10)^5 = 1000 × 1.61051 = 1,610.51 units',
+        points: 18,
+        businessContext: 'Production scaling with geometric growth'
+      }
+    ]
   }
 };
 
