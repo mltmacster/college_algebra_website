@@ -4,6 +4,7 @@ import './globals.css'
 import { Providers } from '../components/providers'
 import { Toaster } from '../components/ui/toaster'
 import { ErrorBoundary } from '../components/error-boundary'
+import { ProductionErrorSuppressor } from '../components/production-error-suppressor'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -30,6 +31,7 @@ export default function RootLayout({
         <meta name="font-display" content="swap" />
       </head>
       <body className={inter.className}>
+        <ProductionErrorSuppressor />
         <ErrorBoundary fallbackTitle="Application Error" showHomeButton={true}>
           <Providers>
             {children}
