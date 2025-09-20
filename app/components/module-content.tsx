@@ -683,12 +683,20 @@ export function ModuleContent({ slug }: ModuleContentProps) {
   const module = moduleData[slug as keyof typeof moduleData];
 
   // Check if this module supports interactive learning
-  const interactiveModules = ['linear-equations', 'systems-linear-equations']; // Add more as we build them
+  const interactiveModules = [
+    'linear-equations', 
+    'systems-linear-equations',
+    'functions-graphs',
+    'quadratic-functions',
+    'exponential-logarithmic', 
+    'systems-matrices',
+    'sequences-probability'
+  ]; // All modules now have comprehensive practice data
   const supportsInteractive = interactiveModules.includes(slug);
 
   const handleLessonClick = (lesson: any) => {
     setSelectedLesson(lesson);
-    if (useInteractive && ['linear-equations', 'systems-linear-equations'].includes(slug)) {
+    if (useInteractive && supportsInteractive) {
       setShowInteractiveLesson(true);
     } else {
       setLessonModalOpen(true);
@@ -697,7 +705,7 @@ export function ModuleContent({ slug }: ModuleContentProps) {
 
   const handlePracticeClick = (practice: any) => {
     setSelectedPractice(practice);
-    if (useInteractive && ['linear-equations', 'systems-linear-equations'].includes(slug)) {
+    if (useInteractive && supportsInteractive) {
       setShowPracticeSession(true);
     } else {
       setPracticeModalOpen(true);

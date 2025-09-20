@@ -154,6 +154,424 @@ const practiceData: Record<string, Record<string, PracticeQuestion[]>> = {
         businessContext: 'Production capacity optimization'
       }
     ]
+  },
+  'functions-graphs': {
+    'Function Evaluation in Business': [
+      {
+        id: 'func1',
+        question: 'A company\'s profit function is P(x) = -2x² + 100x - 800, where x is units sold (hundreds). Find P(25).',
+        type: 'calculation',
+        correctAnswer: '450',
+        explanation: 'P(25) = -2(25)² + 100(25) - 800 = -2(625) + 2500 - 800 = -1250 + 2500 - 800 = 450',
+        points: 15,
+        businessContext: 'Profit function evaluation'
+      },
+      {
+        id: 'func2',
+        question: 'Netflix subscription cost: Basic = $8.99, Standard = $13.99, Premium = $17.99. Which function correctly models this?',
+        type: 'multiple-choice',
+        options: [
+          'f(x) = 8.99x where x = plan level',
+          'f(x) = {8.99 if Basic; 13.99 if Standard; 17.99 if Premium}',
+          'f(x) = 8.99 + 5x',
+          'f(x) = 17.99 - 5x'
+        ],
+        correctAnswer: 'f(x) = {8.99 if Basic; 13.99 if Standard; 17.99 if Premium}',
+        explanation: 'This is a piecewise function where different input values (plan types) map to specific output values (prices).',
+        points: 12,
+        businessContext: 'Piecewise pricing functions'
+      },
+      {
+        id: 'func3',
+        question: 'A taxi charges $3.50 base fare plus $2.25 per mile. Express this as a function f(m) where m = miles.',
+        type: 'multiple-choice',
+        options: [
+          'f(m) = 3.50m + 2.25',
+          'f(m) = 3.50 + 2.25m',
+          'f(m) = 2.25m - 3.50',
+          'f(m) = (3.50 + 2.25)m'
+        ],
+        correctAnswer: 'f(m) = 3.50 + 2.25m',
+        explanation: 'Fixed cost ($3.50) plus variable cost ($2.25 per mile × number of miles)',
+        points: 10,
+        businessContext: 'Linear cost functions'
+      },
+      {
+        id: 'func4',
+        question: 'If f(x) = 50x + 1000 represents monthly revenue in dollars when x = units sold, what does the y-intercept represent?',
+        type: 'multiple-choice',
+        options: [
+          'Revenue per unit sold',
+          'Base/fixed revenue when no units are sold',
+          'Maximum possible revenue',
+          'Break-even point'
+        ],
+        correctAnswer: 'Base/fixed revenue when no units are sold',
+        explanation: 'The y-intercept (1000) is the value of the function when x = 0, representing base/fixed revenue.',
+        points: 12,
+        businessContext: 'Function interpretation in business'
+      }
+    ],
+    'Domain and Range Analysis': [
+      {
+        id: 'func5',
+        question: 'A manufacturing company can produce 50-500 units daily. Their cost function is C(x) = 25x + 2000. What is the domain?',
+        type: 'multiple-choice',
+        options: [
+          'All real numbers',
+          '[50, 500]',
+          '[2000, 14500]',
+          '(0, ∞)'
+        ],
+        correctAnswer: '[50, 500]',
+        explanation: 'Domain represents possible input values (units produced), which is limited to 50-500 units daily.',
+        points: 15,
+        businessContext: 'Production constraints and domain'
+      },
+      {
+        id: 'func6',
+        question: 'For the cost function C(x) = 25x + 2000 with domain [50, 500], what is the range?',
+        type: 'calculation',
+        correctAnswer: '[3250, 14500]',
+        explanation: 'Minimum cost: C(50) = 25(50) + 2000 = 3250. Maximum cost: C(500) = 25(500) + 2000 = 14500. Range: [3250, 14500]',
+        points: 18,
+        businessContext: 'Cost analysis and range determination'
+      }
+    ],
+    'Piecewise Pricing Models': [
+      {
+        id: 'func7',
+        question: 'Cell phone plan: First 2GB free, then $10/GB for next 3GB, then $15/GB after that. What\'s the cost for 6GB total?',
+        type: 'calculation',
+        correctAnswer: '45',
+        explanation: 'First 2GB: $0. Next 3GB (3rd, 4th, 5th): 3 × $10 = $30. 6th GB: 1 × $15 = $15. Total: $0 + $30 + $15 = $45',
+        points: 20,
+        businessContext: 'Tiered pricing calculation'
+      },
+      {
+        id: 'func8',
+        question: 'Amazon Prime shipping: Free for orders $25+, otherwise $5.99. Express this as a piecewise function.',
+        type: 'multiple-choice',
+        options: [
+          'S(x) = 5.99 for all x',
+          'S(x) = {5.99 if x < 25; 0 if x ≥ 25}',
+          'S(x) = 25 - 5.99x',
+          'S(x) = 5.99x'
+        ],
+        correctAnswer: 'S(x) = {5.99 if x < 25; 0 if x ≥ 25}',
+        explanation: 'Shipping cost depends on order total: $5.99 for orders under $25, free ($0) for $25 and above.',
+        points: 15,
+        businessContext: 'E-commerce pricing strategies'
+      }
+    ]
+  },
+  'quadratic-functions': {
+    'Quadratic Profit Optimization': [
+      {
+        id: 'quad1',
+        question: 'A company\'s profit function is P(x) = -0.5x² + 40x - 300. What production level maximizes profit?',
+        type: 'calculation',
+        correctAnswer: '40',
+        explanation: 'For quadratic P(x) = ax² + bx + c, maximum occurs at x = -b/(2a) = -40/(2(-0.5)) = -40/(-1) = 40 units',
+        points: 20,
+        businessContext: 'Profit maximization using vertex form'
+      },
+      {
+        id: 'quad2',
+        question: 'Using P(x) = -0.5x² + 40x - 300, what is the maximum profit?',
+        type: 'calculation',
+        correctAnswer: '500',
+        explanation: 'At x = 40: P(40) = -0.5(40)² + 40(40) - 300 = -0.5(1600) + 1600 - 300 = -800 + 1600 - 300 = 500',
+        points: 18,
+        businessContext: 'Maximum profit calculation'
+      },
+      {
+        id: 'quad3',
+        question: 'Apple iPhone profit: P(x) = -0.05x² + 800x - 2,000,000 where x = units (thousands). Find optimal production.',
+        type: 'calculation',
+        correctAnswer: '8000',
+        explanation: 'Maximum at x = -b/(2a) = -800/(2(-0.05)) = -800/(-0.1) = 8000 thousand units = 8,000,000 iPhones',
+        points: 25,
+        businessContext: 'Large-scale production optimization'
+      },
+      {
+        id: 'quad4',
+        question: 'A quadratic revenue function R(x) = -2x² + 100x has its maximum at what x-value?',
+        type: 'calculation',
+        correctAnswer: '25',
+        explanation: 'Maximum occurs at x = -b/(2a) = -100/(2(-2)) = -100/(-4) = 25',
+        points: 15,
+        businessContext: 'Revenue optimization'
+      }
+    ],
+    'Revenue Optimization Models': [
+      {
+        id: 'quad5',
+        question: 'Movie theater: Revenue R(p) = -10p² + 200p where p = ticket price. What price maximizes revenue?',
+        type: 'calculation',
+        correctAnswer: '10',
+        explanation: 'Maximum revenue at p = -b/(2a) = -200/(2(-10)) = -200/(-20) = $10 per ticket',
+        points: 18,
+        businessContext: 'Pricing strategy for maximum revenue'
+      },
+      {
+        id: 'quad6',
+        question: 'For R(p) = -10p² + 200p, what is the maximum revenue?',
+        type: 'calculation',
+        correctAnswer: '1000',
+        explanation: 'At p = $10: R(10) = -10(10)² + 200(10) = -10(100) + 2000 = -1000 + 2000 = $1000',
+        points: 16,
+        businessContext: 'Maximum revenue calculation'
+      },
+      {
+        id: 'quad7',
+        question: 'A company finds demand D(p) = -5p + 150. If revenue R = p × D(p), what price maximizes revenue?',
+        type: 'calculation',
+        correctAnswer: '15',
+        explanation: 'R(p) = p(-5p + 150) = -5p² + 150p. Maximum at p = -150/(2(-5)) = -150/(-10) = $15',
+        points: 22,
+        businessContext: 'Demand-based pricing optimization'
+      }
+    ],
+    'Average Cost Analysis': [
+      {
+        id: 'quad8',
+        question: 'Average cost A(x) = (50000 + 25x)/x. As production increases, what happens to average cost?',
+        type: 'multiple-choice',
+        options: [
+          'Increases indefinitely',
+          'Decreases and approaches $25',
+          'Remains constant at $50,000',
+          'First increases, then decreases'
+        ],
+        correctAnswer: 'Decreases and approaches $25',
+        explanation: 'A(x) = 50000/x + 25. As x increases, 50000/x approaches 0, so A(x) approaches $25 (the variable cost per unit).',
+        points: 20,
+        businessContext: 'Economics of scale and asymptotic behavior'
+      }
+    ]
+  },
+  'exponential-logarithmic': {
+    'Compound Interest Mastery': [
+      {
+        id: 'exp1',
+        question: '$1,000 invested at 10% annual interest compounded annually. What\'s the value after 5 years?',
+        type: 'calculation',
+        correctAnswer: '1610.51',
+        explanation: 'A = P(1 + r)^t = 1000(1 + 0.10)^5 = 1000(1.10)^5 = 1000(1.61051) = $1,610.51',
+        points: 15,
+        businessContext: 'Investment growth calculation'
+      },
+      {
+        id: 'exp2',
+        question: 'Facebook grew from 1M users (2004) to 1B users (2012). If this is exponential growth A = A₀e^(rt), find the annual growth rate.',
+        type: 'calculation',
+        correctAnswer: '0.86',
+        explanation: '1,000 = 1 × e^(8r), so 1000 = e^(8r). Taking ln: ln(1000) = 8r, so r = ln(1000)/8 = 6.91/8 = 0.86 or 86% annually',
+        points: 25,
+        businessContext: 'Digital platform growth analysis'
+      },
+      {
+        id: 'exp3',
+        question: 'A $25,000 vehicle depreciates 15% annually. What\'s its value after 3 years?',
+        type: 'calculation',
+        correctAnswer: '15006.25',
+        explanation: 'A = P(1 - r)^t = 25000(1 - 0.15)^3 = 25000(0.85)^3 = 25000(0.614125) = $15,306.25',
+        points: 18,
+        businessContext: 'Asset depreciation modeling'
+      },
+      {
+        id: 'exp4',
+        question: 'If a business doubles in value every 5 years, what\'s the annual growth rate?',
+        type: 'calculation',
+        correctAnswer: '0.1487',
+        explanation: '2 = (1 + r)^5. Taking the 5th root: (2)^(1/5) = 1 + r, so 1.1487 = 1 + r, therefore r = 0.1487 = 14.87%',
+        points: 22,
+        businessContext: 'Business valuation and growth rates'
+      }
+    ],
+    'Digital Growth Analysis': [
+      {
+        id: 'exp5',
+        question: 'TikTok: 100M users (2018) to 1B users (2021). Annual growth rate assuming exponential growth?',
+        type: 'calculation',
+        correctAnswer: '0.77',
+        explanation: '1000 = 100 × (1 + r)^3, so 10 = (1 + r)^3. Taking cube root: 10^(1/3) = 1 + r, so 2.15 = 1 + r, r = 1.15 = 115%',
+        points: 25,
+        businessContext: 'Social media exponential growth'
+      },
+      {
+        id: 'exp6',
+        question: 'Netflix subscribers: 25M (2012) to 200M (2020). What\'s the compound annual growth rate?',
+        type: 'calculation',
+        correctAnswer: '0.29',
+        explanation: '200 = 25 × (1 + r)^8, so 8 = (1 + r)^8. Taking 8th root: 8^(1/8) = 1 + r, so 1.29 = 1 + r, r = 0.29 = 29%',
+        points: 23,
+        businessContext: 'Streaming service growth modeling'
+      }
+    ],
+    'Depreciation and Asset Valuation': [
+      {
+        id: 'exp7',
+        question: 'Equipment worth $50,000 depreciates to $20,000 in 4 years. What\'s the annual depreciation rate?',
+        type: 'calculation',
+        correctAnswer: '0.215',
+        explanation: '20000 = 50000(1 - r)^4, so 0.4 = (1 - r)^4. Taking 4th root: 0.4^(1/4) = 1 - r, so 0.795 = 1 - r, r = 0.205 = 20.5%',
+        points: 20,
+        businessContext: 'Equipment depreciation analysis'
+      },
+      {
+        id: 'exp8',
+        question: 'A company\'s machinery loses 12% of its value each year. After how many years will it be worth 50% of original value?',
+        type: 'calculation',
+        correctAnswer: '5.48',
+        explanation: '0.5 = (1 - 0.12)^t = (0.88)^t. Taking ln: ln(0.5) = t × ln(0.88), so t = ln(0.5)/ln(0.88) = -0.693/(-0.128) = 5.4 years',
+        points: 25,
+        businessContext: 'Asset lifecycle planning'
+      }
+    ]
+  },
+  'systems-matrices': {
+    'Resource Allocation Optimization': [
+      {
+        id: 'mat1',
+        question: 'Furniture company: chairs need 3h assembly + 2h painting, tables need 2h assembly + 4h painting. With 100h assembly and 120h painting available, how many chairs if they make equal numbers of each?',
+        type: 'calculation',
+        correctAnswer: '20',
+        explanation: 'Let x = chairs = tables. Assembly: 3x + 2x ≤ 100, so 5x ≤ 100, x ≤ 20. Painting: 2x + 4x ≤ 120, so 6x ≤ 120, x ≤ 20. Therefore, they can make 20 of each.',
+        points: 25,
+        businessContext: 'Manufacturing resource optimization'
+      },
+      {
+        id: 'mat2',
+        question: 'Investment portfolio: $50,000 split between 4% and 6% accounts. Total annual interest is $2,400. How much in the 6% account?',
+        type: 'calculation',
+        correctAnswer: '20000',
+        explanation: 'Let x = amount at 4%, y = amount at 6%. System: x + y = 50000, 0.04x + 0.06y = 2400. From first: x = 50000 - y. Substitute: 0.04(50000 - y) + 0.06y = 2400, so 2000 - 0.04y + 0.06y = 2400, 0.02y = 400, y = $20,000',
+        points: 20,
+        businessContext: 'Financial portfolio allocation'
+      },
+      {
+        id: 'mat3',
+        question: 'Production planning: Product A ($5 profit) needs 2 materials, Product B ($8 profit) needs 3 materials. With 100 materials available, how many of each to maximize profit if A + B ≤ 40?',
+        type: 'calculation',
+        correctAnswer: '20',
+        explanation: 'Maximize 5A + 8B subject to 2A + 3B ≤ 100 and A + B ≤ 40. At corner point where A + B = 40 and 2A + 3B = 100: substituting B = 40 - A gives 2A + 3(40-A) = 100, so 2A + 120 - 3A = 100, -A = -20, A = 20, B = 20.',
+        points: 30,
+        businessContext: 'Linear programming for profit maximization'
+      }
+    ],
+    'Investment Portfolio Analysis': [
+      {
+        id: 'mat4',
+        question: 'Three investment options: Stocks (8% return), Bonds (5% return), CDs (3% return). $100,000 total, same amount in stocks and bonds, $10,000 more in CDs than stocks. How much in stocks?',
+        type: 'calculation',
+        correctAnswer: '30000',
+        explanation: 'Let S = stocks, B = bonds, C = CDs. System: S + B + C = 100000, S = B, C = S + 10000. Substitute: S + S + (S + 10000) = 100000, so 3S + 10000 = 100000, 3S = 90000, S = $30,000',
+        points: 25,
+        businessContext: 'Portfolio diversification strategy'
+      },
+      {
+        id: 'mat5',
+        question: 'Matrix calculation: Store sales data [100, 150; 80, 200; 120, 100] × profit margins [25; 30]. What\'s the total profit for Store 2?',
+        type: 'calculation',
+        correctAnswer: '8000',
+        explanation: 'Store 2 row: [80, 200] × [25; 30] = 80×25 + 200×30 = 2000 + 6000 = $8,000',
+        points: 15,
+        businessContext: 'Multi-store profit calculation using matrices'
+      }
+    ],
+    'Multi-Product Production Planning': [
+      {
+        id: 'mat6',
+        question: 'Tesla Model 3 ($5000 profit) and Model Y ($8000 profit). Battery constraint: 50×Model3 + 70×ModelY ≤ 35000. Labor: 20×Model3 + 30×ModelY ≤ 15000. Find optimal production to maximize profit.',
+        type: 'calculation',
+        correctAnswer: '300',
+        explanation: 'Using linear programming, check corner points. Intersection of constraints: 50x + 70y = 35000 and 20x + 30y = 15000. Solving: multiply second by 2.5: 50x + 75y = 37500. Subtract: 5y = 2500, y = 500. But this exceeds labor constraint. At optimal point: x = 300, y = 300 with profit = 5000(300) + 8000(300) = $3,900,000',
+        points: 35,
+        businessContext: 'Automotive production optimization'
+      }
+    ]
+  },
+  'sequences-probability': {
+    'Annuity and Retirement Planning': [
+      {
+        id: 'seq1',
+        question: 'Monthly $500 payments for 10 years at 6% annual interest compounded monthly. What\'s the future value?',
+        type: 'calculation',
+        correctAnswer: '81940.67',
+        explanation: 'FV = PMT × [((1+r)^n - 1)/r] where PMT = 500, r = 0.06/12 = 0.005, n = 120. FV = 500 × [((1.005)^120 - 1)/0.005] = 500 × [(2.203757 - 1)/0.005] = 500 × 240.751 = $81,940.67',
+        points: 25,
+        businessContext: 'Retirement savings calculation'
+      },
+      {
+        id: 'seq2',
+        question: 'Business wants to accumulate $100,000 in 5 years with monthly deposits at 4% annual rate compounded monthly. What monthly payment is needed?',
+        type: 'calculation',
+        correctAnswer: '1505.88',
+        explanation: 'PMT = FV × r / [(1+r)^n - 1] where FV = 100000, r = 0.04/12 = 0.003333, n = 60. PMT = 100000 × 0.003333 / [(1.003333)^60 - 1] = 333.33 / (1.2214 - 1) = 333.33 / 0.2214 = $1,505.88',
+        points: 30,
+        businessContext: 'Business savings planning'
+      }
+    ],
+    'Business Loan Analysis': [
+      {
+        id: 'seq3',
+        question: '$250,000 business loan at 5.5% APR for 15 years. What\'s the monthly payment?',
+        type: 'calculation',
+        correctAnswer: '2043.99',
+        explanation: 'PMT = P × [r(1+r)^n]/[(1+r)^n - 1] where P = 250000, r = 0.055/12 = 0.004583, n = 180. PMT = 250000 × [0.004583 × (1.004583)^180]/[(1.004583)^180 - 1] = 250000 × [0.004583 × 2.264]/[1.264] = 250000 × 0.008199 = $2,043.99',
+        points: 28,
+        businessContext: 'Business loan payment calculation'
+      },
+      {
+        id: 'seq4',
+        question: 'For the $250,000 loan above, what\'s the total interest paid over 15 years?',
+        type: 'calculation',
+        correctAnswer: '117918.20',
+        explanation: 'Total payments = Monthly payment × Number of payments = $2,043.99 × 180 = $367,918.20. Total interest = Total payments - Principal = $367,918.20 - $250,000 = $117,918.20',
+        points: 15,
+        businessContext: 'Loan cost analysis'
+      }
+    ],
+    'Quality Control Probability': [
+      {
+        id: 'seq5',
+        question: 'Manufacturing process has 3% defective rate. In a sample of 20 items, what\'s the probability of exactly 1 defective item?',
+        type: 'calculation',
+        correctAnswer: '0.3364',
+        explanation: 'Using binomial probability: P(X=1) = C(20,1) × (0.03)^1 × (0.97)^19 = 20 × 0.03 × (0.97)^19 = 20 × 0.03 × 0.5606 = 0.3364 or 33.64%',
+        points: 25,
+        businessContext: 'Quality control statistical analysis'
+      },
+      {
+        id: 'seq6',
+        question: 'Same 3% defective rate. What\'s the probability of MORE than 1 defective in 20 items?',
+        type: 'calculation',
+        correctAnswer: '0.1198',
+        explanation: 'P(X > 1) = 1 - P(X ≤ 1) = 1 - [P(X=0) + P(X=1)]. P(X=0) = (0.97)^20 = 0.5438. P(X=1) = 0.3364. P(X > 1) = 1 - (0.5438 + 0.3364) = 1 - 0.8802 = 0.1198 or 11.98%',
+        points: 30,
+        businessContext: 'Advanced quality control probability'
+      },
+      {
+        id: 'seq7',
+        question: 'Customer service: 85% satisfaction rate. If we survey 10 customers, what\'s the probability that exactly 9 are satisfied?',
+        type: 'calculation',
+        correctAnswer: '0.3474',
+        explanation: 'P(X=9) = C(10,9) × (0.85)^9 × (0.15)^1 = 10 × (0.85)^9 × 0.15 = 10 × 0.2316 × 0.15 = 0.3474 or 34.74%',
+        points: 20,
+        businessContext: 'Customer satisfaction analysis'
+      },
+      {
+        id: 'seq8',
+        question: 'Tesla Gigafactory: Production starts at 1000 units/month, increases by 10% monthly. What\'s the production in month 6?',
+        type: 'calculation',
+        correctAnswer: '1610.51',
+        explanation: 'Geometric sequence: a_n = a₁ × r^(n-1) where a₁ = 1000, r = 1.10, n = 6. a₆ = 1000 × (1.10)^5 = 1000 × 1.61051 = 1,610.51 units',
+        points: 18,
+        businessContext: 'Production scaling with geometric growth'
+      }
+    ]
   }
 };
 
