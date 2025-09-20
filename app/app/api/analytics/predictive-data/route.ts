@@ -150,7 +150,7 @@ export const GET = asyncHandler(async (request: NextRequest) => {
     studentRiskProfiles.push({
       userId: user.id,
       userName: user.name || 'Unknown',
-      userEmail: user.email,
+      userEmail: user.email || 'no-email@example.com',
       riskScore,
       riskFactors,
       moduleProgress: userProgress.map(p => ({

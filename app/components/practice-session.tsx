@@ -164,6 +164,7 @@ export function PracticeSession({ moduleSlug, practiceTitle, onComplete, onClose
   const [sessionComplete, setSessionComplete] = useState(false);
   const [startTime] = useState(Date.now());
   const [timeSpent, setTimeSpent] = useState(0);
+  const [justAnswered, setJustAnswered] = useState(false);
 
   const questions = practiceData[moduleSlug]?.[practiceTitle] || [];
   const progress = questions.length > 0 ? ((currentQuestion + 1) / questions.length) * 100 : 0;
@@ -176,11 +177,26 @@ export function PracticeSession({ moduleSlug, practiceTitle, onComplete, onClose
     return () => clearInterval(timer);
   }, [startTime]);
 
+  // Reset justAnswered state when question changes
+  useEffect(() => {
+    setJustAnswered(false);
+  }, [currentQuestion]);
+
   const handleAnswerSelect = (answer: string) => {
-    setUserAnswers({ ...userAnswers, [questions[currentQuestion].id]: answer });
+    const trimmedAnswer = answer.trim();
+    console.log('Answer selected:', { questionId: questions[currentQuestion].id, answer: trimmedAnswer });
+    
+    setUserAnswers(prev => ({ ...prev, [questions[currentQuestion].id]: trimmedAnswer }));
+    setJustAnswered(true);
+    
+    // Reset the justAnswered state after a short delay
+    setTimeout(() => setJustAnswered(false), 100);
   };
 
   const handleNext = () => {
+    console.log('Next button clicked, current answers:', userAnswers);
+    setJustAnswered(false);
+    
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
@@ -210,7 +226,23 @@ export function PracticeSession({ moduleSlug, practiceTitle, onComplete, onClose
   };
 
   const isAnswerCorrect = (question: PracticeQuestion, answer: string) => {
-    return answer.trim().toLowerCase() === question.correctAnswer.toLowerCase();
+    if (!answer) return false;
+    
+    const userAnswer = answer.trim().toLowerCase();
+    const correctAnswer = question.correctAnswer.toLowerCase();
+    
+    // For calculation questions, also check for numeric equivalence
+    if (question.type === 'calculation') {
+      const userNum = parseFloat(userAnswer);
+      const correctNum = parseFloat(correctAnswer);
+      
+      if (!isNaN(userNum) && !isNaN(correctNum)) {
+        // Allow for small floating point differences
+        return Math.abs(userNum - correctNum) < 0.01;
+      }
+    }
+    
+    return userAnswer === correctAnswer;
   };
 
   const formatTime = (seconds: number) => {
@@ -324,6 +356,14 @@ export function PracticeSession({ moduleSlug, practiceTitle, onComplete, onClose
 
   const question = questions[currentQuestion];
   const userAnswer = userAnswers[question.id];
+  
+  // Check if current question has been answered
+  const isCurrentQuestionAnswered = () => {
+    const answer = userAnswers[question.id];
+    const hasAnswer = answer && answer.trim().length > 0;
+    console.log('Checking if answered:', { questionId: question.id, answer, hasAnswer });
+    return hasAnswer;
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -369,23 +409,35 @@ export function PracticeSession({ moduleSlug, practiceTitle, onComplete, onClose
                   key={index}
                   onClick={() => handleAnswerSelect(option)}
                   className={`w-full text-left p-3 border rounded-lg hover:bg-gray-50 transition-colors ${
-                    userAnswer === option ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
+                    userAnswer === option ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500' : 'border-gray-200'
                   }`}
                 >
-                  {option}
+                  <div className="flex items-center justify-between">
+                    <span>{option}</span>
+                    {userAnswer === option && (
+                      <CheckCircle className="h-4 w-4 text-blue-500" />
+                    )}
+                  </div>
                 </button>
               ))}
             </div>
           ) : (
             <div className="space-y-2">
               <label className="text-sm font-medium">Enter your answer:</label>
-              <input
-                type="text"
-                value={userAnswer || ''}
-                onChange={(e) => handleAnswerSelect(e.target.value)}
-                placeholder="Type your answer here..."
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
+              <div className="relative">
+                <input
+                  type="text"
+                  value={userAnswer || ''}
+                  onChange={(e) => handleAnswerSelect(e.target.value)}
+                  placeholder="Type your answer here..."
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    isCurrentQuestionAnswered() ? 'border-green-300 bg-green-50' : 'border-gray-300'
+                  }`}
+                />
+                {isCurrentQuestionAnswered() && (
+                  <CheckCircle className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-green-500" />
+                )}
+              </div>
             </div>
           )}
         </CardContent>
@@ -403,9 +455,13 @@ export function PracticeSession({ moduleSlug, practiceTitle, onComplete, onClose
         
         <Button
           onClick={handleNext}
-          disabled={!userAnswer}
+          disabled={!isCurrentQuestionAnswered()}
+          className={`${isCurrentQuestionAnswered() ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400'} transition-all duration-200`}
         >
           {currentQuestion === questions.length - 1 ? 'Finish Practice' : 'Next Question'}
+          {isCurrentQuestionAnswered() && (
+            <CheckCircle className="ml-2 h-4 w-4" />
+          )}
         </Button>
       </div>
     </div>

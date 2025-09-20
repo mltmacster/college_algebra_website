@@ -106,7 +106,7 @@ export const GET = asyncHandler(async (request: NextRequest) => {
   const students: InstructorStudent[] = [];
   
   for (const user of users) {
-    const userProgress = moduleProgress.filter((p: any) => p.userId === user.id);
+    const userProgress: any[] = moduleProgress.filter((p: any) => p.userId === user.id);
     const userBadgeCount = userBadges.filter(b => b.userId === user.id).length;
     
     if (userProgress.length === 0) {
@@ -114,7 +114,7 @@ export const GET = asyncHandler(async (request: NextRequest) => {
       students.push({
         id: user.id,
         name: user.name || 'Unknown',
-        email: user.email,
+        email: user.email || 'no-email@example.com',
         enrollmentDate: user.createdAt,
         overallProgress: 0,
         averageScore: 0,
@@ -136,13 +136,13 @@ export const GET = asyncHandler(async (request: NextRequest) => {
     const totalModules = modules.length;
     const overallProgress = (completedModules / totalModules) * 100;
     
-    const lastActivity = new Date(Math.max(...userProgress.map(p => p.lastAccessed.getTime())));
+    const lastActivity = new Date(Math.max(...userProgress.map((p: any) => p.lastAccessed.getTime())));
     const daysSinceLastActivity = Math.floor((Date.now() - lastActivity.getTime()) / (1000 * 60 * 60 * 24));
     
     // Determine current module (highest order module that's started)
-    const currentModuleProgress = userProgress
-      .filter(p => p.status !== 'COMPLETED')
-      .sort((a, b) => (a.module.order || 0) - (b.module.order || 0))[0];
+    const currentModuleProgress: any = userProgress
+      .filter((p: any) => p.status !== 'COMPLETED')
+      .sort((a: any, b: any) => (a.module.order || 0) - (b.module.order || 0))[0];
     
     const currentModule = currentModuleProgress 
       ? currentModuleProgress.module.title 
@@ -150,7 +150,7 @@ export const GET = asyncHandler(async (request: NextRequest) => {
         ? 'Course Completed' 
         : 'Not Started';
     
-    const moduleProgress = currentModuleProgress 
+    const currentModuleProgress_percent = currentModuleProgress 
       ? calculateModuleProgressPercentage(currentModuleProgress.status, currentModuleProgress.score || 0)
       : completedModules === totalModules ? 100 : 0;
     
@@ -185,7 +185,7 @@ export const GET = asyncHandler(async (request: NextRequest) => {
     students.push({
       id: user.id,
       name: user.name || 'Unknown',
-      email: user.email,
+      email: user.email || 'no-email@example.com',
       enrollmentDate: user.createdAt,
       overallProgress: Math.round(overallProgress),
       averageScore: Math.round(averageScore),
@@ -193,7 +193,7 @@ export const GET = asyncHandler(async (request: NextRequest) => {
       lastActivity,
       status,
       currentModule,
-      moduleProgress: Math.round(moduleProgress),
+      moduleProgress: Math.round(currentModuleProgress_percent),
       badgesEarned: userBadgeCount,
       riskFactors: riskFactors.length > 0 ? riskFactors : undefined
     });
