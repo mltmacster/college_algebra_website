@@ -682,16 +682,16 @@ export function ModuleContent({ slug }: ModuleContentProps) {
   const { data: session } = useSession() || {};
   const module = moduleData[slug as keyof typeof moduleData];
 
-  // Check if this module supports interactive learning
+  // Check if this module supports interactive learning - FIXED SLUG MISMATCHES
   const interactiveModules = [
     'linear-equations', 
     'systems-linear-equations',
-    'functions-graphs',
-    'quadratic-functions',
-    'exponential-logarithmic', 
-    'systems-matrices',
-    'sequences-probability'
-  ]; // All modules now have comprehensive practice data
+    'functions-and-graphing',         // FIXED: was 'functions-graphs'
+    'quadratic-functions',            // ✅ Already matches
+    'exponential-and-logarithmic-functions',  // FIXED: was 'exponential-logarithmic'
+    'matrix-operations-and-applications'      // FIXED: was 'systems-matrices'
+    // REMOVED: 'sequences-probability' (doesn't exist in database)
+  ]; // All modules now have comprehensive practice data with CORRECT database slugs
   const supportsInteractive = interactiveModules.includes(slug);
 
   const handleLessonClick = (lesson: any) => {
