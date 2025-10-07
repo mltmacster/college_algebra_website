@@ -325,15 +325,66 @@ const practiceData: Record<string, Record<string, PracticeQuestion[]>> = {
     'Function Evaluation in Business': [
       {
         id: 'func1',
+        question: 'A cost function is C(x) = 500 + 12x. Find C(100) and interpret its business meaning.',
+        type: 'calculation',
+        correctAnswer: '1700',
+        explanation: 'C(100) = 500 + 12(100) = 500 + 1200 = $1,700. This means producing 100 units costs $1,700 total.',
+        points: 10,
+        businessContext: 'Cost function evaluation and interpretation'
+      },
+      {
+        id: 'func2',
+        question: 'Uber ride pricing: P(m) = 2.50 + 1.75m, where m = miles. What is P(8)?',
+        type: 'calculation',
+        correctAnswer: '16.50',
+        explanation: 'P(8) = 2.50 + 1.75(8) = 2.50 + 14 = $16.50 for an 8-mile ride',
+        points: 10,
+        businessContext: 'Ride-sharing cost calculation'
+      },
+      {
+        id: 'func3',
+        question: 'Revenue function R(x) = 45x where x = number of products sold. Find R(250).',
+        type: 'calculation',
+        correctAnswer: '11250',
+        explanation: 'R(250) = 45(250) = $11,250 in revenue from selling 250 products',
+        points: 10,
+        businessContext: 'Revenue function evaluation'
+      },
+      {
+        id: 'func4',
         question: 'A company\'s profit function is P(x) = -2x² + 100x - 800, where x is units sold (hundreds). Find P(25).',
         type: 'calculation',
         correctAnswer: '450',
         explanation: 'P(25) = -2(25)² + 100(25) - 800 = -2(625) + 2500 - 800 = -1250 + 2500 - 800 = 450',
         points: 15,
-        businessContext: 'Profit function evaluation'
+        businessContext: 'Quadratic profit function evaluation'
       },
       {
-        id: 'func2',
+        id: 'func5',
+        question: 'Subscription service charges S(n) = 9.99 + 4.99(n-1) for n months. What is S(6)?',
+        type: 'calculation',
+        correctAnswer: '34.94',
+        explanation: 'S(6) = 9.99 + 4.99(6-1) = 9.99 + 4.99(5) = 9.99 + 24.95 = $34.94 for 6 months',
+        points: 12,
+        businessContext: 'Subscription pricing model'
+      },
+      {
+        id: 'func6',
+        question: 'Manufacturing cost: C(x) = 25,000 + 150x. In C(x), what does 150 represent?',
+        type: 'multiple-choice',
+        options: [
+          'Total fixed costs',
+          'Variable cost per unit',
+          'Total manufacturing cost',
+          'Average cost per unit'
+        ],
+        correctAnswer: 'Variable cost per unit',
+        explanation: 'In the linear function C(x) = fixed + (variable × x), the coefficient 150 represents the variable cost per unit produced.',
+        points: 10,
+        businessContext: 'Cost function interpretation'
+      },
+      {
+        id: 'func7',
         question: 'Netflix subscription cost: Basic = $8.99, Standard = $13.99, Premium = $17.99. Which function correctly models this?',
         type: 'multiple-choice',
         options: [
@@ -348,7 +399,7 @@ const practiceData: Record<string, Record<string, PracticeQuestion[]>> = {
         businessContext: 'Piecewise pricing functions'
       },
       {
-        id: 'func3',
+        id: 'func8',
         question: 'A taxi charges $3.50 base fare plus $2.25 per mile. Express this as a function f(m) where m = miles.',
         type: 'multiple-choice',
         options: [
@@ -360,10 +411,10 @@ const practiceData: Record<string, Record<string, PracticeQuestion[]>> = {
         correctAnswer: 'f(m) = 3.50 + 2.25m',
         explanation: 'Fixed cost ($3.50) plus variable cost ($2.25 per mile × number of miles)',
         points: 10,
-        businessContext: 'Linear cost functions'
+        businessContext: 'Transportation cost functions'
       },
       {
-        id: 'func4',
+        id: 'func9',
         question: 'If f(x) = 50x + 1000 represents monthly revenue in dollars when x = units sold, what does the y-intercept represent?',
         type: 'multiple-choice',
         options: [
@@ -376,6 +427,66 @@ const practiceData: Record<string, Record<string, PracticeQuestion[]>> = {
         explanation: 'The y-intercept (1000) is the value of the function when x = 0, representing base/fixed revenue.',
         points: 12,
         businessContext: 'Function interpretation in business'
+      },
+      {
+        id: 'func10',
+        question: 'Employee salary function: S(y) = 40,000 + 2,500y where y = years of experience. Find S(8).',
+        type: 'calculation',
+        correctAnswer: '60000',
+        explanation: 'S(8) = 40,000 + 2,500(8) = 40,000 + 20,000 = $60,000 salary after 8 years',
+        points: 10,
+        businessContext: 'Compensation structure analysis'
+      },
+      {
+        id: 'func11',
+        question: 'Gym membership: M(m) = 50 + 35m where m = months. What is the first year cost?',
+        type: 'calculation',
+        correctAnswer: '470',
+        explanation: 'M(12) = 50 + 35(12) = 50 + 420 = $470 for the first year (12 months)',
+        points: 12,
+        businessContext: 'Membership pricing calculation'
+      },
+      {
+        id: 'func12',
+        question: 'Electricity cost: E(k) = 15 + 0.12k where k = kilowatt-hours. If E(k) = 75, find k.',
+        type: 'calculation',
+        correctAnswer: '500',
+        explanation: '75 = 15 + 0.12k → 60 = 0.12k → k = 60 ÷ 0.12 = 500 kWh used',
+        points: 15,
+        businessContext: 'Utility cost analysis and inverse calculation'
+      },
+      {
+        id: 'func13',
+        question: 'Depreciation function: V(t) = 30,000 - 3,500t where t = years. What does -3,500 represent?',
+        type: 'multiple-choice',
+        options: [
+          'Initial vehicle value',
+          'Annual depreciation rate (dollars per year)',
+          'Final vehicle value',
+          'Total depreciation over time'
+        ],
+        correctAnswer: 'Annual depreciation rate (dollars per year)',
+        explanation: 'The coefficient -3,500 represents the rate of change: the vehicle loses $3,500 in value each year.',
+        points: 12,
+        businessContext: 'Asset depreciation interpretation'
+      },
+      {
+        id: 'func14',
+        question: 'Coffee shop profit: P(c) = 3.50c - 200 where c = cups sold daily. If P(c) = 350, how many cups were sold?',
+        type: 'calculation',
+        correctAnswer: '157',
+        explanation: '350 = 3.50c - 200 → 550 = 3.50c → c = 550 ÷ 3.50 = 157.14 ≈ 157 cups',
+        points: 15,
+        businessContext: 'Profit analysis and break-even calculation'
+      },
+      {
+        id: 'func15',
+        question: 'Marketing cost: M(x) = 5,000 + 12x where x = ad impressions (thousands). What is M(500)?',
+        type: 'calculation',
+        correctAnswer: '11000',
+        explanation: 'M(500) = 5,000 + 12(500) = 5,000 + 6,000 = $11,000 for 500,000 impressions',
+        points: 10,
+        businessContext: 'Digital marketing cost evaluation'
       }
     ],
     'Domain and Range Analysis': [
