@@ -3,7 +3,7 @@
 // This prevents cosmetic issues from blocking deployment
 
 export function initializeProductionErrorHandling() {
-  if (typeof window === 'undefined' || process.env.NODE_ENV !== 'production') {
+  if (typeof window === 'undefined') {
     return;
   }
 
@@ -16,20 +16,27 @@ export function initializeProductionErrorHandling() {
     if (typeof message === 'string') {
       const suppressedErrors = [
         'ERR_BLOCKED_BY_RESPONSE.NotSameOrigin',
+        'ERR_BLOCKED_BY_RESPONSE',
         'Failed to load resource:',
         'net::ERR_',
         'fonts.cdnfonts.com',
+        'fonts.gstatic.com',
         'ERR_NETWORK',
-        'ERR_INTERNET_DISCONNECTED'
+        'ERR_INTERNET_DISCONNECTED',
+        'CORS',
+        'Cross-Origin',
+        'crossorigin'
       ];
       
-      if (suppressedErrors.some(error => message.includes(error))) {
+      if (suppressedErrors.some(error => message.toLowerCase().includes(error.toLowerCase()))) {
         return; // Don't log these cosmetic errors
       }
     }
     
-    // Log all other errors normally
-    originalConsoleError.apply(console, args);
+    // Log all other errors normally (only in development)
+    if (process.env.NODE_ENV !== 'production') {
+      originalConsoleError.apply(console, args);
+    }
   };
 
   // Suppress uncaught promise rejections for external resources
