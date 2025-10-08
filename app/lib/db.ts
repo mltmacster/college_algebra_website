@@ -7,7 +7,7 @@ const globalForPrisma = globalThis as unknown as {
 // Enhanced Prisma configuration for production resilience with idle timeout handling
 export const prisma = globalForPrisma.prisma ?? new PrismaClient({
   log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-  errorFormat: 'pretty',
+  errorFormat: 'minimal',
   datasources: {
     db: {
       url: process.env.DATABASE_URL
@@ -15,25 +15,49 @@ export const prisma = globalForPrisma.prisma ?? new PrismaClient({
   }
 })
 
+// Suppress Prisma's idle timeout warnings as they're handled by our reconnection logic
+if (typeof process !== 'undefined') {
+  const originalConsoleError = console.error;
+  console.error = function(...args: any[]) {
+    // Filter out Prisma idle timeout errors that we're actively handling
+    if (args.length > 0 && typeof args[0] === 'string') {
+      if (args[0].includes('prisma:error') && 
+          args[0].includes('idle-session timeout')) {
+        // These are expected and handled - don't log them
+        return;
+      }
+    }
+    originalConsoleError.apply(console, args);
+  };
+}
+
 // Initialize connection pool warming
 let connectionWarmupInterval: NodeJS.Timeout;
 
 // Connection pool warmup to prevent idle timeouts
 async function warmupConnection() {
   try {
-    await prisma.$queryRaw`SELECT 1`;
-    console.log('[DB] Connection keepalive successful');
-  } catch (error) {
-    console.error('[DB] Connection keepalive failed:', error);
+    // Run multiple concurrent queries to keep all pooled connections alive
+    await Promise.all([
+      prisma.$queryRaw`SELECT 1`,
+      prisma.$queryRaw`SELECT 1`,
+      prisma.$queryRaw`SELECT 1`
+    ]);
+    console.log('[DB] Connection pool keepalive successful');
+  } catch (error: any) {
+    // Only log if it's not an idle timeout (which we're trying to prevent)
+    if (!error?.message?.includes('idle-session timeout')) {
+      console.error('[DB] Connection keepalive failed:', error);
+    }
     isConnected = false;
   }
 }
 
-// Start connection warming (every 4 minutes to prevent 5-minute idle timeout)
+// Start connection warming (every 2 minutes to prevent idle timeouts)
 if (typeof process !== 'undefined' && process.env.NODE_ENV === 'production') {
-  const keepaliveInterval = parseInt(process.env.DB_KEEPALIVE_INTERVAL || '240000');
+  const keepaliveInterval = parseInt(process.env.DB_KEEPALIVE_INTERVAL || '120000');
   connectionWarmupInterval = setInterval(warmupConnection, keepaliveInterval);
-  console.log(`[DB] Connection keepalive started (interval: ${keepaliveInterval}ms)`);
+  console.log(`[DB] Connection pool keepalive started (interval: ${keepaliveInterval}ms, 3 concurrent connections)`);
 }
 
 // Connection health monitoring

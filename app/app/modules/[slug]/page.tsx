@@ -32,7 +32,11 @@ export default async function ModulePage({ params }: ModulePageProps) {
         </div>
       </ErrorBoundary>
     );
-  } catch (error) {
+  } catch (error: any) {
+    // NEXT_REDIRECT is expected behavior for authentication - don't log it as an error
+    if (error?.digest?.includes('NEXT_REDIRECT')) {
+      throw error; // Re-throw to allow Next.js to handle the redirect
+    }
     console.error('Module page error:', error);
     redirect('/modules');
   }
