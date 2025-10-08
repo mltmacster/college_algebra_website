@@ -1404,10 +1404,14 @@ export function ModuleContent({ slug }: ModuleContentProps) {
       {/* Content Tabs */}
       <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-5 mb-8">
+          <TabsList className="grid w-full grid-cols-6 mb-8">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="lessons">Lessons</TabsTrigger>
             <TabsTrigger value="practice">Practice</TabsTrigger>
+            <TabsTrigger value="interactive" className="flex items-center">
+              <Zap className="mr-1 h-4 w-4" />
+              Interactive Practice
+            </TabsTrigger>
             <TabsTrigger value="business">Business Scenarios</TabsTrigger>
             <TabsTrigger value="visualization">Visualization</TabsTrigger>
           </TabsList>
@@ -1587,6 +1591,34 @@ export function ModuleContent({ slug }: ModuleContentProps) {
                 </CardContent>
               </Card>
             ))}
+          </TabsContent>
+
+          <TabsContent value="interactive" className="space-y-6">
+            {session?.user?.id ? (
+              <InteractiveLearningModule
+                moduleSlug={slug}
+                moduleTitle={module.title}
+                moduleDescription={module.description}
+                userId={session.user.id}
+              />
+            ) : (
+              <Card>
+                <CardContent className="p-12 text-center">
+                  <div className="text-center">
+                    <Zap className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                      Sign In Required
+                    </h3>
+                    <p className="text-gray-600 mb-6">
+                      Please sign in to access interactive practice problems and track your progress.
+                    </p>
+                    <Button asChild>
+                      <Link href="/auth/login">Sign In</Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
 
           <TabsContent value="business" className="space-y-6">
