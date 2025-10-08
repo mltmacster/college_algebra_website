@@ -65,7 +65,7 @@ const modules = [
     image: "https://cdn.abacus.ai/images/34b6cfe8-5c21-4134-ac87-d925614c655e.png",
     topics: ["Exponential Growth", "Compound Interest", "Business Scaling", "Logarithmic Models", "Investment Analysis"],
     duration: "3-4 weeks",
-    slug: "exponential-logarithmic",
+    slug: "exponential-and-logarithmic-functions",
     difficulty: "Intermediate",
     estimatedHours: 26,
     order: 4
@@ -77,7 +77,7 @@ const modules = [
     image: "https://cdn.abacus.ai/images/ee07f028-b7bf-48ed-b7c3-fa607383db57.png",
     topics: ["Resource Allocation", "Matrix Operations", "Optimization", "Linear Programming", "Decision Making"],
     duration: "3-4 weeks",
-    slug: "systems-matrices",
+    slug: "matrix-operations-and-applications",
     difficulty: "Advanced",
     estimatedHours: 28,
     order: 5
