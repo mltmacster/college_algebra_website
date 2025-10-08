@@ -171,7 +171,7 @@ const moduleData = {
       "Sales forecasting with linear trend analysis"
     ]
   },
-  'functions-graphs': {
+  'functions-and-graphing': {
     id: 2,
     title: "Functions and Graphs",
     description: "Explore function behavior, graphing techniques, and piecewise functions used in tiered pricing models.",
@@ -375,7 +375,7 @@ const moduleData = {
       "Efficiency analysis with rational functions"
     ]
   },
-  'exponential-logarithmic': {
+  'exponential-and-logarithmic-functions': {
     id: 4,
     title: "Exponential and Logarithmic Functions",
     description: "Study growth models, compound interest, and logarithmic scales essential for business finance.",
@@ -477,7 +477,7 @@ const moduleData = {
       "Resource management and depreciation modeling"
     ]
   },
-  'systems-matrices': {
+  'matrix-operations-and-applications': {
     id: 5,
     title: "Systems of Equations and Matrices",
     description: "Learn resource allocation, optimization problems, and matrix operations for business decision making.",
@@ -832,7 +832,7 @@ export function ModuleContent({ slug }: ModuleContentProps) {
           }
         }
       },
-      'functions-graphs': {
+      'functions-and-graphing': {
         'Function Fundamentals': {
           keyPoints: [
             "Function notation and business interpretation",
@@ -956,7 +956,7 @@ export function ModuleContent({ slug }: ModuleContentProps) {
           }
         }
       },
-      'exponential-logarithmic': {
+      'exponential-and-logarithmic-functions': {
         'Exponential Growth Models': {
           keyPoints: [
             "Modeling exponential growth in digital platforms",
@@ -1018,7 +1018,7 @@ export function ModuleContent({ slug }: ModuleContentProps) {
           }
         }
       },
-      'systems-matrices': {
+      'matrix-operations-and-applications': {
         'Systems of Linear Equations': {
           keyPoints: [
             "Multi-constraint business optimization",
@@ -1178,7 +1178,7 @@ export function ModuleContent({ slug }: ModuleContentProps) {
           tip: "Inequality problems show ranges of feasible solutions"
         }
       },
-      'functions-graphs': {
+      'functions-and-graphing': {
         'Function Evaluation in Business': {
           question: "Netflix's subscriber cost function is C(s) = 3.2s + 850, where s is subscribers (thousands). What's the cost for 500K subscribers?",
           options: ["A) $2.45M", "B) $2.25M", "C) $2.15M", "D) $2.35M"],
@@ -1201,7 +1201,7 @@ export function ModuleContent({ slug }: ModuleContentProps) {
           tip: "Break down piecewise functions by calculating each tier separately"
         }
       },
-      'exponential-logarithmic': {
+      'exponential-and-logarithmic-functions': {
         'Compound Interest Mastery': {
           question: "A startup invests $50,000 at 12% compounded monthly. What's the value after 5 years?",
           options: ["A) $91,650", "B) $96,341", "C) $90,450", "D) $95,230"],
@@ -1224,7 +1224,7 @@ export function ModuleContent({ slug }: ModuleContentProps) {
           tip: "For depreciation, subtract the rate from 1: (1 - rate)"
         }
       },
-      'systems-matrices': {
+      'matrix-operations-and-applications': {
         'Resource Allocation Optimization': {
           question: "A bakery makes cakes (x) and pastries (y). Constraints: 3x + 2y ≤ 180 (labor), 2x + 4y ≤ 200 (ingredients). Profit = $25x + $15y. What's maximum profit?",
           options: ["A) $1,200", "B) $1,350", "C) $1,425", "D) $1,500"],
