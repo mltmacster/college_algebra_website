@@ -1,7 +1,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
-import { linearEquationsProblems, evaluateAnswer, getHint, calculateScore } from '../../../lib/interactive-problems';
+import { getProblemsForModule, evaluateAnswer, getHint, calculateScore } from '../../../lib/interactive-problems';
 import { authOptions } from '../../../lib/auth';
 
 export async function GET(request: NextRequest) {
@@ -16,13 +16,19 @@ export async function GET(request: NextRequest) {
     const moduleSlug = searchParams.get('module');
     const problemId = searchParams.get('problemId');
 
-    // For now, we only have linear equations problems
-    if (moduleSlug !== 'linear-equations') {
-      return NextResponse.json({ error: 'Module not found' }, { status: 404 });
+    if (!moduleSlug) {
+      return NextResponse.json({ error: 'Module slug is required' }, { status: 400 });
+    }
+
+    // Get problems for the specified module
+    const moduleProblems = getProblemsForModule(moduleSlug);
+    
+    if (moduleProblems.length === 0) {
+      return NextResponse.json({ error: 'Module not found or has no problems' }, { status: 404 });
     }
 
     if (problemId) {
-      const problem = linearEquationsProblems.find(p => p.id === problemId);
+      const problem = moduleProblems.find(p => p.id === problemId);
       if (!problem) {
         return NextResponse.json({ error: 'Problem not found' }, { status: 404 });
       }
@@ -30,7 +36,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Return all problems for the module (without solutions)
-    const problems = linearEquationsProblems.map(p => ({
+    const problems = moduleProblems.map(p => ({
       id: p.id,
       title: p.title,
       description: p.description,
@@ -80,9 +86,14 @@ export async function POST(request: NextRequest) {
       // Calculate score if answer is correct (simplified logic for now)
       let score = 0;
       if (evaluation.isCorrect) {
-        const problem = linearEquationsProblems.find(p => p.id === problemId);
-        if (problem) {
-          score = calculateScore(1, 0, problem.points); // Simplified scoring
+        // Find the problem across all modules to get its points value
+        const moduleSlug = body.moduleSlug; // Client should send this
+        if (moduleSlug) {
+          const moduleProblems = getProblemsForModule(moduleSlug);
+          const problem = moduleProblems.find(p => p.id === problemId);
+          if (problem) {
+            score = calculateScore(1, 0, problem.points); // Simplified scoring
+          }
         }
       }
 
