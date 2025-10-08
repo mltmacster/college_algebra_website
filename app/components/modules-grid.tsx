@@ -41,7 +41,7 @@ const modules = [
     image: "https://cdn.abacus.ai/images/51024b94-7fbb-4036-987b-b3fe393f6bf8.png",
     topics: ["Function Notation", "Graphing", "Piecewise Functions", "Domain & Range", "Transformations"],
     duration: "2-3 weeks",
-    slug: "functions-graphs",
+    slug: "functions-and-graphing",
     difficulty: "Beginner",
     estimatedHours: 18,
     order: 2
