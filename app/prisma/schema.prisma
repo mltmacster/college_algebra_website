@@ -49,6 +49,8 @@ model User {
   sessions      Session[]
   progress      ModuleProgress[]
   badges        UserBadge[]
+  hintUsages    HintUsage[]
+  problemAttempts ProblemAttempt[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
@@ -147,4 +149,97 @@ enum BadgeType {
   PROJECT_COMPLETION
   COURSE_COMPLETION
   STREAK
+}
+
+// ============================================
+// ANALYTICS MODELS - Priority 1 Implementation
+// ============================================
+
+model HintUsage {
+  id          String   @id @default(cuid())
+  userId      String
+  problemId   String
+  moduleSlug  String   // For easier querying
+  hintIndex   Int      // Which hint (0-based)
+  timestamp   DateTime @default(now())
+  wasHelpful  Boolean? // Student feedback (optional)
+  solvedAfter Boolean  @default(false) // Did student solve after this hint?
+  timeToSolve Int?     // Seconds from hint to solution
+  
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  feedback    HintFeedback?
+  
+  @@index([problemId])
+  @@index([userId])
+  @@index([moduleSlug])
+  @@index([timestamp])
+  @@index([problemId, hintIndex])
+}
+
+model HintFeedback {
+  id          String   @id @default(cuid())
+  hintUsageId String   @unique
+  rating      Int      // 1-5 stars
+  comment     String?  @db.Text
+  timestamp   DateTime @default(now())
+  
+  hintUsage   HintUsage @relation(fields: [hintUsageId], references: [id], onDelete: Cascade)
+}
+
+model ProblemAttempt {
+  id              String   @id @default(cuid())
+  userId          String
+  problemId       String
+  moduleSlug      String
+  isCorrect       Boolean
+  attemptNumber   Int      // Nth attempt for this user+problem
+  hintsUsedCount  Int      @default(0)
+  timeSpent       Int?     // Seconds spent on problem
+  answer          String?  // Student's answer (for analysis)
+  timestamp       DateTime @default(now())
+  
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([problemId])
+  @@index([userId])
+  @@index([moduleSlug])
+  @@index([timestamp])
+  @@index([userId, problemId])
+}
+
+model ProblemDifficultyMetrics {
+  id                String   @id @default(cuid())
+  problemId         String   @unique
+  moduleSlug        String
+  totalAttempts     Int      @default(0)
+  totalCompletions  Int      @default(0)
+  avgAttempts       Float    @default(1.0)
+  avgTimeToSolve    Int      @default(0) // seconds
+  avgHintsUsed      Float    @default(0.0)
+  successRate       Float    @default(0.0) // completions / attempts
+  calculatedDiff    String   @default("medium") // easy/medium/hard/expert
+  lastCalculated    DateTime @default(now())
+  sampleSize        Int      @default(0) // Number of unique users
+  
+  @@index([successRate])
+  @@index([calculatedDiff])
+  @@index([moduleSlug])
+  @@index([problemId, calculatedDiff])
+}
+
+// For instructor analytics - track which problems need review
+model ProblemFlag {
+  id          String   @id @default(cuid())
+  problemId   String
+  moduleSlug  String
+  flagType    String   // "too_hard", "too_easy", "unclear", "broken"
+  flaggedBy   String   // userId who flagged
+  reason      String?  @db.Text
+  status      String   @default("open") // open, reviewing, resolved
+  createdAt   DateTime @default(now())
+  resolvedAt  DateTime?
+  
+  @@index([problemId])
+  @@index([status])
+  @@index([moduleSlug])
 }

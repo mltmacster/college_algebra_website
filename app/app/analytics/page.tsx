@@ -8,6 +8,7 @@ import { LearningAnalyticsDashboard } from '../../components/analytics/learning-
 import { PredictiveAnalytics } from '../../components/analytics/predictive-analytics';
 import { EngagementMetrics } from '../../components/analytics/engagement-metrics';
 import { InstructorPortal } from '../../components/analytics/instructor-portal';
+import { HintAnalyticsDashboard } from '../../components/analytics/hint-analytics-dashboard';
 
 export default async function AnalyticsPage() {
   const session = await getServerSession(authOptions);
@@ -27,13 +28,18 @@ export default async function AnalyticsPage() {
           </p>
         </div>
 
-        <Tabs defaultValue="learning-analytics" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+        <Tabs defaultValue="hint-analytics" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="hint-analytics">Hint Analytics</TabsTrigger>
             <TabsTrigger value="learning-analytics">Learning Analytics</TabsTrigger>
             <TabsTrigger value="predictive">Predictive Analytics</TabsTrigger>
             <TabsTrigger value="engagement">Engagement Metrics</TabsTrigger>
             <TabsTrigger value="instructor">Instructor Portal</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="hint-analytics">
+            <HintAnalyticsDashboard />
+          </TabsContent>
 
           <TabsContent value="learning-analytics">
             <LearningAnalyticsDashboard />

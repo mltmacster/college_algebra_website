@@ -366,6 +366,7 @@ export function InteractiveLearningModule({
                 >
                   <InteractiveProblem
                     problem={problems[currentProblemIndex]}
+                    moduleSlug={moduleSlug}
                     onComplete={handleProblemComplete}
                     onNext={handleNextProblem}
                     onPrevious={handlePreviousProblem}

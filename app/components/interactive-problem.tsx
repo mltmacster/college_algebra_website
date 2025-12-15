@@ -45,6 +45,7 @@ interface Problem {
 
 interface InteractiveProblemProps {
   problem: Problem;
+  moduleSlug: string; // Added for analytics tracking
   onComplete: (score: number, timeSpent: number) => void;
   onNext?: () => void;
   onPrevious?: () => void;
@@ -56,6 +57,7 @@ interface InteractiveProblemProps {
 
 export function InteractiveProblem({
   problem,
+  moduleSlug,
   onComplete,
   onNext,
   onPrevious,
@@ -149,7 +151,32 @@ export function InteractiveProblem({
     setIsCompleted(true);
     setScore(earnedScore);
     const timeSpent = Math.round((Date.now() - startTime) / 1000);
+    
+    // Track successful problem completion
+    trackProblemAttempt(true, timeSpent, earnedScore.toString());
+    
     onComplete(earnedScore, timeSpent);
+  };
+
+  // Analytics tracking function for problem attempts
+  const trackProblemAttempt = async (isCorrect: boolean, timeSpent: number, answer: string = '') => {
+    try {
+      await fetch('/api/analytics/problem-attempt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          problemId: problem.id,
+          moduleSlug,
+          isCorrect,
+          hintsUsedCount: hintsUsed,
+          timeSpent,
+          answer,
+        }),
+      });
+    } catch (error) {
+      // Silent fail - don't disrupt user experience
+      console.error('Error tracking problem attempt:', error);
+    }
   };
 
   const getHint = async () => {
@@ -169,6 +196,9 @@ export function InteractiveProblem({
         setCurrentHint(result.hint);
         setShowHint(true);
         setHintsUsed(prev => prev + 1);
+        
+        // Track hint usage analytics
+        trackHintUsage(hintsUsed);
       } else if (result.message) {
         setCurrentHint(result.message);
         setShowHint(true);
@@ -177,6 +207,24 @@ export function InteractiveProblem({
       console.error('Error fetching hint:', error);
       setCurrentHint('Unable to load hint. Please try again.');
       setShowHint(true);
+    }
+  };
+
+  // Analytics tracking function for hint usage
+  const trackHintUsage = async (hintIndex: number) => {
+    try {
+      await fetch('/api/analytics/hint-usage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          problemId: problem.id,
+          moduleSlug,
+          hintIndex,
+        }),
+      });
+    } catch (error) {
+      // Silent fail - don't disrupt user experience
+      console.error('Error tracking hint usage:', error);
     }
   };
 
