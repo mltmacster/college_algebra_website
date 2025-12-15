@@ -21,6 +21,7 @@ export function initializeProductionErrorHandling() {
         'net::ERR_',
         'fonts.cdnfonts.com',
         'fonts.gstatic.com',
+        'sf-pro-display',
         'ERR_NETWORK',
         'ERR_INTERNET_DISCONNECTED',
         'CORS',
@@ -33,8 +34,8 @@ export function initializeProductionErrorHandling() {
       }
     }
     
-    // Log all other errors normally (only in development)
-    if (process.env.NODE_ENV !== 'production') {
+    // Log all other errors normally (only in development and not in test mode)
+    if (process.env.NODE_ENV !== 'production' && !process.env.__NEXT_TEST_MODE) {
       originalConsoleError.apply(console, args);
     }
   };
