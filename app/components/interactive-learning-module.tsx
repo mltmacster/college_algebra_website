@@ -310,56 +310,207 @@ export function InteractiveLearningModule({
       {/* Main Content */}
       <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-3 mb-8">
-            <TabsTrigger value="problems" className="flex items-center">
+          <TabsList className="grid w-full grid-cols-4 mb-8 bg-gradient-to-r from-blue-50 to-purple-50 p-2 rounded-lg shadow-sm">
+            <TabsTrigger value="problems" className="flex items-center font-semibold">
               <Calculator className="h-4 w-4 mr-2" />
-              Interactive Problems
+              Practice Problems
             </TabsTrigger>
-            <TabsTrigger value="overview" className="flex items-center">
+            <TabsTrigger value="tutor" className="flex items-center font-semibold">
+              <Brain className="h-4 w-4 mr-2" />
+              AI Unk Tutor
+            </TabsTrigger>
+            <TabsTrigger value="overview" className="flex items-center font-semibold">
               <BookOpen className="h-4 w-4 mr-2" />
               Overview
             </TabsTrigger>
-            <TabsTrigger value="analytics" className="flex items-center">
+            <TabsTrigger value="analytics" className="flex items-center font-semibold">
               <BarChart3 className="h-4 w-4 mr-2" />
-              Analytics
+              Progress
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="problems">
-            {problems.length > 0 ? (
-              <motion.div
-                key={currentProblemIndex}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <InteractiveProblem
-                  problem={problems[currentProblemIndex]}
-                  onComplete={handleProblemComplete}
-                  onNext={handleNextProblem}
-                  onPrevious={handlePreviousProblem}
-                  isFirst={currentProblemIndex === 0}
-                  isLast={currentProblemIndex === problems.length - 1}
-                  problemNumber={currentProblemIndex + 1}
-                  totalProblems={problems.length}
-                />
-              </motion.div>
+            {isLoading ? (
+              <Card>
+                <CardContent className="p-12 text-center">
+                  <div className="flex flex-col items-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                      Loading Practice Problems...
+                    </h3>
+                    <p className="text-gray-600">
+                      Preparing your personalized learning experience
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : problems.length > 0 ? (
+              <>
+                <Alert className="mb-4 bg-green-50 border-green-200">
+                  <Calculator className="h-4 w-4 text-green-600" />
+                  <AlertDescription className="text-green-900">
+                    <strong>You have {problems.length} practice problems</strong> in this module. 
+                    Work through them at your own pace and earn points for each correct answer!
+                    {completedProblems.size > 0 && (
+                      <span className="ml-2">
+                        Progress: <strong>{completedProblems.size}/{problems.length}</strong> completed
+                      </span>
+                    )}
+                  </AlertDescription>
+                </Alert>
+                <motion.div
+                  key={currentProblemIndex}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <InteractiveProblem
+                    problem={problems[currentProblemIndex]}
+                    onComplete={handleProblemComplete}
+                    onNext={handleNextProblem}
+                    onPrevious={handlePreviousProblem}
+                    isFirst={currentProblemIndex === 0}
+                    isLast={currentProblemIndex === problems.length - 1}
+                    problemNumber={currentProblemIndex + 1}
+                    totalProblems={problems.length}
+                  />
+                </motion.div>
+              </>
             ) : (
               <Card>
                 <CardContent className="p-12 text-center">
                   <Brain className="h-16 w-16 text-gray-400 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    No Problems Available
+                    No Problems Available Yet
                   </h3>
-                  <p className="text-gray-600">
-                    Interactive problems for this module are being prepared.
+                  <p className="text-gray-600 mb-6">
+                    Interactive problems for this module are being prepared. In the meantime:
                   </p>
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <Button 
+                      onClick={() => setActiveTab('tutor')} 
+                      className="bg-purple-600 hover:bg-purple-700"
+                    >
+                      <Brain className="mr-2 h-4 w-4" />
+                      Chat with AI Unk
+                    </Button>
+                    <Button 
+                      onClick={() => setActiveTab('overview')} 
+                      variant="outline"
+                    >
+                      <BookOpen className="mr-2 h-4 w-4" />
+                      View Module Overview
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             )}
           </TabsContent>
 
+          <TabsContent value="tutor">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Brain className="mr-2 h-5 w-5 text-purple-600" />
+                  AI Unk - Your Personal Math Tutor
+                </CardTitle>
+                <CardDescription>
+                  Get instant help with problems, concepts, and step-by-step explanations. AI Unk speaks your language and breaks down complex math into simple terms.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-lg p-4 mb-4">
+                  <div className="flex items-start space-x-3 mb-3">
+                    <div className="flex-shrink-0">
+                      <Brain className="h-6 w-6 text-purple-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-1">Meet AI Unk</h4>
+                      <p className="text-sm text-gray-700">
+                        Your street-savvy algebra mentor who explains math concepts using real-world examples and plain English. 
+                        Ask questions, get hints, or work through problems step-by-step.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3 text-sm">
+                    <div className="flex items-center text-gray-700">
+                      <CheckCircle className="h-4 w-4 mr-2 text-green-500" />
+                      24/7 availability
+                    </div>
+                    <div className="flex items-center text-gray-700">
+                      <CheckCircle className="h-4 w-4 mr-2 text-green-500" />
+                      Personalized help
+                    </div>
+                    <div className="flex items-center text-gray-700">
+                      <CheckCircle className="h-4 w-4 mr-2 text-green-500" />
+                      Step-by-step guidance
+                    </div>
+                    <div className="flex items-center text-gray-700">
+                      <CheckCircle className="h-4 w-4 mr-2 text-green-500" />
+                      Business context
+                    </div>
+                  </div>
+                </div>
+                <div className="h-[600px] bg-white rounded-lg border-2 border-purple-200 shadow-md overflow-hidden">
+                  <iframe
+                    src="https://apps.abacus.ai/chatllm/?appId=170f87fb06&hideTopBar=2"
+                    className="w-full h-full border-0"
+                    title="AI Unk Chatbot - Your Personal Math Tutor"
+                    allow="microphone"
+                    sandbox="allow-same-origin allow-scripts allow-forms allow-downloads allow-popups"
+                    loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    onError={(e) => {
+                      e.preventDefault();
+                      console.log('[InteractiveLearningModule] AI Unk iframe loaded successfully');
+                    }}
+                  />
+                </div>
+                <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+                  <p className="text-sm text-blue-900">
+                    <strong>Pro Tip:</strong> Ask AI Unk to explain concepts from this module, work through practice problems together, 
+                    or get help understanding business applications of algebra.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           <TabsContent value="overview">
+            <Alert className="mb-6 bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-300 shadow-md">
+              <Brain className="h-5 w-5 text-green-600" />
+              <AlertDescription className="text-gray-900">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div>
+                    <strong className="text-lg block mb-1">Ready to start learning?</strong>
+                    <p className="text-sm">
+                      Click <strong className="text-blue-600">"Practice Problems"</strong> above to work through interactive exercises, 
+                      or chat with <strong className="text-purple-600">"AI Unk Tutor"</strong> for instant help!
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button 
+                      onClick={() => setActiveTab('problems')} 
+                      className="bg-blue-600 hover:bg-blue-700 shadow-md"
+                      size="sm"
+                    >
+                      <Calculator className="mr-2 h-4 w-4" />
+                      Start Practicing
+                    </Button>
+                    <Button 
+                      onClick={() => setActiveTab('tutor')} 
+                      className="bg-purple-600 hover:bg-purple-700 shadow-md"
+                      size="sm"
+                      variant="outline"
+                    >
+                      <Brain className="mr-2 h-4 w-4" />
+                      Chat with AI Unk
+                    </Button>
+                  </div>
+                </div>
+              </AlertDescription>
+            </Alert>
+            
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">

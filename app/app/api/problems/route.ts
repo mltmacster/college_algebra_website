@@ -14,10 +14,13 @@ import {
 // Map module slugs to their respective problem sets
 const moduleProblemMap: Record<string, any[]> = {
   'linear-equations': linearEquationsProblems,
+  'systems-linear-equations': linearEquationsProblems, // Alias for compatibility
   'functions-and-graphing': functionsAndGraphingProblems,
   'quadratic-functions': quadraticFunctionsProblems,
   'exponential-logarithmic': exponentialLogarithmicProblems,
+  'exponential-and-logarithmic-functions': exponentialLogarithmicProblems, // Correct slug
   'matrix-operations': matrixOperationsProblems,
+  'matrix-operations-and-applications': matrixOperationsProblems, // Correct slug
   'sequences-probability': sequencesProbabilityProblems
 };
 
