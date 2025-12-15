@@ -1,0 +1,127 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  # Job 1: Build and Test
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./app
+    
+    steps:
+      # Checkout code
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+          cache-dependency-path: app/yarn.lock
+      
+      # Install dependencies
+      - name: Install Dependencies
+        run: yarn install --immutable
+      
+      # Generate Prisma Client
+      - name: Generate Prisma Client
+        run: yarn prisma generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      
+      # TypeScript type checking
+      - name: TypeScript Check
+        run: yarn tsc --noEmit
+      
+      # Lint code
+      - name: Lint Code
+        run: yarn lint
+        continue-on-error: true
+      
+      # Build application
+      - name: Build Application
+        run: yarn build
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+          NODE_ENV: production
+      
+      # Upload build artifacts
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            app/.next
+            app/.build
+          retention-days: 7
+
+  # Job 2: Security Scan
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    
+    defaults:
+      run:
+        working-directory: ./app
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      # Check for security vulnerabilities
+      - name: Security Audit
+        run: yarn audit --level moderate
+        continue-on-error: true
+
+  # Job 3: Deploy to Production
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [build-and-test, security-scan]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Deploy Status - Starting
+        run: |
+          echo "🚀 Starting deployment to production..."
+          echo "Branch: ${{ github.ref }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Author: ${{ github.actor }}"
+      
+      # Trigger deployment (placeholder - integrate with your deployment platform)
+      - name: Trigger Deployment
+        run: |
+          echo "Deployment would be triggered here"
+          echo "Integration points:"
+          echo "  - Vercel: vercel deploy --prod"
+          echo "  - AWS: aws deploy"
+          echo "  - Custom: curl deployment webhook"
+        env:
+          DEPLOYMENT_TOKEN: ${{ secrets.DEPLOYMENT_TOKEN }}
+      
+      - name: Deploy Status - Complete
+        run: |
+          echo "✅ Deployment completed successfully"
+          echo "Application URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}"

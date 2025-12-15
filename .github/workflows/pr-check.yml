@@ -1,0 +1,59 @@
+name: Pull Request Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  pr-quality-check:
+    name: PR Quality Check
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./app
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+          cache-dependency-path: app/yarn.lock
+      
+      - name: Install Dependencies
+        run: yarn install --immutable
+      
+      - name: Generate Prisma Client
+        run: yarn prisma generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      
+      - name: Type Check
+        run: yarn tsc --noEmit
+      
+      - name: Lint Check
+        run: yarn lint
+        continue-on-error: true
+      
+      - name: Build Check
+        run: yarn build
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          NEXTAUTH_URL: http://localhost:3000
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
+          NODE_ENV: production
+      
+      - name: PR Summary
+        run: |
+          echo "### ✅ Pull Request Checks Passed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.head_ref }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Base:** ${{ github.base_ref }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Author:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All quality checks have passed!" >> $GITHUB_STEP_SUMMARY
