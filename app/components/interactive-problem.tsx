@@ -34,6 +34,7 @@ interface Problem {
   type: 'multiple-choice' | 'step-by-step' | 'fill-blank';
   difficulty: 'easy' | 'medium' | 'hard';
   points: number;
+  hints?: string[];
   choices?: string[];
   steps?: {
     instruction: string;
@@ -68,6 +69,7 @@ export function InteractiveProblem({
   const [feedback, setFeedback] = useState<string>('');
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [hintsUsed, setHintsUsed] = useState(0);
+  const [currentHint, setCurrentHint] = useState<string>('');
   const [showHint, setShowHint] = useState(false);
   const [attempts, setAttempts] = useState(0);
   const [startTime] = useState(Date.now());
@@ -164,11 +166,17 @@ export function InteractiveProblem({
 
       const result = await response.json();
       if (result.hint) {
+        setCurrentHint(result.hint);
         setShowHint(true);
         setHintsUsed(prev => prev + 1);
+      } else if (result.message) {
+        setCurrentHint(result.message);
+        setShowHint(true);
       }
     } catch (error) {
       console.error('Error fetching hint:', error);
+      setCurrentHint('Unable to load hint. Please try again.');
+      setShowHint(true);
     }
   };
 
@@ -178,6 +186,7 @@ export function InteractiveProblem({
     setFeedback('');
     setIsCorrect(null);
     setHintsUsed(0);
+    setCurrentHint('');
     setShowHint(false);
     setAttempts(0);
     setIsCompleted(false);
@@ -254,10 +263,11 @@ export function InteractiveProblem({
                 <Button
                   variant="outline"
                   onClick={getHint}
-                  disabled={isLoading}
+                  disabled={isLoading || hintsUsed >= (problem.hints?.length || 0)}
+                  className={hintsUsed >= (problem.hints?.length || 0) ? 'opacity-50' : ''}
                 >
                   <Lightbulb className="h-4 w-4 mr-2" />
-                  Get Hint ({hintsUsed})
+                  Get Hint ({(problem.hints?.length || 0) - hintsUsed} available)
                 </Button>
               </div>
             </div>
@@ -265,11 +275,11 @@ export function InteractiveProblem({
         </Card>
 
         {/* Hint Display */}
-        {showHint && currentStepData.hint && (
+        {showHint && currentHint && (
           <Alert className="bg-yellow-50 border-yellow-200">
             <Lightbulb className="h-4 w-4 text-yellow-600" />
             <AlertDescription className="text-yellow-800">
-              <strong>Hint:</strong> {currentStepData.hint}
+              <strong>Hint {hintsUsed}:</strong> {currentHint}
             </AlertDescription>
           </Alert>
         )}
